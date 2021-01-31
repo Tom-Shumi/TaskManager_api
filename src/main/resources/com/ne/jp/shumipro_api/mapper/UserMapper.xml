@@ -16,4 +16,16 @@
         WHERE
             username = #{username}
     </select>
+    <insert id="insertUser" parameterType="com.ne.jp.shumipro_api.entity.User">
+        INSERT INTO users (
+            username
+            , password
+            , enabledflg
+            , adminflg )
+        VALUES (
+            #{username}
+            , #{password}
+            , #{enabledflg}
+            , #{adminflg})
+    </insert>
 </mapper>
