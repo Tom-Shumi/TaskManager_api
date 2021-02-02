@@ -23,7 +23,8 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
     }
 
     @Override
-    override fun configure(http: HttpSecurity?){
-
+    override fun configure(http: HttpSecurity){
+        http
+            .csrf().disable()
     }
 }

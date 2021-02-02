@@ -4,11 +4,11 @@ import com.ne.jp.shumipro_api.entity.User
 import com.ne.jp.shumipro_api.request.UserRequest
 
 data class UserDto(
-    var username: String = ""
-    ,var password: String = ""
-    ,var encodedPassword: String = ""
-    ,var enabledflg: Int = 0
-    ,var adminflg: Int = 0) {
+    var username: String? = ""
+    ,var password: String? = ""
+    ,var encodedPassword: String? = ""
+    ,var enabledflg: Int? = 0
+    ,var adminflg: Int? = 0) {
 
     fun setUserDto(userRequest: UserRequest): UserDto{
         username = userRequest.username
