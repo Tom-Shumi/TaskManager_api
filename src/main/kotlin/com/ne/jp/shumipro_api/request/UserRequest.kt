@@ -6,7 +6,6 @@ import javax.validation.constraints.NotNull
 
 
 data class UserRequest(
-    @field:NotNull(message="{e.001}")
     val username: String?,
     @field:NotNull(message="{e.001}")
     val password: String?,

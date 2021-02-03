@@ -44,10 +44,10 @@ class UserController: BaseController() {
      */
     @PostMapping()
     fun registerUser(@Validated @RequestBody userRequest: UserRequest, errors: Errors) : ResponseEntity<String>{
-        val errorEmg: String? = checkErrors(errors)
-        if (errorEmg is String){
+        val errorMsg: String? = checkErrors(errors)
+        if (errorMsg is String){
             // リクエストが不正だった場合
-            return createReponseEntity(HttpStatus.BAD_REQUEST, errorEmg)
+            return createReponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
         } else {
             val userDtoRequest = UserDto().setUserDto(userRequest)
             val userDto: UserDto? = userService.registerUser(userDtoRequest)
@@ -59,6 +59,48 @@ class UserController: BaseController() {
                 // 同一のユーザ名が既に存在した場合
                 return createReponseEntity(HttpStatus.BAD_REQUEST, "${userRequest.username} already exists")
             }
+        }
+    }
+
+    /**
+     * ユーザ更新
+     * @param userRequest
+     * @param errors
+     * @return response
+     */
+    @PutMapping("/{username}")
+    fun updateUser(@PathVariable("username") username: String, @Validated @RequestBody userRequest: UserRequest, errors: Errors) : ResponseEntity<String>{
+        val errorMsg: String? = checkErrors(errors)
+        if (errorMsg is String){
+            // リクエストが不正だった場合
+            return createReponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
+        } else {
+            val userDtoRequest = UserDto().setUserDto(userRequest)
+            userDtoRequest.username = username
+            val userDto: UserDto? = userService.updateUser(userDtoRequest)
+            if (userDto is UserDto){
+                // ユーザ更新成功
+                val jsonString = gson.toJson(UserResponse().setUserResponse(userDto))
+                return createReponseEntity(HttpStatus.OK, jsonString)
+            } else {
+                // 対象ユーザが存在しなかった場合
+                return createReponseEntity(HttpStatus.BAD_REQUEST, "${userRequest.username} is not exists")
+            }
+        }
+    }
+
+    /**
+     * ユーザ削除
+     */
+    @DeleteMapping("/{username}")
+    fun deleteUser(@PathVariable("username") username: String): ResponseEntity<String>{
+        val result: Int = userService.deleteUser(username)
+        if (result > 0){
+            // ユーザ削除成功
+            return createReponseEntity(HttpStatus.NO_CONTENT, "")
+        } else {
+            // ユーザが存在しない場合
+            return createReponseEntity(HttpStatus.NOT_FOUND, "$username do not found")
         }
     }
 }

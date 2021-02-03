@@ -15,4 +15,14 @@ interface UserMapper {
      * ユーザ登録
      */
     fun insertUser(user: User)
+
+    /**
+     * ユーザ更新
+     */
+    fun updateUser(user: User)
+
+    /**
+     * ユーザ削除
+     */
+    fun deleteUser(username: String): Int
 }

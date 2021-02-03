@@ -42,4 +42,24 @@ class UserService {
         userMapper.insertUser(user)
         return userDto
     }
+
+    /**
+     * ユーザ更新
+     */
+    fun updateUser(userDto: UserDto): UserDto? {
+        val userCheck: User? = userMapper.getUser(userDto.username!!)
+        if (userCheck is User){
+            userDto.encodedPassword = passwordEncoder.encode(userDto.password)
+            val user = User().setUser(userDto)
+            userMapper.updateUser(user)
+            return userDto
+        } else {
+            return null
+        }
+    }
+
+    /**
+     * ユーザ削除
+     */
+    fun deleteUser(username: String) : Int = userMapper.deleteUser(username)
 }

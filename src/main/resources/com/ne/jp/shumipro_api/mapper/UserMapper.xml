@@ -28,4 +28,16 @@
             , #{enabledflg}
             , #{adminflg})
     </insert>
+    <update id="updateUser" parameterType="com.ne.jp.shumipro_api.entity.User">
+        UPDATE users
+        SET
+            password = #{password}
+            , enabledflg = #{enabledflg}
+            , adminflg = #{adminflg}
+        WHERE
+            username = #{username}
+    </update>
+    <delete id="deleteUser" parameterType="string">
+        DELETE FROM users WHERE username = #{username}
+    </delete>
 </mapper>
