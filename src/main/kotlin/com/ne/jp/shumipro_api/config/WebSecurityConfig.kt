@@ -1,5 +1,9 @@
 package com.ne.jp.shumipro_api.config
 
+import com.ne.jp.shumipro_api.security.ShumiproAccessDeniedHandler
+import com.ne.jp.shumipro_api.security.ShumiproAuthenticationEntryPoint
+import com.ne.jp.shumipro_api.security.ShumiproAuthenticationFailureHandler
+import com.ne.jp.shumipro_api.security.ShumiproAuthenticationSuccessHandler
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
