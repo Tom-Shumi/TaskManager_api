@@ -9,7 +9,7 @@ interface UserMapper {
     /**
      * ユーザ取得
      */
-    fun getUser(username: String): User
+    fun getUser(username: String): User?
 
     /**
      * ユーザ登録

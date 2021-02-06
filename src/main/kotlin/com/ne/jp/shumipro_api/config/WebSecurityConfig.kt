@@ -70,6 +70,7 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
                 .logoutSuccessHandler(logoutSuccessHandler())
             .and()
             .csrf()
+                //.ignoringAntMatchers("/login")
                 .csrfTokenRepository(CookieCsrfTokenRepository())
     }
 
