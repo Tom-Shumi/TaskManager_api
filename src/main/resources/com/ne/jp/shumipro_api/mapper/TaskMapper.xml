@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ne.jp.shumipro_api.mapper.TaskMapper">
+
+    <select id="getTaskByUsername" resultType="com.ne.jp.shumipro_api.entity.Task"
+            parameterType="string">
+        SELECT
+            id
+            , username
+            , task
+        FROM
+            task
+        WHERE
+            username = #{username}
+    </select>
+    <insert id="insertTask" parameterType="com.ne.jp.shumipro_api.entity.Task">
+        INSERT INTO task (
+            username
+            , task
+        )
+        VALUES (
+            #{username}
+            , #{task}
+        )
+    </insert>
+    <update id="updateTask" parameterType="com.ne.jp.shumipro_api.entity.Task">
+        UPDATE task
+        SET
+        password = #{username}
+        , enabledflg = #{task}
+        WHERE
+        id = #{id}
+    </update>
+    <delete id="deleteTask" parameterType="integer">
+        DELETE FROM task WHERE id = #{id}
+    </delete>
+</mapper>
