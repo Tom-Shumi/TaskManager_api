@@ -49,6 +49,8 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
                 .permitAll()
             .mvcMatchers("/api/user/**")
                 .hasRole("ADMIN")
+            .mvcMatchers("/api/task/**")
+                .hasRole("USER")
             .anyRequest()
                 .authenticated()
             .and()

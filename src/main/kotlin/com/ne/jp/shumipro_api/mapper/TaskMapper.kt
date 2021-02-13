@@ -18,7 +18,7 @@ interface TaskMapper {
     /**
      * タスク更新
      */
-    fun updateTask(task: Task)
+    fun updateTask(task: Task): Int
 
     /**
      * タスク削除

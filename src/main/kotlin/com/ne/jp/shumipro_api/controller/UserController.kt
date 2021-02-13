@@ -11,6 +11,9 @@ import org.springframework.validation.Errors
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
+/**
+ * ユーザコントローラ
+ */
 @RestController
 @RequestMapping("/api/user")
 class UserController: BaseController() {
@@ -48,17 +51,16 @@ class UserController: BaseController() {
         if (errorMsg is String){
             // リクエストが不正だった場合
             return createReponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
+        }
+        val userDtoRequest = UserDto().setUserDto(userRequest)
+        val userDto: UserDto? = userService.registerUser(userDtoRequest)
+        if (userDto is UserDto){
+            // ユーザ登録成功
+            val jsonString = gson.toJson(UserResponse().setUserResponse(userDto))
+            return createReponseEntity(HttpStatus.OK, jsonString)
         } else {
-            val userDtoRequest = UserDto().setUserDto(userRequest)
-            val userDto: UserDto? = userService.registerUser(userDtoRequest)
-            if (userDto is UserDto){
-                // ユーザ登録成功
-                val jsonString = gson.toJson(UserResponse().setUserResponse(userDto))
-                return createReponseEntity(HttpStatus.OK, jsonString)
-            } else {
-                // 同一のユーザ名が既に存在した場合
-                return createReponseEntity(HttpStatus.BAD_REQUEST, "${userRequest.username} already exists")
-            }
+            // 同一のユーザ名が既に存在した場合
+            return createReponseEntity(HttpStatus.BAD_REQUEST, "${userRequest.username} already exists")
         }
     }
 

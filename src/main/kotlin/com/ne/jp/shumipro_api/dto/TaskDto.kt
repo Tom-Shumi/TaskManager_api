@@ -1,6 +1,7 @@
 package com.ne.jp.shumipro_api.dto
 
 import com.ne.jp.shumipro_api.entity.Task
+import com.ne.jp.shumipro_api.request.TaskRequest
 import com.ne.jp.shumipro_api.request.UserRequest
 
 data class TaskDto(
@@ -15,5 +16,9 @@ data class TaskDto(
         this.task = task.task
         return this
     }
-
+    fun setTaskDto(taskRequest: TaskRequest): TaskDto{
+        this.username = taskRequest.username
+        this.task = taskRequest.task
+        return this
+    }
 }

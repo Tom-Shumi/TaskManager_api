@@ -11,7 +11,7 @@ data class TaskResponse(
     fun setTaskResponse(taskDto: TaskDto): TaskResponse{
         this.id = taskDto.id
         this.username = taskDto.username
-        var task = taskDto.task
+        this.task = taskDto.task
         return this
     }
 }

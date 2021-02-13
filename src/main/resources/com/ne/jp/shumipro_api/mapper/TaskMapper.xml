@@ -15,7 +15,8 @@
         WHERE
             username = #{username}
     </select>
-    <insert id="insertTask" parameterType="com.ne.jp.shumipro_api.entity.Task">
+    <insert id="insertTask" parameterType="com.ne.jp.shumipro_api.entity.Task"
+            useGeneratedKeys="true" keyProperty="id">
         INSERT INTO task (
             username
             , task
@@ -28,8 +29,8 @@
     <update id="updateTask" parameterType="com.ne.jp.shumipro_api.entity.Task">
         UPDATE task
         SET
-        password = #{username}
-        , enabledflg = #{task}
+        username = #{username}
+        , task = #{task}
         WHERE
         id = #{id}
     </update>
