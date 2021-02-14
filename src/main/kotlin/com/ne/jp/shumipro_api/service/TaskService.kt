@@ -49,8 +49,25 @@ class TaskService {
      * タスク更新
      */
     fun updateTask(taskDto: TaskDto): TaskDto? {
-        val task = Task().setTask(taskDto)
-        val updateResult = taskMapper.updateTask(task)
-        return if (updateResult > 0) taskDto else null
+        val taskCheck = taskMapper.getTaskById(taskDto.id!!)
+        return if (taskCheck is Task && taskCheck.username.equals(taskDto.username)) {
+            val task = Task().setTask(taskDto)
+            taskMapper.updateTask(task)
+            taskDto
+        } else {
+            null
+        }
+    }
+
+    /**
+     * タスク削除
+     */
+    fun deleteTask(taskDto: TaskDto): Int{
+        val taskCheck = taskMapper.getTaskById(taskDto.id!!)
+        return if (taskCheck is Task && taskCheck.username.equals(taskDto.username)) {
+            taskMapper.deleteTask(taskDto.id!!)
+        } else {
+            0
+        }
     }
 }

@@ -1,15 +1,18 @@
 package com.ne.jp.shumipro_api.controller
 
 import com.ne.jp.shumipro_api.dto.TaskDto
+import com.ne.jp.shumipro_api.entity.ShumiproLoginUser
 import com.ne.jp.shumipro_api.request.TaskRequest
 import com.ne.jp.shumipro_api.response.TaskResponse
 import com.ne.jp.shumipro_api.service.TaskService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.validation.Errors
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
+import kotlin.math.log
 
 /**
  * タスクコントローラ
@@ -23,16 +26,16 @@ class TaskController: BaseController() {
     /**
      * タスク一覧取得
      */
-    @GetMapping("/{username}")
-    fun getTaskList(@PathVariable("username") username: String): ResponseEntity<String> {
-        val taskDtoList: List<TaskDto>? = taskService.getTaskList(username)
+    @GetMapping()
+    fun getTaskList(@AuthenticationPrincipal loginUser: ShumiproLoginUser): ResponseEntity<String> {
+        val taskDtoList: List<TaskDto>? = taskService.getTaskList(loginUser.username)
         if (taskDtoList is List<TaskDto>){
             // タスク取得成功
             val jsonString = gson.toJson(taskDtoList.map{it -> TaskResponse().setTaskResponse(it)}.toList())
             return createReponseEntity(HttpStatus.OK, jsonString)
         } else {
             // タスクが存在しない場合
-            return createReponseEntity(HttpStatus.NOT_FOUND, "$username does not have task")
+            return createReponseEntity(HttpStatus.NOT_FOUND, "$loginUser.username does not have task")
         }
     }
 
@@ -40,13 +43,14 @@ class TaskController: BaseController() {
      * タスク登録
      */
     @PostMapping
-    fun registerTask(@Validated @RequestBody taskRequest: TaskRequest, errors: Errors): ResponseEntity<String> {
+    fun registerTask(@Validated @RequestBody taskRequest: TaskRequest, errors: Errors, @AuthenticationPrincipal loginUser: ShumiproLoginUser): ResponseEntity<String> {
         val errorMsg: String? = checkErrors(errors)
         if (errorMsg is String){
             // リクエストが不正だった場合
             return createReponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
         }
         val taskDtoRequest = TaskDto().setTaskDto(taskRequest)
+        taskDtoRequest.username = loginUser.username
         val taskDto: TaskDto? = taskService.registerTask(taskDtoRequest)
         if (taskDto is TaskDto){
             // タスク登録成功
@@ -54,7 +58,7 @@ class TaskController: BaseController() {
             return createReponseEntity(HttpStatus.OK, jsonString)
         } else {
             // ユーザが存在しない場合
-            return createReponseEntity(HttpStatus.BAD_REQUEST, "${taskRequest.username} does not exist")
+            return createReponseEntity(HttpStatus.BAD_REQUEST, "${loginUser.username} does not exist")
         }
     }
 
@@ -62,7 +66,7 @@ class TaskController: BaseController() {
      * タスク更新
      */
     @PutMapping("/{taskId}")
-    fun updateTask(@PathVariable("taskId") taskId: Int,@Validated @RequestBody taskRequest: TaskRequest, errors: Errors): ResponseEntity<String> {
+    fun updateTask(@PathVariable("taskId") taskId: Int,@Validated @RequestBody taskRequest: TaskRequest, errors: Errors, @AuthenticationPrincipal loginUser: ShumiproLoginUser): ResponseEntity<String> {
         val errorMsg: String? = checkErrors(errors)
         if (errorMsg is String){
             // リクエストが不正だった場合
@@ -70,6 +74,7 @@ class TaskController: BaseController() {
         }
         val taskDtoRequest = TaskDto().setTaskDto(taskRequest)
         taskDtoRequest.id = taskId
+        taskDtoRequest.username = loginUser.username
         val taskDto = taskService.updateTask(taskDtoRequest)
         if (taskDto is TaskDto){
             // タスク更新成功
@@ -78,6 +83,23 @@ class TaskController: BaseController() {
         } else {
             // タスクが存在しない場合
             return createReponseEntity(HttpStatus.BAD_REQUEST, "this task does not exist")
+        }
+    }
+
+    /**
+     * タスク削除
+     */
+    @DeleteMapping("/{taskId}")
+    fun deleteTask(@PathVariable("taskId") taskId: Int, @AuthenticationPrincipal loginUser: ShumiproLoginUser) : ResponseEntity<String> {
+        val taskDtoRequest = TaskDto()
+        taskDtoRequest.id = taskId
+        taskDtoRequest.username = loginUser.username
+        if (taskService.deleteTask(taskDtoRequest) > 0){
+            // タスク削除成功
+            return createReponseEntity(HttpStatus.NO_CONTENT, "")
+        } else {
+            // タスクが存在しない場合
+            return createReponseEntity(HttpStatus.NOT_FOUND, "this task does not found")
         }
     }
 }

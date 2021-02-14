@@ -10,20 +10,39 @@
             id
             , username
             , task
+            , priority
+            , status
         FROM
             task
         WHERE
             username = #{username}
+    </select>
+    <select id="getTaskById" resultType="com.ne.jp.shumipro_api.entity.Task"
+            parameterType="int">
+        SELECT
+            id
+            , username
+            , task
+            , priority
+            , status
+        FROM
+            task
+        WHERE
+            id = #{id}
     </select>
     <insert id="insertTask" parameterType="com.ne.jp.shumipro_api.entity.Task"
             useGeneratedKeys="true" keyProperty="id">
         INSERT INTO task (
             username
             , task
+            , priority
+            , status
         )
         VALUES (
             #{username}
             , #{task}
+            , #{priority}
+            , #{status}
         )
     </insert>
     <update id="updateTask" parameterType="com.ne.jp.shumipro_api.entity.Task">
@@ -31,6 +50,8 @@
         SET
         username = #{username}
         , task = #{task}
+        , priority = #{priority}
+        , status = #{status}
         WHERE
         id = #{id}
     </update>

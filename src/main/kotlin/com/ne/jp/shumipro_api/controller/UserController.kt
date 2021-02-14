@@ -60,7 +60,7 @@ class UserController: BaseController() {
             return createReponseEntity(HttpStatus.OK, jsonString)
         } else {
             // 同一のユーザ名が既に存在した場合
-            return createReponseEntity(HttpStatus.BAD_REQUEST, "${userRequest.username} already exists")
+            return createReponseEntity(HttpStatus.BAD_REQUEST, "${userRequest.username} already exist")
         }
     }
 
@@ -86,7 +86,7 @@ class UserController: BaseController() {
                 return createReponseEntity(HttpStatus.OK, jsonString)
             } else {
                 // 対象ユーザが存在しなかった場合
-                return createReponseEntity(HttpStatus.BAD_REQUEST, "${userRequest.username} is not exists")
+                return createReponseEntity(HttpStatus.BAD_REQUEST, "${userRequest.username} is not exist")
             }
         }
     }
@@ -102,7 +102,7 @@ class UserController: BaseController() {
             return createReponseEntity(HttpStatus.NO_CONTENT, "")
         } else {
             // ユーザが存在しない場合
-            return createReponseEntity(HttpStatus.NOT_FOUND, "$username do not found")
+            return createReponseEntity(HttpStatus.NOT_FOUND, "$username does not found")
         }
     }
 }

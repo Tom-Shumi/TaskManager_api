@@ -6,9 +6,14 @@ import org.apache.ibatis.annotations.Mapper
 @Mapper
 interface TaskMapper {
     /**
-     * タスク取得
+     * タスク取得（ユーザ名）
      */
     fun getTaskByUsername(username: String): List<Task>?
+
+    /**
+     * タスク取得（ID）
+     */
+    fun getTaskById(id: Int): Task?
 
     /**
      * タスク登録
