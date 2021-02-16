@@ -44,8 +44,14 @@ dependencies {
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	annotationProcessor("org.projectlombok:lombok")
 	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.springframework.boot:spring-boot-starter-test") {
+		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+		exclude(module = "mockito-core")
+	}
 	testImplementation("org.springframework.security:spring-security-test")
+	testImplementation ("net.bytebuddy:byte-buddy:1.10.19")
+	testImplementation("com.ninja-squad:springmockk:2.0.1")
+
 }
 
 tasks.withType<KotlinCompile> {
