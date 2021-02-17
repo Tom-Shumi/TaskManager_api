@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 
-@Service("shumiproUserDetailsService")
+@Service
 class ShumiproUserDetailsService: UserDetailsService {
 
     @Autowired

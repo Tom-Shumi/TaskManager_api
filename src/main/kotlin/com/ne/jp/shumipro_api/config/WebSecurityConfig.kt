@@ -80,7 +80,7 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)
     fun configureGlobal(
         auth: AuthenticationManagerBuilder,
-        @Qualifier("shumiproUserDetailsService") userDetailsService: UserDetailsService,
+        userDetailsService: UserDetailsService,
         passwordEncoder: PasswordEncoder?
     ) {
         auth.eraseCredentials(true)
