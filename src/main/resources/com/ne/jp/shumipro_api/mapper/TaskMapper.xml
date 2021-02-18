@@ -16,6 +16,8 @@
             task
         WHERE
             username = #{username}
+        ORDER BY
+            id
     </select>
     <select id="getTaskById" resultType="com.ne.jp.shumipro_api.entity.Task"
             parameterType="int">
