@@ -14,7 +14,6 @@ class ShumiproAuthenticationEntryPoint: AuthenticationEntryPoint {
         authException: AuthenticationException
     ) {
         if (response.isCommitted) {
-            // TODO Log埋め込み
             return
         }
         response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.reasonPhrase)

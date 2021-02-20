@@ -51,6 +51,9 @@ dependencies {
 	testImplementation("org.springframework.security:spring-security-test")
 	testImplementation ("net.bytebuddy:byte-buddy:1.10.19")
 	testImplementation("com.ninja-squad:springmockk:2.0.1")
+	testImplementation("com.github.springtestdbunit:spring-test-dbunit:1.3.0")
+	testImplementation("org.dbunit:dbunit:2.7.0")
+	testImplementation("com.ninja-squad:DbSetup-kotlin:2.1.0")
 
 }
 
