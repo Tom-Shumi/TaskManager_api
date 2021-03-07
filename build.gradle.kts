@@ -42,7 +42,7 @@ dependencies {
 	runtimeOnly("org.postgresql:postgresql")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	annotationProcessor("org.projectlombok:lombok")
-	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+	implementation("org.springframework.boot:spring-boot-starter-tomcat")
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 		exclude(module = "mockito-core")
