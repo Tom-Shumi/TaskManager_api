@@ -1,7 +1,6 @@
 package com.ne.jp.shumipro_api.controller
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener
-import com.github.springtestdbunit.annotation.DatabaseOperation
 import com.github.springtestdbunit.annotation.DatabaseSetup
 import com.github.springtestdbunit.annotation.DbUnitConfiguration
 import com.google.gson.Gson
@@ -30,10 +29,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.RequestBuilder
+import org.springframework.transaction.annotation.Transactional
 
 @ExtendWith(SpringExtension::class)
 @DbUnitConfiguration(dataSetLoader = CsvDataSetLoader::class)
-@DatabaseSetup(value = ["/dbUnit_data/controller/TaskControllerTest/"], type = DatabaseOperation.CLEAN_INSERT)
 @TestExecutionListeners(
     DependencyInjectionTestExecutionListener::class,
     TransactionalTestExecutionListener::class,
@@ -41,6 +40,7 @@ import org.springframework.test.web.servlet.RequestBuilder
 )
 @AutoConfigureMockMvc()
 @SpringBootTest(classes = [ShumiproApiApplication::class])
+@Transactional
 class TaskControllerTest {
 
     @Autowired
@@ -51,6 +51,7 @@ class TaskControllerTest {
     open val gson = Gson()
 
     @Test
+    @DatabaseSetup(value = ["/dbUnit_data/controller/TaskControllerTest/"])
     fun getTask_test1() {
         val loginUser = createLoginUser()
         val expected = listOf(TaskResponse(1,"shumiya","test",1, 1))
@@ -67,6 +68,7 @@ class TaskControllerTest {
     }
 
     @Test
+    @DatabaseSetup(value = ["/dbUnit_data/controller/TaskControllerTest/"])
     fun registerTask_task1(){
         val input = TaskRequest("register_test",1, 1)
         val inputJson = gson.toJson(input)
@@ -88,8 +90,47 @@ class TaskControllerTest {
         assertThat(targetTask?.task).isEqualTo("register_test")
         assertThat(targetTask?.priority).isEqualTo(1)
         assertThat(targetTask?.status).isEqualTo(1)
-
     }
 
+    @Test
+    @DatabaseSetup(value = ["/dbUnit_data/controller/TaskControllerTest/"])
+    fun updateTask_task1(){
+        val input = TaskRequest("update_test",2, 2)
+        val inputJson = gson.toJson(input)
+
+        val loginUser = createLoginUser()
+        val builder: RequestBuilder = MockMvcRequestBuilders.put("/api/task/1")
+            .with(user(loginUser))
+            .with(csrf())
+            .accept(MediaType.APPLICATION_JSON)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(inputJson)
+
+        mockMvc.perform(builder)
+            .andExpect(status().isOk)
+
+        val targetTask = taskMapper.getTaskById(1)
+        assertThat(targetTask?.username).isEqualTo("shumiya")
+        assertThat(targetTask?.task).isEqualTo("update_test")
+        assertThat(targetTask?.priority).isEqualTo(2)
+        assertThat(targetTask?.status).isEqualTo(2)
+    }
+
+    @Test
+    @DatabaseSetup(value = ["/dbUnit_data/controller/TaskControllerTest/"])
+    fun deleteTask_task1(){
+        val loginUser = createLoginUser()
+        val builder: RequestBuilder = MockMvcRequestBuilders.delete("/api/task/1")
+            .with(user(loginUser))
+            .with(csrf())
+            .accept(MediaType.APPLICATION_JSON)
+            .contentType(MediaType.APPLICATION_JSON)
+
+        mockMvc.perform(builder)
+            .andExpect(status().isNoContent)
+
+        val targetTask = taskMapper.getTaskById(1)
+        assertThat(targetTask).isNull()
+    }
     fun createLoginUser(): ShumiproLoginUser = ShumiproLoginUser(User("shumiya", "shumiya", 1, 1))
 }

@@ -47,14 +47,17 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 		exclude(module = "mockito-core")
+		exclude(module = "junit")
 	}
 	testImplementation("org.springframework.security:spring-security-test")
+	testImplementation("org.junit.jupiter:junit-jupiter-api")
 	testImplementation ("net.bytebuddy:byte-buddy:1.10.19")
 	testImplementation("com.ninja-squad:springmockk:2.0.1")
 	testImplementation("com.github.springtestdbunit:spring-test-dbunit:1.3.0")
 	testImplementation("org.dbunit:dbunit:2.7.0")
 	testImplementation("com.ninja-squad:DbSetup-kotlin:2.1.0")
-
+	testRuntimeOnly ("org.junit.platform:junit-platform-launcher")
+	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
 tasks.withType<KotlinCompile> {
