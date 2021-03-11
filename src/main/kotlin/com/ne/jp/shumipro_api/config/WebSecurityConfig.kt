@@ -28,13 +28,19 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.web.cors.CorsConfigurationSource
 import java.lang.Exception
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 
 @Configuration
 @EnableWebSecurity
 class WebSecurityConfig: WebSecurityConfigurerAdapter() {
 
+    @Value("\${front.origin}")
+    private val frontOrigin: String = ""
 
     @Bean
     fun passwordEncoder(): PasswordEncoder? {
@@ -74,6 +80,23 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
             .csrf()
                 //.ignoringAntMatchers("/login")
                 .csrfTokenRepository(CookieCsrfTokenRepository())
+
+        http.cors().configurationSource(corsConfigurationSource())
+    }
+
+    fun  corsConfigurationSource():CorsConfigurationSource {
+        val corsConfiguration = CorsConfiguration()
+        corsConfiguration.addAllowedMethod("GET")
+        corsConfiguration.addAllowedMethod("POST")
+        corsConfiguration.addAllowedMethod("PUT")
+        corsConfiguration.addAllowedMethod("DELETE")
+
+        corsConfiguration.addAllowedOrigin(frontOrigin)
+
+        val corsSource = UrlBasedCorsConfigurationSource()
+        corsSource.registerCorsConfiguration("/**", corsConfiguration)
+
+        return corsSource
     }
 
     @Autowired
