@@ -33,6 +33,12 @@ import org.springframework.web.cors.CorsConfigurationSource
 import java.lang.Exception
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import org.springframework.http.HttpMethod
+
+import org.springframework.security.config.annotation.web.builders.WebSecurity
+
+
+
 
 
 @Configuration
@@ -78,10 +84,14 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
                 .logoutSuccessHandler(logoutSuccessHandler())
             .and()
             .csrf()
-                //.ignoringAntMatchers("/login")
-                .csrfTokenRepository(CookieCsrfTokenRepository())
+                .ignoringAntMatchers("/login")
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 
         http.cors().configurationSource(corsConfigurationSource())
+    }
+
+    override fun configure(web: WebSecurity) {
+        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**")
     }
 
     fun  corsConfigurationSource():CorsConfigurationSource {
@@ -90,8 +100,10 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
         corsConfiguration.addAllowedMethod("POST")
         corsConfiguration.addAllowedMethod("PUT")
         corsConfiguration.addAllowedMethod("DELETE")
+        corsConfiguration.addAllowedMethod("OPTIONS")
 
         corsConfiguration.addAllowedOrigin(frontOrigin)
+        corsConfiguration.allowCredentials = true
 
         val corsSource = UrlBasedCorsConfigurationSource()
         corsSource.registerCorsConfiguration("/**", corsConfiguration)
