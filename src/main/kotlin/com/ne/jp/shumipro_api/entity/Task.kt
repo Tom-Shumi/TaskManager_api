@@ -9,6 +9,7 @@ data class Task(
     , var task: String? = ""
     , var priority: Int? = 0
     , var status: Int? = 0
+    , var description: String? = ""
 ): Serializable{
 
     fun setTask(taskDto: TaskDto): Task {
@@ -17,6 +18,7 @@ data class Task(
         this.task = taskDto.task
         this.priority = taskDto.priority
         this.status = taskDto.status
+        this.description = taskDto.description
         return this
     }
 }

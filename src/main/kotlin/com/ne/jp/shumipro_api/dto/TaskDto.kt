@@ -10,6 +10,7 @@ data class TaskDto(
     , var task: String? = ""
     , var priority: Int? = 0
     , var status: Int? = 0
+    , var description: String? = ""
 ) {
 
     fun setTaskDto(task: Task): TaskDto{
@@ -18,12 +19,14 @@ data class TaskDto(
         this.task = task.task
         this.priority = task.priority
         this.status = task.status
+        this.description = task.description
         return this
     }
     fun setTaskDto(taskRequest: TaskRequest): TaskDto{
         this.task = taskRequest.task
         this.priority = taskRequest.priority
         this.status = taskRequest.status
+        this.description = taskRequest.description
         return this
     }
 }

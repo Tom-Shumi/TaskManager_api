@@ -54,7 +54,7 @@ class TaskControllerTest {
     @DatabaseSetup(value = ["/dbUnit_data/controller/TaskControllerTest/"])
     fun getTask_test1() {
         val loginUser = createLoginUser()
-        val expected = listOf(TaskResponse(1,"shumiya","test",1, 1))
+        val expected = listOf(TaskResponse(1,"shumiya","test",1, 1, "description"))
         val expectedJson = gson.toJson(expected)
 
         val builder: RequestBuilder = MockMvcRequestBuilders.get("/api/task")
@@ -70,7 +70,7 @@ class TaskControllerTest {
     @Test
     @DatabaseSetup(value = ["/dbUnit_data/controller/TaskControllerTest/"])
     fun registerTask_task1(){
-        val input = TaskRequest("register_test",1, 1)
+        val input = TaskRequest("register_test",1, 1, "description")
         val inputJson = gson.toJson(input)
 
         val loginUser = createLoginUser()
@@ -90,12 +90,14 @@ class TaskControllerTest {
         assertThat(targetTask?.task).isEqualTo("register_test")
         assertThat(targetTask?.priority).isEqualTo(1)
         assertThat(targetTask?.status).isEqualTo(1)
+        assertThat(targetTask?.description).isEqualTo("description")
+
     }
 
     @Test
     @DatabaseSetup(value = ["/dbUnit_data/controller/TaskControllerTest/"])
     fun updateTask_task1(){
-        val input = TaskRequest("update_test",2, 2)
+        val input = TaskRequest("update_test",2, 2, "update_description")
         val inputJson = gson.toJson(input)
 
         val loginUser = createLoginUser()
@@ -114,6 +116,7 @@ class TaskControllerTest {
         assertThat(targetTask?.task).isEqualTo("update_test")
         assertThat(targetTask?.priority).isEqualTo(2)
         assertThat(targetTask?.status).isEqualTo(2)
+        assertThat(targetTask?.description).isEqualTo("update_description")
     }
 
     @Test
@@ -132,5 +135,6 @@ class TaskControllerTest {
         val targetTask = taskMapper.getTaskById(1)
         assertThat(targetTask).isNull()
     }
+
     fun createLoginUser(): ShumiproLoginUser = ShumiproLoginUser(User("shumiya", "shumiya", 1, 1))
 }

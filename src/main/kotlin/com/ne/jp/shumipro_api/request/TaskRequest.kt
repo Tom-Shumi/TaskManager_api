@@ -14,6 +14,8 @@ data class TaskRequest(
     @field:NotNull(message="{e.001}")
     @field:Min(value = 1, message="{e.003}")
     @field:Max(value = 3, message="{e.003}")
-    var status: Int?
+    var status: Int?,
+
+    var description: String?
 ) {
 }

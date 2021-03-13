@@ -8,6 +8,7 @@ data class TaskResponse(
     , var task: String? = ""
     , var priority: Int? = 0
     , var status: Int? = 0
+    , var description: String? = ""
 ) {
 
     fun setTaskResponse(taskDto: TaskDto): TaskResponse{
@@ -16,6 +17,7 @@ data class TaskResponse(
         this.task = taskDto.task
         this.priority = taskDto.priority
         this.status = taskDto.status
+        this.description = taskDto.description
         return this
     }
 }
