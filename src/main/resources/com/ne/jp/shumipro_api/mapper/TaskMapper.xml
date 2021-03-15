@@ -17,8 +17,11 @@
             task
         WHERE
             username = #{username}
+            <if test="status != null">
+                AND status = #{status}
+            </if>
         ORDER BY
-            id DESC
+            priority DESC
     </select>
     <select id="getTaskById" resultType="com.ne.jp.shumipro_api.entity.Task"
             parameterType="int">

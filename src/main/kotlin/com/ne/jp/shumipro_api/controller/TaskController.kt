@@ -26,9 +26,9 @@ class TaskController: BaseController() {
     /**
      * タスク一覧取得
      */
-    @GetMapping()
-    fun getTaskList(@AuthenticationPrincipal loginUser: ShumiproLoginUser): ResponseEntity<String> {
-        val taskDtoList: List<TaskDto>? = taskService.getTaskList(loginUser.username)
+    @GetMapping("/", "/{status}")
+    fun getTaskList(@AuthenticationPrincipal loginUser: ShumiproLoginUser, @PathVariable(name = "status", required = false) status: String? ): ResponseEntity<String> {
+        val taskDtoList: List<TaskDto>? = taskService.getTaskList(loginUser.username, status)
         if (taskDtoList is List<TaskDto>){
             // タスク取得成功
             val jsonString = gson.toJson(taskDtoList.map{it -> TaskResponse().setTaskResponse(it)}.toList())

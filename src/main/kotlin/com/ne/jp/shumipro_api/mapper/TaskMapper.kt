@@ -8,7 +8,7 @@ interface TaskMapper {
     /**
      * タスク取得（ユーザ名）
      */
-    fun getTaskByUsername(username: String): List<Task>?
+    fun getTaskByUsername(param: Map<String, Any?>): List<Task>?
 
     /**
      * タスク取得（ID）

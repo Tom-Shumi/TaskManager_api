@@ -57,7 +57,7 @@ class TaskControllerTest {
         val expected = listOf(TaskResponse(1,"shumiya","test",1, 1, "description"))
         val expectedJson = gson.toJson(expected)
 
-        val builder: RequestBuilder = MockMvcRequestBuilders.get("/api/task")
+        val builder: RequestBuilder = MockMvcRequestBuilders.get("/api/task/")
             .with(user(loginUser))
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
@@ -70,7 +70,7 @@ class TaskControllerTest {
     @Test
     @DatabaseSetup(value = ["/dbUnit_data/controller/TaskControllerTest/"])
     fun registerTask_task1(){
-        val input = TaskRequest("register_test",1, 1, "description")
+        val input = TaskRequest("register_test",5, 1, "description")
         val inputJson = gson.toJson(input)
 
         val loginUser = createLoginUser()
@@ -84,11 +84,11 @@ class TaskControllerTest {
         mockMvc.perform(builder)
             .andExpect(status().isOk)
 
-        val taskList = taskMapper.getTaskByUsername("shumiya")
+        val taskList = taskMapper.getTaskByUsername(mapOf("username" to "shumiya", "status" to null))
         val targetTask = taskList?.get(0)
         assertThat(targetTask?.username).isEqualTo("shumiya")
         assertThat(targetTask?.task).isEqualTo("register_test")
-        assertThat(targetTask?.priority).isEqualTo(1)
+        assertThat(targetTask?.priority).isEqualTo(5)
         assertThat(targetTask?.status).isEqualTo(1)
         assertThat(targetTask?.description).isEqualTo("description")
 
