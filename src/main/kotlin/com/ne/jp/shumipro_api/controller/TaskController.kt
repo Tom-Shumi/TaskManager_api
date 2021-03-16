@@ -34,8 +34,7 @@ class TaskController: BaseController() {
             val jsonString = gson.toJson(taskDtoList.map{it -> TaskResponse().setTaskResponse(it)}.toList())
             return createReponseEntity(HttpStatus.OK, jsonString)
         } else {
-            // タスクが存在しない場合
-            return createReponseEntity(HttpStatus.NOT_FOUND, "$loginUser.username does not have task")
+            return createReponseEntity(HttpStatus.NO_CONTENT, null)
         }
     }
 

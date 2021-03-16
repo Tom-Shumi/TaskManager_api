@@ -10,7 +10,7 @@ import java.util.stream.Collectors
 open class BaseController {
     open val gson = Gson()
 
-    fun createReponseEntity(status: HttpStatus, json: String): ResponseEntity<String>
+    fun createReponseEntity(status: HttpStatus, json: String?): ResponseEntity<String>
         = ResponseEntity.status(status).contentType(MediaType.APPLICATION_JSON).body(json)
 
     fun checkErrors(errors: Errors): String?
