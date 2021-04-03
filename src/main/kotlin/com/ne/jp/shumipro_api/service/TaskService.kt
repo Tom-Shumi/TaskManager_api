@@ -62,6 +62,19 @@ class TaskService {
     }
 
     /**
+     * タスクステータス更新
+     */
+    fun updateStatusTask(taskDto: TaskDto): TaskDto? {
+        val task = taskMapper.getTaskById(taskDto.id!!)
+        return if (task is Task) {
+            task.status = taskDto.status
+            this.updateTask(TaskDto().setTaskDto(task))
+        } else {
+            null
+        }
+    }
+
+    /**
      * タスク削除
      */
     fun deleteTask(taskDto: TaskDto): Int{

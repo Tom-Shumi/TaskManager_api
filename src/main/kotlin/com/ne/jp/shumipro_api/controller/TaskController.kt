@@ -3,6 +3,7 @@ package com.ne.jp.shumipro_api.controller
 import com.ne.jp.shumipro_api.dto.TaskDto
 import com.ne.jp.shumipro_api.entity.ShumiproLoginUser
 import com.ne.jp.shumipro_api.request.TaskRequest
+import com.ne.jp.shumipro_api.request.TaskStatusRequest
 import com.ne.jp.shumipro_api.response.TaskResponse
 import com.ne.jp.shumipro_api.service.TaskService
 import org.springframework.beans.factory.annotation.Autowired
@@ -75,6 +76,28 @@ class TaskController: BaseController() {
         taskDtoRequest.id = taskId
         taskDtoRequest.username = loginUser.username
         val taskDto = taskService.updateTask(taskDtoRequest)
+        if (taskDto is TaskDto){
+            // タスク更新成功
+            val jsonString = gson.toJson(TaskResponse().setTaskResponse(taskDto))
+            return createReponseEntity(HttpStatus.OK, jsonString)
+        } else {
+            // タスクが存在しない場合
+            return createReponseEntity(HttpStatus.BAD_REQUEST, "this task does not exist")
+        }
+    }
+
+    /**
+     * タスクステータス更新
+     */
+    @PutMapping("/status/{taskId}")
+    fun updateStatusTask(@PathVariable("taskId") taskId: Int, @Validated @RequestBody taskStatusRequest: TaskStatusRequest, errors: Errors, @AuthenticationPrincipal loginUser: ShumiproLoginUser): ResponseEntity<String> {
+        val errorMsg: String? = checkErrors(errors)
+        if (errorMsg is String){
+            // リクエストが不正だった場合
+            return createReponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
+        }
+        val taskDtoRequest = TaskDto(id = taskId, status = taskStatusRequest.status)
+        val taskDto = taskService.updateStatusTask(taskDtoRequest)
         if (taskDto is TaskDto){
             // タスク更新成功
             val jsonString = gson.toJson(TaskResponse().setTaskResponse(taskDto))
