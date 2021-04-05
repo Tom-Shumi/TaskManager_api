@@ -46,6 +46,8 @@
             , priority
             , status
             , description
+            , plan_date
+            , done_date
         )
         VALUES (
             #{username}
@@ -53,18 +55,22 @@
             , #{priority}
             , #{status}
             , #{description}
+            , #{planDate}
+            , #{doneDate}
         )
     </insert>
     <update id="updateTask" parameterType="com.ne.jp.shumipro_api.entity.Task">
         UPDATE task
         SET
-        username = #{username}
-        , task = #{task}
-        , priority = #{priority}
-        , status = #{status}
-        , description = #{description}
+            username = #{username}
+            , task = #{task}
+            , priority = #{priority}
+            , status = #{status}
+            , description = #{description}
+            , plan_date = #{planDate}
+            , done_date = #{doneDate}
         WHERE
-        id = #{id}
+            id = #{id}
     </update>
     <delete id="deleteTask" parameterType="integer">
         DELETE FROM task WHERE id = #{id}

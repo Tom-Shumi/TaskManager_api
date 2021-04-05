@@ -2,6 +2,7 @@ package com.ne.jp.shumipro_api.entity
 
 import com.ne.jp.shumipro_api.dto.TaskDto
 import java.io.Serializable
+import java.util.*
 
 data class Task(
     var id: Int? = 0
@@ -10,6 +11,8 @@ data class Task(
     , var priority: Int? = 0
     , var status: Int? = 0
     , var description: String? = ""
+    , var planDate: Date? = null
+    , var doneDate: Date? = null
 ): Serializable{
 
     fun setTask(taskDto: TaskDto): Task {
@@ -19,6 +22,8 @@ data class Task(
         this.priority = taskDto.priority
         this.status = taskDto.status
         this.description = taskDto.description
+        this.planDate = taskDto.planDate
+        this.doneDate = taskDto.doneDate
         return this
     }
 }
