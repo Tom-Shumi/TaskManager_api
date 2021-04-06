@@ -11,8 +11,8 @@ data class Task(
     , var priority: Int? = 0
     , var status: Int? = 0
     , var description: String? = ""
-    , var planDate: Date? = null
-    , var doneDate: Date? = null
+    , var plan_date: Date? = null
+    , var done_date: Date? = null
 ): Serializable{
 
     fun setTask(taskDto: TaskDto): Task {
@@ -22,8 +22,8 @@ data class Task(
         this.priority = taskDto.priority
         this.status = taskDto.status
         this.description = taskDto.description
-        this.planDate = taskDto.planDate
-        this.doneDate = taskDto.doneDate
+        this.plan_date = taskDto.planDate
+        this.done_date = taskDto.doneDate
         return this
     }
 }

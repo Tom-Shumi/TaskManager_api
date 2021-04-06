@@ -23,8 +23,8 @@ data class TaskDto(
         this.priority = task.priority
         this.status = task.status
         this.description = task.description
-        this.planDate = task.planDate
-        this.doneDate = task.doneDate
+        this.planDate = task.plan_date
+        this.doneDate = task.done_date
         return this
     }
     fun setTaskDto(taskRequest: TaskRequest): TaskDto{

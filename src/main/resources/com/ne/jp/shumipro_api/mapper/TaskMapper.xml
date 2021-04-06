@@ -13,6 +13,8 @@
             , priority
             , status
             , description
+            , plan_date
+            , done_date
         FROM
             task
         WHERE
@@ -33,6 +35,8 @@
             , priority
             , status
             , description
+            , plan_date
+            , done_date
         FROM
             task
         WHERE

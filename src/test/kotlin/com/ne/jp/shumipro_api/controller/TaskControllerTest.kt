@@ -30,6 +30,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.RequestBuilder
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 @ExtendWith(SpringExtension::class)
 @DbUnitConfiguration(dataSetLoader = CsvDataSetLoader::class)
@@ -70,7 +71,7 @@ class TaskControllerTest {
     @Test
     @DatabaseSetup(value = ["/dbUnit_data/controller/TaskControllerTest/"])
     fun registerTask_task1(){
-        val input = TaskRequest("register_test",5, 1, "description")
+        val input = TaskRequest("register_test",5, 1, "description", Date())
         val inputJson = gson.toJson(input)
 
         val loginUser = createLoginUser()
@@ -97,7 +98,7 @@ class TaskControllerTest {
     @Test
     @DatabaseSetup(value = ["/dbUnit_data/controller/TaskControllerTest/"])
     fun updateTask_task1(){
-        val input = TaskRequest("update_test",2, 2, "update_description")
+        val input = TaskRequest("update_test",2, 2, "update_description", Date())
         val inputJson = gson.toJson(input)
 
         val loginUser = createLoginUser()
