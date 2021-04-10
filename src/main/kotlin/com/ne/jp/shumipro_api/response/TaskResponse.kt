@@ -2,6 +2,7 @@ package com.ne.jp.shumipro_api.response
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.ne.jp.shumipro_api.dto.TaskDto
+import com.ne.jp.shumipro_api.util.DateUtil
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -23,8 +24,8 @@ data class TaskResponse(
         this.priority = taskDto.priority
         this.status = taskDto.status
         this.description = taskDto.description
-        this.planDate = if (Objects.nonNull(taskDto.planDate)) df.format(taskDto.planDate) else ""
-        this.doneDate = if (Objects.nonNull(taskDto.doneDate)) df.format(taskDto.doneDate) else ""
+        this.planDate = DateUtil.toStringYYYYMMDD(taskDto.planDate)
+        this.doneDate = DateUtil.toStringYYYYMMDD(taskDto.doneDate)
         return this
     }
 }
