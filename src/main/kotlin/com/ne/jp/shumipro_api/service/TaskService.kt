@@ -51,9 +51,10 @@ class TaskService {
      * タスク更新
      */
     fun updateTask(taskDto: TaskDto): TaskDto? {
-        val taskCheck = taskMapper.getTaskById(taskDto.id!!)
-        return if (taskCheck is Task && taskCheck.username.equals(taskDto.username)) {
+        val taskBefore = taskMapper.getTaskById(taskDto.id!!)
+        return if (taskBefore is Task && taskBefore.username.equals(taskDto.username)) {
             val task = Task().setTask(taskDto)
+            if (task.status == 3) {task.plan_date = taskBefore.plan_date} else {task.done_date = taskBefore.done_date}
             taskMapper.updateTask(task)
             taskDto
         } else {
