@@ -13,7 +13,7 @@ class TaskCommentController {
      * コメント一覧取得
      */
     @GetMapping("/{taskId}")
-    fun getTaskCommentList(@PathVariable("taskId") taskId: Int, @RequestParam(name = "nextKey", required = false) nextKey: String){
-
+    fun getTaskCommentList(@PathVariable("taskId") taskId: Int, @RequestParam(name = "nextKey", required = false) nextKey: String?){
+        val taskCommentDtoList =
     }
 }

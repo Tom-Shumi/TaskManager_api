@@ -23,7 +23,8 @@ class TaskService {
      */
     fun getTaskList(username: String, status: String?): List<TaskDto>? {
         val param = mapOf(
-            "username" to username, "status" to status)
+            "username" to username
+            , "status" to status)
         val taskList: List<Task>? = taskMapper.getTaskByUsername(param)
         if (taskList is List<Task> && taskList.isNotEmpty()){
             return taskList.map{ it -> TaskDto().setTaskDto(it)}.toList()

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ne.jp.shumipro_api.mapper.TaskCommentMapper">
+
+    <select id="getTaskCommentByTaskId" resultType="com.ne.jp.shumipro_api.entity.TaskComment"
+            parameterType="map">
+        <![CDATA[
+            SELECT
+                id
+                , task_id
+                , username
+                , comment
+                , create_date
+            FROM
+                task_comment
+            WHERE
+                task_id = #{taskId}
+                <if test="nextKey != null">
+                    AND id <= #{nextKey}
+                </if>
+            ORDER BY
+                id DESC
+        ]]>
+    </select>
+
+</mapper>
