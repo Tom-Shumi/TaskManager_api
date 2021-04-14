@@ -26,10 +26,10 @@ class TaskService {
             "username" to username
             , "status" to status)
         val taskList: List<Task>? = taskMapper.getTaskByUsername(param)
-        if (taskList is List<Task> && taskList.isNotEmpty()){
-            return taskList.map{ it -> TaskDto().setTaskDto(it)}.toList()
+        return if (taskList is List<Task> && taskList.isNotEmpty()){
+            taskList.map{ it -> TaskDto().setTaskDto(it)}.toList()
         } else {
-            return null
+            null
         }
     }
 
@@ -38,13 +38,13 @@ class TaskService {
      */
     fun registerTask(taskDto: TaskDto): TaskDto? {
         val userCheck: User? = userMapper.getUser(taskDto.username!!)
-        if (userCheck is User){
+        return if (userCheck is User){
             val task = Task().setTask(taskDto)
             taskMapper.insertTask(task)
             taskDto.id = task.id
-            return taskDto
+            taskDto
         } else {
-            return null
+            null
         }
     }
 
