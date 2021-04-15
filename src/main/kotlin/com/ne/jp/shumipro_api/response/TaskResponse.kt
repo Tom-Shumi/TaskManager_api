@@ -17,7 +17,6 @@ data class TaskResponse(
     , var doneDate: String? = ""
 ) {
     fun setTaskResponse(taskDto: TaskDto): TaskResponse{
-        val df = SimpleDateFormat("yyyy/MM/dd")
         this.id = taskDto.id
         this.username = taskDto.username
         this.task = taskDto.task

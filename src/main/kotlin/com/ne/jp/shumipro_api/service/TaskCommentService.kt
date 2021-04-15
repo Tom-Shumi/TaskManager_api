@@ -21,7 +21,7 @@ class TaskCommentService {
     @Value("\${data.limit}")
     var limit: Int = 0
 
-    fun getTaskCommentList(taskId: Int, nextKey: String?): List<TaskCommentDto>? {
+    fun getTaskCommentList(taskId: Int, nextKey: Int?): List<TaskCommentDto>? {
         val param = mapOf(
             "taskId" to taskId
             , "nextKey" to nextKey
