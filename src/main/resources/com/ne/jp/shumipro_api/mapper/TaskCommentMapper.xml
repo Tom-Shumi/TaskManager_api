@@ -23,4 +23,19 @@
             id DESC
     </select>
 
+    <insert id="insertTaskComment" parameterType="com.ne.jp.shumipro_api.entity.TaskComment"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO task_comment (
+            task_id
+            , username
+            , comment
+            , create_date
+        )
+        VALUES (
+            #{taskId}
+            , #{username}
+            , #{comment}
+            , #{createDate}
+        )
+    </insert>
 </mapper>

@@ -7,9 +7,8 @@ import org.apache.ibatis.annotations.Mapper
 @Mapper
 interface TaskCommentMapper {
 
-    /**
-     * タスクコメント取得（タスクID）
-     */
     fun getTaskCommentByTaskId(param: Map<String, Any?>): List<TaskComment>?
+
+    fun insertTaskComment(taskComment: TaskComment)
 
 }
