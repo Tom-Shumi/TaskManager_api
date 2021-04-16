@@ -27,13 +27,12 @@ class TaskCommentController: BaseController() {
     @GetMapping("/{taskId}")
     fun getTaskCommentList(@PathVariable("taskId") taskId: Int, @RequestParam(name = "nextKey", required = false) nextKey: Int?): ResponseEntity<String> {
         val taskCommentDtoList = taskCommentService.getTaskCommentList(taskId, nextKey)
-        if (taskCommentDtoList is List<TaskCommentDto>){
+        return if (taskCommentDtoList is List<TaskCommentDto>){
             // タスクコメント取得成功
             val jsonString = gson.toJson(taskCommentDtoList.map{it -> TaskCommentResponse().setTaskCommentResponse(it)}.toList())
-            return createReponseEntity(HttpStatus.OK, jsonString)
+            createReponseEntity(HttpStatus.OK, jsonString)
         } else {
-            return createReponseEntity(HttpStatus.NO_CONTENT, null)
+            createReponseEntity(HttpStatus.NO_CONTENT, null)
         }
-        return createReponseEntity(HttpStatus.NO_CONTENT, null);
     }
 }
