@@ -8,7 +8,7 @@ data class TaskComment(
     , var taskId: Int? = 0
     , var username: String? = ""
     , var comment: String? = ""
-    , var createDate: Date? = null
+    , var create_date: Date? = null
 ) {
 
     fun setTaskComment(taskCommentDto: TaskCommentDto): TaskComment {
@@ -16,7 +16,7 @@ data class TaskComment(
         this.taskId = taskCommentDto.taskId
         this.username = taskCommentDto.username
         this.comment = taskCommentDto.comment
-        this.createDate = taskCommentDto.createDate
+        this.create_date = taskCommentDto.createDate
         return this
     }
 }

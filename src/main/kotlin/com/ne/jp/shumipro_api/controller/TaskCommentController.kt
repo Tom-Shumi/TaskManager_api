@@ -75,7 +75,7 @@ class TaskCommentController: BaseController() {
             // リクエストが不正だった場合
             return createReponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
         }
-        val taskCommentDtoRequest = TaskCommentDto(taskId = taskId, username = loginUser.username, comment = taskCommentRequest.comment)
+        val taskCommentDtoRequest = TaskCommentDto(id = taskCommentId, taskId = taskId, username = loginUser.username, comment = taskCommentRequest.comment)
         val taskCommentDto = taskCommentService.updateTaskComment(taskCommentDtoRequest)
         return if (taskCommentDto is TaskCommentDto){
             // タスクコメント更新成功

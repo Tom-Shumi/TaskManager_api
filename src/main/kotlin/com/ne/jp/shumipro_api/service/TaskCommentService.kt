@@ -41,7 +41,7 @@ class TaskCommentService {
         val taskCheck: Task? = taskMapper.getTaskById(taskCommentDto.taskId!!)
         return if (taskCheck is Task){
             val taskComment = TaskComment().setTaskComment(taskCommentDto)
-            taskComment.createDate = Date()
+            taskComment.create_date = Date()
             taskCommentMapper.insertTaskComment(taskComment)
             taskCommentDto.id = taskComment.id
             taskCommentDto
@@ -59,6 +59,7 @@ class TaskCommentService {
         return if (taskComment is TaskComment) {
             taskComment.comment = taskCommentDto.comment
             taskCommentMapper.updateTaskComment(taskComment)
+            taskCommentDto.createDate = taskComment.create_date
             taskCommentDto
         } else {
             null

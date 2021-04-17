@@ -17,7 +17,7 @@ data class TaskCommentDto(
         this.taskId = taskComment.taskId
         this.username = taskComment.username
         this.comment = taskComment.comment
-        this.createDate = taskComment.createDate
+        this.createDate = taskComment.create_date
         return this
     }
 }
