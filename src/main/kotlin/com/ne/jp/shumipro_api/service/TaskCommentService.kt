@@ -1,7 +1,6 @@
 package com.ne.jp.shumipro_api.service
 
 import com.ne.jp.shumipro_api.dto.TaskCommentDto
-import com.ne.jp.shumipro_api.dto.TaskDto
 import com.ne.jp.shumipro_api.entity.Task
 import com.ne.jp.shumipro_api.entity.TaskComment
 import com.ne.jp.shumipro_api.mapper.TaskCommentMapper

@@ -1,11 +1,9 @@
 package com.ne.jp.shumipro_api.controller
 
 import com.ne.jp.shumipro_api.dto.TaskCommentDto
-import com.ne.jp.shumipro_api.dto.TaskDto
 import com.ne.jp.shumipro_api.entity.ShumiproLoginUser
 import com.ne.jp.shumipro_api.request.TaskCommentRequest
 import com.ne.jp.shumipro_api.response.TaskCommentResponse
-import com.ne.jp.shumipro_api.response.TaskResponse
 import com.ne.jp.shumipro_api.service.TaskCommentService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
