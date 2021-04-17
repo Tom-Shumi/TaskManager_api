@@ -13,5 +13,7 @@ interface TaskCommentMapper {
 
     fun getTaskCommentByIdAndTaskIdAndUsername(param: Map<String, Any?>): TaskComment?
 
-    fun updateTaskComment(taskComment: TaskComment)
+    fun updateTaskComment(taskComment: TaskComment): Int
+
+    fun deleteTaskComment(id: Int): Int
 }

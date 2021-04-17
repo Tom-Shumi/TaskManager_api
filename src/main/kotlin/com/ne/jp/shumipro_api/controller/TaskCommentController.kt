@@ -26,7 +26,7 @@ class TaskCommentController: BaseController() {
     lateinit var taskCommentService: TaskCommentService
 
     /**
-     * コメント一覧取得
+     * タスクコメント一覧取得
      */
     @GetMapping("/{taskId}")
     fun getTaskCommentList(@PathVariable("taskId") taskId: Int, @RequestParam(name = "nextKey", required = false) nextKey: Int?): ResponseEntity<String> {
@@ -41,7 +41,7 @@ class TaskCommentController: BaseController() {
     }
 
     /**
-     * コメント登録処理
+     * タスクコメント登録処理
      */
     @PostMapping("/{taskId}")
     fun registerTaskComment(@PathVariable("taskId") taskId: Int, @Validated @RequestBody taskCommentRequest: TaskCommentRequest
@@ -59,12 +59,12 @@ class TaskCommentController: BaseController() {
             return createReponseEntity(HttpStatus.OK, jsonString)
         } else {
             // タスクが存在しない場合
-            return createReponseEntity(HttpStatus.BAD_REQUEST, "This task does not exist")
+            return createReponseEntity(HttpStatus.BAD_REQUEST, "this task does not exist")
         }
     }
 
     /**
-     * コメント更新処理
+     * タスクコメント更新処理
      */
     @PutMapping("/{taskId}/{taskCommentId}")
     fun updateTaskComment(@PathVariable("taskId") taskId: Int, @PathVariable("taskCommentId") taskCommentId: Int
@@ -84,6 +84,25 @@ class TaskCommentController: BaseController() {
         } else {
             // タスクコメントが存在しない場合
             createReponseEntity(HttpStatus.BAD_REQUEST, "this task comment does not exist")
+        }
+    }
+
+    /**
+     * タスクコメント削除処理
+     */
+    @DeleteMapping("/{taskId}/{taskCommentId}")
+    fun deleteTaskComment(@PathVariable("taskId") taskId: Int, @PathVariable("taskCommentId") taskCommentId: Int
+                          , @AuthenticationPrincipal loginUser: ShumiproLoginUser): ResponseEntity<String>{
+        val taskCommentDto = TaskCommentDto()
+        taskCommentDto.id = taskCommentId
+        taskCommentDto.taskId = taskId
+        taskCommentDto.username = loginUser.username
+        if (taskCommentService.deleteTaskComment(taskCommentDto) > 0){
+            // タスクコメント削除成功
+            return createReponseEntity(HttpStatus.NO_CONTENT, "")
+        } else {
+            // タスクコメントが存在しない場合
+            return createReponseEntity(HttpStatus.NOT_FOUND, "this task comment does not found")
         }
     }
 }

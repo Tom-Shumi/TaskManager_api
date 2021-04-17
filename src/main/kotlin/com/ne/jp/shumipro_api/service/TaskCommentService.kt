@@ -64,4 +64,17 @@ class TaskCommentService {
             null
         }
     }
+
+    fun deleteTaskComment(taskCommentDto: TaskCommentDto): Int{
+        val param = mapOf(
+            "id" to taskCommentDto.id
+            , "taskId" to taskCommentDto.taskId
+            , "username" to taskCommentDto.username)
+        val taskComment = taskCommentMapper.getTaskCommentByIdAndTaskIdAndUsername(param)
+        return if (taskComment is TaskComment) {
+            taskCommentMapper.deleteTaskComment(taskCommentDto.id!!)
+        } else {
+            0
+        }
+    }
 }
