@@ -23,6 +23,22 @@
             id DESC
     </select>
 
+    <select id="getTaskCommentByIdAndTaskIdAndUsername" resultType="com.ne.jp.shumipro_api.entity.TaskComment"
+            parameterType="map">
+        SELECT
+            id
+            , task_id
+            , username
+            , comment
+            , create_date
+        FROM
+            task_comment
+        WHERE
+            id = #{id}
+            AND task_id = #{taskId}
+            AND username = #{username}
+    </select>
+
     <insert id="insertTaskComment" parameterType="com.ne.jp.shumipro_api.entity.TaskComment"
             useGeneratedKeys="true" keyProperty="id">
         INSERT INTO task_comment (
@@ -38,4 +54,13 @@
             , #{createDate}
         )
     </insert>
+
+    <update id="updateTaskComment" parameterType="com.ne.jp.shumipro_api.entity.TaskComment">
+        UPDATE task_comment
+        SET
+            comment = #{comment}
+        WHERE
+            id = #{id}
+    </update>
+
 </mapper>

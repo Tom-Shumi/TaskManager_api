@@ -1,6 +1,7 @@
 package com.ne.jp.shumipro_api.service
 
 import com.ne.jp.shumipro_api.dto.TaskCommentDto
+import com.ne.jp.shumipro_api.dto.TaskDto
 import com.ne.jp.shumipro_api.entity.Task
 import com.ne.jp.shumipro_api.entity.TaskComment
 import com.ne.jp.shumipro_api.mapper.TaskCommentMapper
@@ -43,6 +44,21 @@ class TaskCommentService {
             taskComment.createDate = Date()
             taskCommentMapper.insertTaskComment(taskComment)
             taskCommentDto.id = taskComment.id
+            taskCommentDto
+        } else {
+            null
+        }
+    }
+
+    fun updateTaskComment(taskCommentDto: TaskCommentDto): TaskCommentDto?{
+        val param = mapOf(
+            "id" to taskCommentDto.id
+            , "taskId" to taskCommentDto.taskId
+            , "username" to taskCommentDto.username)
+        val taskComment = taskCommentMapper.getTaskCommentByIdAndTaskIdAndUsername(param)
+        return if (taskComment is TaskComment) {
+            taskComment.comment = taskCommentDto.comment
+            taskCommentMapper.updateTaskComment(taskComment)
             taskCommentDto
         } else {
             null

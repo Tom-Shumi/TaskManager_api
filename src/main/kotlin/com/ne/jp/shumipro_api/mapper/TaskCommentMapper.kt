@@ -11,4 +11,7 @@ interface TaskCommentMapper {
 
     fun insertTaskComment(taskComment: TaskComment)
 
+    fun getTaskCommentByIdAndTaskIdAndUsername(param: Map<String, Any?>): TaskComment?
+
+    fun updateTaskComment(taskComment: TaskComment)
 }

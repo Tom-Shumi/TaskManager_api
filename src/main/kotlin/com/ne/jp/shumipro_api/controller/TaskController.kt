@@ -76,13 +76,13 @@ class TaskController: BaseController() {
         taskDtoRequest.id = taskId
         taskDtoRequest.username = loginUser.username
         val taskDto = taskService.updateTask(taskDtoRequest)
-        if (taskDto is TaskDto){
+        return if (taskDto is TaskDto){
             // タスク更新成功
             val jsonString = gson.toJson(TaskResponse().setTaskResponse(taskDto))
-            return createReponseEntity(HttpStatus.OK, jsonString)
+            createReponseEntity(HttpStatus.OK, jsonString)
         } else {
             // タスクが存在しない場合
-            return createReponseEntity(HttpStatus.BAD_REQUEST, "this task does not exist")
+            createReponseEntity(HttpStatus.BAD_REQUEST, "this task does not exist")
         }
     }
 
