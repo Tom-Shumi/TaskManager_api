@@ -4,7 +4,9 @@ import com.ne.jp.shumipro_api.dto.TaskDto
 import com.ne.jp.shumipro_api.entity.ShumiproLoginUser
 import com.ne.jp.shumipro_api.request.TaskRequest
 import com.ne.jp.shumipro_api.request.TaskStatusRequest
+import com.ne.jp.shumipro_api.response.TaskCommentResponse
 import com.ne.jp.shumipro_api.response.TaskResponse
+import com.ne.jp.shumipro_api.service.TaskCommentService
 import com.ne.jp.shumipro_api.service.TaskService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.*
 class TaskController: BaseController() {
     @Autowired
     lateinit var taskService: TaskService
+    @Autowired
+    lateinit var taskCommentService: TaskCommentService
 
     /**
      * タスク一覧取得
@@ -31,13 +35,19 @@ class TaskController: BaseController() {
         val taskDtoList: List<TaskDto>? = taskService.getTaskList(loginUser.username, status)
         if (taskDtoList is List<TaskDto>){
             // タスク取得成功
-            val jsonString = gson.toJson(taskDtoList.map{it -> TaskResponse().setTaskResponse(it)}.toList())
+            val jsonString = gson.toJson(taskDtoList.map{createTaskResponse(it)}.toList())
             return createReponseEntity(HttpStatus.OK, jsonString)
         } else {
             return createReponseEntity(HttpStatus.NO_CONTENT, null)
         }
     }
 
+    fun createTaskResponse(taskDto: TaskDto): TaskResponse{
+        val taskResponse = TaskResponse().setTaskResponse(taskDto)
+        val taskCommentList = taskCommentService.getTaskCommentList(taskDto.id!!, null)
+        taskResponse.comments = taskCommentList?.map{it -> TaskCommentResponse().setTaskCommentResponse(it)}?.toList()
+        return taskResponse
+    }
     /**
      * タスク登録
      */

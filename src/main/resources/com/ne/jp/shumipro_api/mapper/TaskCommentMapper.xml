@@ -51,7 +51,7 @@
             #{taskId}
             , #{username}
             , #{comment}
-            , #{createDate}
+            , #{create_date}
         )
     </insert>
 

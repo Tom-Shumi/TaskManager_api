@@ -15,6 +15,7 @@ data class TaskResponse(
     , var description: String? = ""
     , var planDate: String? = ""
     , var doneDate: String? = ""
+    , var comments: List<TaskCommentResponse>? = null
 ) {
     fun setTaskResponse(taskDto: TaskDto): TaskResponse{
         this.id = taskDto.id

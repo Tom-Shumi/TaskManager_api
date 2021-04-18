@@ -5,7 +5,7 @@ import java.util.*
 
 data class TaskComment(
     var id: Int? = 0
-    , var taskId: Int? = 0
+    , var task_id: Int? = 0
     , var username: String? = ""
     , var comment: String? = ""
     , var create_date: Date? = null
@@ -13,7 +13,7 @@ data class TaskComment(
 
     fun setTaskComment(taskCommentDto: TaskCommentDto): TaskComment {
         this.id = taskCommentDto.id
-        this.taskId = taskCommentDto.taskId
+        this.task_id = taskCommentDto.taskId
         this.username = taskCommentDto.username
         this.comment = taskCommentDto.comment
         this.create_date = taskCommentDto.createDate

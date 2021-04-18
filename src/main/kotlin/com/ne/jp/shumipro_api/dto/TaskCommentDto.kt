@@ -13,7 +13,7 @@ data class TaskCommentDto(
 
     fun setTaskCommentDto(taskComment: TaskComment): TaskCommentDto{
         this.id = taskComment.id
-        this.taskId = taskComment.taskId
+        this.taskId = taskComment.task_id
         this.username = taskComment.username
         this.comment = taskComment.comment
         this.createDate = taskComment.create_date
