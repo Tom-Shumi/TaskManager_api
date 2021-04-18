@@ -48,7 +48,7 @@
             , create_date
         )
         VALUES (
-            #{taskId}
+            #{task_id}
             , #{username}
             , #{comment}
             , #{create_date}
