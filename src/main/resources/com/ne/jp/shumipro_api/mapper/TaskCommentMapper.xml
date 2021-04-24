@@ -21,6 +21,7 @@
             </if>
         ORDER BY
             id DESC
+        LIMIT #{limit}
     </select>
 
     <select id="getTaskCommentByIdAndTaskIdAndUsername" resultType="com.ne.jp.shumipro_api.entity.TaskComment"
