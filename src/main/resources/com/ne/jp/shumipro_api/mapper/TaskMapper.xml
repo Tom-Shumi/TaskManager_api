@@ -79,4 +79,20 @@
     <delete id="deleteTask" parameterType="integer">
         DELETE FROM task WHERE id = #{id}
     </delete>
+
+    <select id="getPlanTaskGraphInfo" resultType="hashmap"
+            parameterType="hashmap">
+        SELECT
+            plan_date
+            , COUNT(*)
+        FROM
+            task
+        WHERE
+            username = #{username}
+            AND plan_date BETWEEN #{fromDate} AND #{toDate}
+        GROUP BY
+            plan_date
+        ORDER BY
+            plan_date ASC
+    </select>
 </mapper>

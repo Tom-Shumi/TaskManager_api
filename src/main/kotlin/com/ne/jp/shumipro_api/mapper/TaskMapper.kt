@@ -2,6 +2,7 @@ package com.ne.jp.shumipro_api.mapper
 
 import com.ne.jp.shumipro_api.entity.Task
 import org.apache.ibatis.annotations.Mapper
+import java.time.LocalDate
 
 @Mapper
 interface TaskMapper {
@@ -29,4 +30,7 @@ interface TaskMapper {
      * タスク削除
      */
     fun deleteTask(id: Int): Int
+
+
+    fun getPlanTaskGraphInfo(param: Map<String, Any?>): List<Map<String, Integer>>
 }
