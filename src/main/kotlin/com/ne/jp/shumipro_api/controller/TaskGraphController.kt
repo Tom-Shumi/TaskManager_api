@@ -1,6 +1,7 @@
 package com.ne.jp.shumipro_api.controller
 
 import com.ne.jp.shumipro_api.entity.ShumiproLoginUser
+import com.ne.jp.shumipro_api.response.TaskGraphResponse
 import com.ne.jp.shumipro_api.service.TaskGraphService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -26,7 +27,8 @@ class TaskGraphController: BaseController() {
     @GetMapping
     fun getTaskGraphInfo(@AuthenticationPrincipal loginUser: ShumiproLoginUser): ResponseEntity<String> {
         val taskGraphDto = taskGraphService.getTaskGraphInfo(loginUser.username)
-        return createReponseEntity(HttpStatus.OK, "")
+        val taskGraphResponse = gson.toJson(TaskGraphResponse().setTaskGraphResponse(taskGraphDto))
+        return createReponseEntity(HttpStatus.OK, taskGraphResponse)
     }
 
 }

@@ -83,16 +83,34 @@
     <select id="getPlanTaskGraphInfo" resultType="hashmap"
             parameterType="hashmap">
         SELECT
-            plan_date
+            TO_CHAR(plan_date, 'YYYY/MM/DD') date
             , COUNT(*)
         FROM
             task
         WHERE
             username = #{username}
             AND plan_date BETWEEN #{fromDate} AND #{toDate}
+            AND status IN ('1', '2')
         GROUP BY
             plan_date
         ORDER BY
             plan_date ASC
+    </select>
+
+    <select id="getDoneTaskGraphIndo" resultType="hashmap"
+            parameterType="hashmap">
+        SELECT
+            TO_CHAR(done_date, 'YYYY/MM/DD') date
+            , COUNT(*)
+        FROM
+            task
+        WHERE
+            username = #{username}
+            AND done_date BETWEEN #{fromDate} AND #{toDate}
+            AND status = '3'
+        GROUP BY
+            done_date
+        ORDER BY
+            done_date ASC
     </select>
 </mapper>

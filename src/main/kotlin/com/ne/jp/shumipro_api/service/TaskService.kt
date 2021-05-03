@@ -8,6 +8,8 @@ import com.ne.jp.shumipro_api.mapper.UserMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
+import java.util.*
 
 @Service
 @Transactional
@@ -55,7 +57,12 @@ class TaskService {
         val taskBefore = taskMapper.getTaskById(taskDto.id!!)
         return if (taskBefore is Task && taskBefore.username.equals(taskDto.username)) {
             val task = Task().setTask(taskDto)
-            if (task.status == 3) {task.plan_date = taskBefore.plan_date} else {task.done_date = taskBefore.done_date}
+            if (task.status == 3) {
+                task.plan_date = taskBefore.plan_date
+                task.done_date = if (task.done_date is Date) {task.done_date} else {Date()}
+            } else {
+                task.done_date = taskBefore.done_date
+            }
             taskMapper.updateTask(task)
             taskDto
         } else {

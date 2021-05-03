@@ -67,4 +67,20 @@
     <delete id="deleteTaskComment" parameterType="integer">
         DELETE FROM task_comment WHERE id = #{id}
     </delete>
+
+    <select id="getTaskCommentGraphIndo" resultType="hashmap"
+            parameterType="hashmap">
+        SELECT
+            TO_CHAR(create_date, 'YYYY/MM/DD') date
+            , COUNT(*)
+        FROM
+            task_comment
+        WHERE
+            username = #{username}
+            AND create_date BETWEEN #{fromDate} AND #{toDate}
+        GROUP BY
+            create_date
+        ORDER BY
+            create_date ASC
+    </select>
 </mapper>
