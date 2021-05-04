@@ -84,7 +84,7 @@
             parameterType="hashmap">
         SELECT
             TO_CHAR(plan_date, 'YYYY/MM/DD') date
-            , COUNT(*)
+            , COUNT(*) count
         FROM
             task
         WHERE
@@ -101,7 +101,7 @@
             parameterType="hashmap">
         SELECT
             TO_CHAR(done_date, 'YYYY/MM/DD') date
-            , COUNT(*)
+            , COUNT(*) count
         FROM
             task
         WHERE
