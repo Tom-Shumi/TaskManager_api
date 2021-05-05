@@ -16,5 +16,5 @@ interface TaskCommentMapper {
 
     fun deleteTaskComment(id: Int): Int
 
-    fun getTaskCommentGraphIndo(param: Map<String, Any?>): List<Map<String, Integer>>
+    fun getTaskCommentGraphIndo(param: Map<String, Any?>): List<Map<String, Int>>
 }

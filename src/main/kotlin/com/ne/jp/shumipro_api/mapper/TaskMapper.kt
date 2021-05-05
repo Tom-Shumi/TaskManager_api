@@ -32,7 +32,7 @@ interface TaskMapper {
     fun deleteTask(id: Int): Int
 
 
-    fun getPlanTaskGraphInfo(param: Map<String, Any?>): List<Map<String, Integer>>
+    fun getPlanTaskGraphInfo(param: Map<String, Any?>): List<Map<String, Int>>
 
-    fun getDoneTaskGraphIndo(param: Map<String, Any?>): List<Map<String, Integer>>
+    fun getDoneTaskGraphIndo(param: Map<String, Any?>): List<Map<String, Int>>
 }
