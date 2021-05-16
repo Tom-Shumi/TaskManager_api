@@ -31,8 +31,11 @@ import org.springframework.security.authentication.AccountStatusUserDetailsCheck
 
 import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.core.userdetails.AuthenticationUserDetailsService
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedGrantedAuthoritiesUserDetailsService
 
 
 @Configuration
@@ -91,9 +94,14 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
     }
 
     @Bean
+    fun authenticationUserDetailsService(): AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> {
+        return ShumiproUserDetailsService()
+    }
+
+    @Bean
     fun preAuthenticationProvider(): PreAuthenticatedAuthenticationProvider {
         val preAuthenticatedAuthenticationProvider = PreAuthenticatedAuthenticationProvider()
-        preAuthenticatedAuthenticationProvider.setPreAuthenticatedUserDetailsService(ShumiproUserDetailsService())
+        preAuthenticatedAuthenticationProvider.setPreAuthenticatedUserDetailsService(authenticationUserDetailsService())
         preAuthenticatedAuthenticationProvider.setUserDetailsChecker(AccountStatusUserDetailsChecker())
         return preAuthenticatedAuthenticationProvider
     }
@@ -103,18 +111,6 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
         val preAuthenticatedProcessingFilter = ApiPreAuthenticatedProcessingFilter()
         preAuthenticatedProcessingFilter.setAuthenticationManager(authenticationManager())
         return preAuthenticatedProcessingFilter
-    }
-
-    @Autowired
-    @Throws(Exception::class)
-    fun configureGlobal(
-        auth: AuthenticationManagerBuilder,
-        userDetailsService: UserDetailsService,
-        passwordEncoder: PasswordEncoder?
-    ) {
-        auth.eraseCredentials(true)
-            .userDetailsService(userDetailsService)
-            .passwordEncoder(passwordEncoder)
     }
 
     fun authenticationEntryPoint(): AuthenticationEntryPoint {
