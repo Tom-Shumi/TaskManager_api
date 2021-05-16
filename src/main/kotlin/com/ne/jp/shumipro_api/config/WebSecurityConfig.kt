@@ -1,7 +1,9 @@
 package com.ne.jp.shumipro_api.config
 
+import com.ne.jp.shumipro_api.security.ApiPreAuthenticatedProcessingFilter
 import com.ne.jp.shumipro_api.security.ShumiproAccessDeniedHandler
 import com.ne.jp.shumipro_api.security.ShumiproAuthenticationEntryPoint
+import com.ne.jp.shumipro_api.service.ShumiproUserDetailsService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -25,9 +27,12 @@ import java.lang.Exception
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import org.springframework.http.HttpMethod
+import org.springframework.security.authentication.AccountStatusUserDetailsChecker
 
 import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider
 
 
 @Configuration
@@ -51,6 +56,7 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
             .mvcMatchers("/api/task/**").hasRole("USER")
             .anyRequest().authenticated()
             .and()
+            .addFilter(preAuthenticatedProcessingFilter())
             .exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint())
                 .accessDeniedHandler(accessDeniedHandler())
@@ -82,6 +88,21 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
         corsSource.registerCorsConfiguration("/**", corsConfiguration)
 
         return corsSource
+    }
+
+    @Bean
+    fun preAuthenticationProvider(): PreAuthenticatedAuthenticationProvider {
+        val preAuthenticatedAuthenticationProvider = PreAuthenticatedAuthenticationProvider()
+        preAuthenticatedAuthenticationProvider.setPreAuthenticatedUserDetailsService(ShumiproUserDetailsService())
+        preAuthenticatedAuthenticationProvider.setUserDetailsChecker(AccountStatusUserDetailsChecker())
+        return preAuthenticatedAuthenticationProvider
+    }
+
+    @Bean
+    fun preAuthenticatedProcessingFilter(): AbstractPreAuthenticatedProcessingFilter {
+        val preAuthenticatedProcessingFilter = ApiPreAuthenticatedProcessingFilter()
+        preAuthenticatedProcessingFilter.setAuthenticationManager(authenticationManager())
+        return preAuthenticatedProcessingFilter
     }
 
     @Autowired

@@ -16,8 +16,13 @@ class TokenService {
     @Autowired
     lateinit var passwordEncoder: PasswordEncoder
 
-    fun authentication(username: String, rawPassword: String): Boolean {
+    fun authentication(username: String, rawPassword: String): User? {
         val user = userMapper.getUser(username)
-        return if (user is User) { passwordEncoder.matches(rawPassword, user.password) } else { false }
+
+        return if (user is User && passwordEncoder.matches(rawPassword, user.password)) {
+            user
+        } else {
+            null
+        }
     }
 }
