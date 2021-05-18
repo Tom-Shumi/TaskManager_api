@@ -10,7 +10,7 @@ data class UserDto(
     ,var enabledflg: Int? = 0
     ,var adminflg: Int? = 0) {
 
-    fun setUserDto(userRequest: UserRequest): UserDto{
+    fun setUserDtoFromRequest(userRequest: UserRequest): UserDto{
         username = userRequest.username
         password = userRequest.password
         enabledflg = userRequest.enabledflg
@@ -18,7 +18,7 @@ data class UserDto(
         return this
     }
 
-    fun setUserDto(user: User): UserDto{
+    fun setUserDtoFromEntity(user: User): UserDto{
         username = user.username
         password = user.password
         enabledflg = user.enabledflg

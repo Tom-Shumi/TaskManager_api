@@ -13,6 +13,7 @@ import org.springframework.security.web.csrf.DefaultCsrfToken
 import org.springframework.validation.Errors
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
+import java.util.*
 import javax.servlet.http.HttpServletRequest
 
 @RestController
@@ -20,22 +21,11 @@ import javax.servlet.http.HttpServletRequest
 class TokenController: BaseController() {
 
     @Autowired
-    lateinit var tokenService: TokenService
-    @Autowired
     lateinit var sessionBean: SessionBean
 
     @PostMapping
     fun getToken(@Validated @RequestBody tokenRequest: TokenRequest, errors: Errors): ResponseEntity<String> {
-        val errorMsg: String? = checkErrors(errors)
-        if (errorMsg is String){
-            // リクエストが不正だった場合
-            return createReponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
-        }
-
-        val user = tokenService.authentication(tokenRequest.username, tokenRequest.password)
-
-        return if (user is User) {
-            sessionBean.user = user
+        return if (Objects.nonNull(sessionBean.user)) {
             createReponseEntity(HttpStatus.OK, null)
         } else {
             createReponseEntity(HttpStatus.UNAUTHORIZED, null)
