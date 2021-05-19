@@ -16,6 +16,10 @@ import org.springframework.stereotype.Service
 import java.util.*
 import java.util.stream.Collectors
 import javax.servlet.http.HttpServletRequest
+import org.springframework.web.util.ContentCachingRequestWrapper
+
+
+
 
 @Service
 class ShumiproUserDetailsService: AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> {
@@ -34,7 +38,11 @@ class ShumiproUserDetailsService: AuthenticationUserDetailsService<PreAuthentica
             return ShumiproLoginUser(sessionBean.user!!)
         }
         val request: HttpServletRequest = token.credentials as HttpServletRequest;
-        val tokenRequest: TokenRequest? = objectMapper.readValue(request.reader.lines().collect(Collectors.joining("")), TokenRequest::class.java)
+
+        val requestWrapper = ContentCachingRequestWrapper(request)
+
+
+        val tokenRequest: TokenRequest? = objectMapper.readValue(requestWrapper.reader.lines().collect(Collectors.joining("")), TokenRequest::class.java)
 
         if (tokenRequest is TokenRequest) {
             val user = tokenService.authentication(tokenRequest.username, tokenRequest.password)

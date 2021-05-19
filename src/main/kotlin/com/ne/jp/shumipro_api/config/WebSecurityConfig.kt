@@ -69,7 +69,7 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 
         http.cors().configurationSource(corsConfigurationSource())
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     }
 
     override fun configure(web: WebSecurity) {

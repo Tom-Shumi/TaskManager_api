@@ -24,7 +24,7 @@ class TokenController: BaseController() {
     lateinit var sessionBean: SessionBean
 
     @PostMapping
-    fun getToken(@Validated @RequestBody tokenRequest: TokenRequest, errors: Errors): ResponseEntity<String> {
+    fun getToken(): ResponseEntity<String> {
         return if (Objects.nonNull(sessionBean.user)) {
             createReponseEntity(HttpStatus.OK, null)
         } else {
