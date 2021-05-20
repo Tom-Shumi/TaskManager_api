@@ -65,11 +65,11 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
                 .accessDeniedHandler(accessDeniedHandler())
             .and()
             .csrf()
-                .ignoringAntMatchers("/api/token")
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 
+        http.csrf().disable()
         http.cors().configurationSource(corsConfigurationSource())
-//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     }
 
     override fun configure(web: WebSecurity) {
