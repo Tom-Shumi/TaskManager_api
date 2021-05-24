@@ -6,6 +6,8 @@ import com.ne.jp.shumipro_api.entity.ShumiproLoginUser
 import com.ne.jp.shumipro_api.entity.User
 import com.ne.jp.shumipro_api.mapper.UserMapper
 import com.ne.jp.shumipro_api.request.TokenRequest
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService
@@ -24,8 +26,8 @@ import org.springframework.web.util.ContentCachingRequestWrapper
 @Service
 class ShumiproUserDetailsService: AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> {
 
-    @Autowired
-    lateinit var userMapper: UserMapper
+    val logger: Logger = LoggerFactory.getLogger(ShumiproUserDetailsService::class.java)
+
     @Autowired
     lateinit var tokenService: TokenService
     @Autowired
@@ -34,13 +36,19 @@ class ShumiproUserDetailsService: AuthenticationUserDetailsService<PreAuthentica
     val objectMapper: ObjectMapper = ObjectMapper()
 
     override fun loadUserDetails(token: PreAuthenticatedAuthenticationToken): UserDetails {
+
+        logger.info("exec: loadUserDetails")
+        logger.info("session:" + sessionBean.user)
+
         if (Objects.nonNull(sessionBean.user)) {
             return ShumiproLoginUser(sessionBean.user!!)
         }
+
         val request: HttpServletRequest = token.credentials as HttpServletRequest;
 
         val requestWrapper = ContentCachingRequestWrapper(request)
 
+        logger.info("request:" + request.requestURL)
 
         val tokenRequest: TokenRequest? = objectMapper.readValue(requestWrapper.reader.lines().collect(Collectors.joining("")), TokenRequest::class.java)
 
@@ -48,6 +56,8 @@ class ShumiproUserDetailsService: AuthenticationUserDetailsService<PreAuthentica
             val user = tokenService.authentication(tokenRequest.username, tokenRequest.password)
             if (user is User) {
                 sessionBean.user = user
+
+                logger.info("auth: OK")
                 return ShumiproLoginUser(user)
             }
         }

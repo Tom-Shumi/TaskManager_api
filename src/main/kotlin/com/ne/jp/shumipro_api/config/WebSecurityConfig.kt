@@ -36,6 +36,10 @@ import org.springframework.security.web.authentication.preauth.AbstractPreAuthen
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedGrantedAuthoritiesUserDetailsService
+import org.springframework.core.Ordered
+
+import org.springframework.boot.web.servlet.FilterRegistrationBean
+import org.springframework.web.filter.CorsFilter
 
 
 @Configuration
@@ -64,19 +68,18 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
                 .authenticationEntryPoint(authenticationEntryPoint())
                 .accessDeniedHandler(accessDeniedHandler())
             .and()
-            .csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+            .csrf().disable()
 
-        http.csrf().disable()
         http.cors().configurationSource(corsConfigurationSource())
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     }
 
+    @Override
     override fun configure(web: WebSecurity) {
-        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**")
+        web.ignoring().mvcMatchers(HttpMethod.OPTIONS, "/**")
     }
 
-    fun  corsConfigurationSource():CorsConfigurationSource {
+    fun getCorsConfiguration(): CorsConfiguration{
         val corsConfiguration = CorsConfiguration()
         corsConfiguration.addAllowedMethod("GET")
         corsConfiguration.addAllowedMethod("POST")
@@ -86,9 +89,14 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
 
         corsConfiguration.addAllowedOrigin(frontOrigin)
         corsConfiguration.allowCredentials = true
+        return corsConfiguration
+    }
+
+    @Bean
+    fun  corsConfigurationSource():CorsConfigurationSource {
 
         val corsSource = UrlBasedCorsConfigurationSource()
-        corsSource.registerCorsConfiguration("/**", corsConfiguration)
+        corsSource.registerCorsConfiguration("/**", getCorsConfiguration())
 
         return corsSource
     }
