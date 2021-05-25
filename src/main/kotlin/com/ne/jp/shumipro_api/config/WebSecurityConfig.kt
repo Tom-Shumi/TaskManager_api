@@ -1,9 +1,12 @@
 package com.ne.jp.shumipro_api.config
 
+import com.ne.jp.shumipro_api.mapper.UserMapper
 import com.ne.jp.shumipro_api.security.ApiPreAuthenticatedProcessingFilter
 import com.ne.jp.shumipro_api.security.ShumiproAccessDeniedHandler
 import com.ne.jp.shumipro_api.security.ShumiproAuthenticationEntryPoint
+import com.ne.jp.shumipro_api.security.ShumiproAuthenticationSuccessHandler
 import com.ne.jp.shumipro_api.service.ShumiproUserDetailsService
+import com.ne.jp.shumipro_api.service.TaskCommentService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -39,15 +42,40 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedG
 import org.springframework.core.Ordered
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.web.filter.CorsFilter
+import org.springframework.web.filter.GenericFilterBean
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler
+import org.springframework.security.web.authentication.AuthenticationFailureHandler
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler
+
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @Configuration
 @EnableWebSecurity
 class WebSecurityConfig: WebSecurityConfigurerAdapter() {
 
+    @Autowired
+    lateinit var userMapper: UserMapper
+
     @Value("\${front.origin}")
     private val frontOrigin: String = ""
+
+    @Value("\${security.secret-key}")
+    private val secretKey: String = ""
 
     @Bean
     fun passwordEncoder(): PasswordEncoder? {
@@ -63,15 +91,43 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
             .mvcMatchers("/api/task/**").hasRole("USER")
             .anyRequest().authenticated()
             .and()
-            .addFilter(preAuthenticatedProcessingFilter())
             .exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint())
                 .accessDeniedHandler(accessDeniedHandler())
             .and()
+            .formLogin()
+                .loginProcessingUrl("/login").permitAll()
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .successHandler(authenticationSuccessHandler())
+                .failureHandler(authenticationFailureHandler())
+            .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessHandler(logoutSuccessHandler())
+            .and()
             .csrf().disable()
+            .addFilterBefore(tokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
         http.cors().configurationSource(corsConfigurationSource())
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+    }
+
+    @Autowired
+    @Throws(Exception::class)
+    fun configureGlobal(auth: AuthenticationManagerBuilder) {
+        auth.eraseCredentials(true)
+            .userDetailsService(shumiproUserDetailsService())
+            .passwordEncoder(passwordEncoder())
+    }
+
+    @Bean("ShumiproUserDetailsService")
+    fun shumiproUserDetailsService(): UserDetailsService? {
+        return ShumiproUserDetailsService(userMapper)
+    }
+
+    fun tokenFilter(): GenericFilterBean? {
+        return ShumiproTokenFilter(userMapper, secretKey)
     }
 
     @Override
@@ -101,31 +157,23 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
         return corsSource
     }
 
-    @Bean
-    fun authenticationUserDetailsService(): AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> {
-        return ShumiproUserDetailsService()
-    }
-
-    @Bean
-    fun preAuthenticationProvider(): PreAuthenticatedAuthenticationProvider {
-        val preAuthenticatedAuthenticationProvider = PreAuthenticatedAuthenticationProvider()
-        preAuthenticatedAuthenticationProvider.setPreAuthenticatedUserDetailsService(authenticationUserDetailsService())
-        preAuthenticatedAuthenticationProvider.setUserDetailsChecker(AccountStatusUserDetailsChecker())
-        return preAuthenticatedAuthenticationProvider
-    }
-
-    @Bean
-    fun preAuthenticatedProcessingFilter(): AbstractPreAuthenticatedProcessingFilter {
-        val preAuthenticatedProcessingFilter = ApiPreAuthenticatedProcessingFilter()
-        preAuthenticatedProcessingFilter.setAuthenticationManager(authenticationManager())
-        return preAuthenticatedProcessingFilter
-    }
-
     fun authenticationEntryPoint(): AuthenticationEntryPoint {
         return ShumiproAuthenticationEntryPoint()
     }
 
     fun accessDeniedHandler(): AccessDeniedHandler {
         return ShumiproAccessDeniedHandler()
+    }
+
+    fun authenticationSuccessHandler(): AuthenticationSuccessHandler? {
+        return ShumiproAuthenticationSuccessHandler(secretKey)
+    }
+
+    fun authenticationFailureHandler(): AuthenticationFailureHandler? {
+        return ShumiproAuthenticationFailureHandler()
+    }
+
+    fun logoutSuccessHandler(): LogoutSuccessHandler? {
+        return HttpStatusReturningLogoutSuccessHandler()
     }
 }
