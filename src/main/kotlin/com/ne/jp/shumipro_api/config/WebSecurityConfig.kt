@@ -1,10 +1,7 @@
 package com.ne.jp.shumipro_api.config
 
 import com.ne.jp.shumipro_api.mapper.UserMapper
-import com.ne.jp.shumipro_api.security.ApiPreAuthenticatedProcessingFilter
-import com.ne.jp.shumipro_api.security.ShumiproAccessDeniedHandler
-import com.ne.jp.shumipro_api.security.ShumiproAuthenticationEntryPoint
-import com.ne.jp.shumipro_api.security.ShumiproAuthenticationSuccessHandler
+import com.ne.jp.shumipro_api.security.*
 import com.ne.jp.shumipro_api.service.ShumiproUserDetailsService
 import com.ne.jp.shumipro_api.service.TaskCommentService
 import org.springframework.context.annotation.Bean
@@ -50,19 +47,6 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler
 
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @Configuration
 @EnableWebSecurity
@@ -123,7 +107,7 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
 
     @Bean("ShumiproUserDetailsService")
     fun shumiproUserDetailsService(): UserDetailsService? {
-        return ShumiproUserDetailsService(userMapper)
+        return ShumiproUserDetailsService()
     }
 
     fun tokenFilter(): GenericFilterBean? {
