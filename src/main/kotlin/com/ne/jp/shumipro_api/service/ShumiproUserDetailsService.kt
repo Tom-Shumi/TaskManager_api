@@ -31,13 +31,12 @@ class ShumiproUserDetailsService: UserDetailsService {
     @Autowired
     lateinit var userMapper: UserMapper
 
-    val objectMapper: ObjectMapper = ObjectMapper()
-
-    override fun loadUserByUsername(username: String): UserDetails? {
+    override fun loadUserByUsername(username: String): UserDetails {
 
         return Optional.ofNullable(userMapper.getUser(username))
             .map { u -> ShumiproLoginUser(u) }
             .orElseThrow { UsernameNotFoundException("user not found") }
+
     }
 
 }
