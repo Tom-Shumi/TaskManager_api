@@ -86,14 +86,6 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
         http.cors().configurationSource(corsConfigurationSource())
     }
 
-    @Autowired
-    @Throws(Exception::class)
-    fun configureGlobal(auth: AuthenticationManagerBuilder) {
-        auth.eraseCredentials(true)
-            .userDetailsService(shumiproUserDetailsService())
-            .passwordEncoder(passwordEncoder())
-    }
-
     @Bean("ShumiproUserDetailsService")
     fun shumiproUserDetailsService(): UserDetailsService? {
         return ShumiproUserDetailsService()
