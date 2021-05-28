@@ -29,17 +29,15 @@ import com.ne.jp.shumipro_api.entity.User
 import javax.servlet.http.HttpServletRequest
 
 @Slf4j
-class ShumiproTokenFilter: GenericFilterBean {
+class ShumiproTokenFilter(private var userMapper: UserMapper, secretKey: String) : GenericFilterBean() {
     companion object{
         private val log = LoggerFactory.getLogger(ShumiproTokenFilter::class.java)
     }
 
-    private var userMapper: UserMapper
     private var algorithm: Algorithm
 
-    constructor(userMapper: UserMapper, secretKey: String) {
+    init {
         Objects.requireNonNull(secretKey, "secret key must be not null")
-        this.userMapper = userMapper
         algorithm = Algorithm.HMAC512(secretKey)
     }
 

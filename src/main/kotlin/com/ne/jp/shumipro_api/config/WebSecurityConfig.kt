@@ -3,7 +3,6 @@ package com.ne.jp.shumipro_api.config
 import com.ne.jp.shumipro_api.mapper.UserMapper
 import com.ne.jp.shumipro_api.security.*
 import com.ne.jp.shumipro_api.service.ShumiproUserDetailsService
-import com.ne.jp.shumipro_api.service.TaskCommentService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -15,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.AuthenticationEntryPoint
 import org.springframework.security.web.access.AccessDeniedHandler
 
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository
 import org.springframework.security.core.userdetails.UserDetailsService
 
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
@@ -27,20 +25,11 @@ import java.lang.Exception
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import org.springframework.http.HttpMethod
-import org.springframework.security.authentication.AccountStatusUserDetailsChecker
 
 import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
-import org.springframework.security.core.userdetails.AuthenticationUserDetailsService
-import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedGrantedAuthoritiesUserDetailsService
-import org.springframework.core.Ordered
 
-import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import org.springframework.web.filter.CorsFilter
 import org.springframework.web.filter.GenericFilterBean
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
@@ -56,10 +45,10 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
     lateinit var userMapper: UserMapper
 
     @Value("\${front.origin}")
-    private val frontOrigin: String = ""
+    private val FRONT_ORIGIN: String = ""
 
     @Value("\${security.secret-key}")
-    private val secretKey: String = ""
+    private val SECRET_KEY: String = ""
 
     @Bean
     fun passwordEncoder(): PasswordEncoder? {
@@ -111,7 +100,7 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
     }
 
     fun tokenFilter(): GenericFilterBean? {
-        return ShumiproTokenFilter(userMapper, secretKey)
+        return ShumiproTokenFilter(userMapper, SECRET_KEY)
     }
 
     @Override
@@ -127,7 +116,7 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
         corsConfiguration.addAllowedMethod("DELETE")
         corsConfiguration.addAllowedMethod("OPTIONS")
 
-        corsConfiguration.addAllowedOrigin(frontOrigin)
+        corsConfiguration.addAllowedOrigin(FRONT_ORIGIN)
         corsConfiguration.allowCredentials = true
         return corsConfiguration
     }
@@ -150,7 +139,7 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
     }
 
     fun authenticationSuccessHandler(): AuthenticationSuccessHandler? {
-        return ShumiproAuthenticationSuccessHandler(secretKey)
+        return ShumiproAuthenticationSuccessHandler(SECRET_KEY)
     }
 
     fun authenticationFailureHandler(): AuthenticationFailureHandler? {
