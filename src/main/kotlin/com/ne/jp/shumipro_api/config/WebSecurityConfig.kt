@@ -53,7 +53,6 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity){
         http
             .authorizeRequests()
-            .mvcMatchers("/api/token").permitAll()
             .mvcMatchers("/api/user/**").hasRole("ADMIN")
             .mvcMatchers("/api/task/**").hasRole("USER")
             .anyRequest().authenticated()
