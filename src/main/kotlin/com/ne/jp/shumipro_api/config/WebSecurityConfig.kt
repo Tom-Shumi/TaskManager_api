@@ -86,11 +86,6 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
         http.cors().configurationSource(corsConfigurationSource())
     }
 
-    @Bean("ShumiproUserDetailsService")
-    fun shumiproUserDetailsService(): UserDetailsService? {
-        return ShumiproUserDetailsService()
-    }
-
     fun tokenFilter(): GenericFilterBean? {
         return ShumiproTokenFilter(userMapper, SECRET_KEY)
     }
