@@ -2,7 +2,6 @@ package com.ne.jp.shumipro_api.config
 
 import com.ne.jp.shumipro_api.mapper.UserMapper
 import com.ne.jp.shumipro_api.security.*
-import com.ne.jp.shumipro_api.service.ShumiproUserDetailsService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -14,14 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.AuthenticationEntryPoint
 import org.springframework.security.web.access.AccessDeniedHandler
 
-import org.springframework.security.core.userdetails.UserDetailsService
-
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
-
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.web.cors.CorsConfigurationSource
-import java.lang.Exception
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import org.springframework.http.HttpMethod
