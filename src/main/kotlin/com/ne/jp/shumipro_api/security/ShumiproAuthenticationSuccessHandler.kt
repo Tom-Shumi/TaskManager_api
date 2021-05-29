@@ -33,12 +33,12 @@ class ShumiproAuthenticationSuccessHandler: AuthenticationSuccessHandler {
         response: HttpServletResponse,
         auth: Authentication
     ) {
-        if (response.isCommitted()) {
+        if (response.isCommitted) {
             log.info("Response has already been committed.")
             return
         }
         setToken(response, generateToken(auth))
-        response.setStatus(HttpStatus.OK.value())
+        response.status = HttpStatus.OK.value()
         clearAuthenticationAttributes(request)
     }
 
