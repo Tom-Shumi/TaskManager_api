@@ -59,6 +59,7 @@ class ShumiproAuthenticationSuccessHandler: AuthenticationSuccessHandler {
 
     private fun setToken(response: HttpServletResponse, token: String) {
         response.setHeader("Authorization", String.format("Bearer %s", token))
+        response.setHeader("Access-Control-Expose-Headers", "Authorization")
     }
 
     private fun clearAuthenticationAttributes(request: HttpServletRequest) {
