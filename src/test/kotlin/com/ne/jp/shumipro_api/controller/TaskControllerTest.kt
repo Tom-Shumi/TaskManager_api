@@ -71,13 +71,12 @@ class TaskControllerTest {
     @Test
     @DatabaseSetup(value = ["/dbUnit_data/controller/TaskControllerTest/"])
     fun registerTask_task1(){
-        val input = TaskRequest("register_test",5, 1, "description", Date())
+        val input = TaskRequest("register_test",5, 1, "description", null)
         val inputJson = gson.toJson(input)
 
         val loginUser = createLoginUser()
         val builder: RequestBuilder = MockMvcRequestBuilders.post("/api/task")
             .with(user(loginUser))
-            .with(csrf())
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content(inputJson)
@@ -98,13 +97,12 @@ class TaskControllerTest {
     @Test
     @DatabaseSetup(value = ["/dbUnit_data/controller/TaskControllerTest/"])
     fun updateTask_task1(){
-        val input = TaskRequest("update_test",2, 2, "update_description", Date())
+        val input = TaskRequest("update_test",2, 2, "update_description", null)
         val inputJson = gson.toJson(input)
 
         val loginUser = createLoginUser()
         val builder: RequestBuilder = MockMvcRequestBuilders.put("/api/task/1")
             .with(user(loginUser))
-            .with(csrf())
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content(inputJson)

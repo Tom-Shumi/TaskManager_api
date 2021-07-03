@@ -30,7 +30,7 @@ class TaskController: BaseController() {
     /**
      * タスク一覧取得
      */
-    @GetMapping("/", "/{status}")
+    @GetMapping("", "/", "/{status}")
     fun getTaskList(@AuthenticationPrincipal loginUser: ShumiproLoginUser, @PathVariable(name = "status", required = false) status: String? ): ResponseEntity<String> {
         val taskDtoList: List<TaskDto>? = taskService.getTaskList(loginUser.username, status)
         if (taskDtoList is List<TaskDto>){

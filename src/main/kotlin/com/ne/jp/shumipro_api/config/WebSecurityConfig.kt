@@ -1,9 +1,7 @@
 package com.ne.jp.shumipro_api.config
 
-import com.ne.jp.shumipro_api.security.ShumiproAccessDeniedHandler
-import com.ne.jp.shumipro_api.security.ShumiproAuthenticationEntryPoint
-import com.ne.jp.shumipro_api.security.ShumiproAuthenticationFailureHandler
-import com.ne.jp.shumipro_api.security.ShumiproAuthenticationSuccessHandler
+import com.ne.jp.shumipro_api.mapper.UserMapper
+import com.ne.jp.shumipro_api.security.*
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -14,39 +12,37 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.AuthenticationEntryPoint
 import org.springframework.security.web.access.AccessDeniedHandler
-import org.springframework.security.web.authentication.AuthenticationFailureHandler
-
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler
-import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler
-
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository
-import org.springframework.security.core.userdetails.UserDetailsService
-
-import org.springframework.beans.factory.annotation.Qualifier
-
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.web.cors.CorsConfigurationSource
-import java.lang.Exception
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import org.springframework.http.HttpMethod
 
 import org.springframework.security.config.annotation.web.builders.WebSecurity
+import org.springframework.security.config.http.SessionCreationPolicy
 
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.web.filter.GenericFilterBean
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler
+import org.springframework.security.web.authentication.AuthenticationFailureHandler
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler
 
-
-
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler
 
 @Configuration
 @EnableWebSecurity
 class WebSecurityConfig: WebSecurityConfigurerAdapter() {
 
+    @Autowired
+    lateinit var userMapper: UserMapper
+
     @Value("\${front.origin}")
-    private val frontOrigin: String = ""
+    private val FRONT_ORIGIN: String = ""
+
+    @Value("\${security.secret-key}")
+    private val SECRET_KEY: String = ""
 
     @Bean
     fun passwordEncoder(): PasswordEncoder? {
@@ -57,14 +53,9 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity){
         http
             .authorizeRequests()
-            .mvcMatchers("/prelogin")
-                .permitAll()
-            .mvcMatchers("/api/user/**")
-                .hasRole("ADMIN")
-            .mvcMatchers("/api/task/**")
-                .hasRole("USER")
-            .anyRequest()
-                .authenticated()
+            .mvcMatchers("/api/user/**").hasRole("ADMIN")
+            .mvcMatchers("/api/task/**").hasRole("USER")
+            .anyRequest().authenticated()
             .and()
             .exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint())
@@ -72,29 +63,32 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
             .and()
             .formLogin()
                 .loginProcessingUrl("/login").permitAll()
-                    .usernameParameter("username")
-                    .passwordParameter("password")
+                .usernameParameter("username")
+                .passwordParameter("password")
                 .successHandler(authenticationSuccessHandler())
                 .failureHandler(authenticationFailureHandler())
             .and()
-            .logout()
+                .logout()
                 .logoutUrl("/logout")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
                 .logoutSuccessHandler(logoutSuccessHandler())
             .and()
-            .csrf()
-                .ignoringAntMatchers("/login")
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+            .csrf().disable()
+            .addFilterBefore(tokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
         http.cors().configurationSource(corsConfigurationSource())
     }
 
-    override fun configure(web: WebSecurity) {
-        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**")
+    fun tokenFilter(): GenericFilterBean? {
+        return ShumiproTokenFilter(userMapper, SECRET_KEY)
     }
 
-    fun  corsConfigurationSource():CorsConfigurationSource {
+    @Override
+    override fun configure(web: WebSecurity) {
+        web.ignoring().mvcMatchers(HttpMethod.OPTIONS, "/**")
+    }
+
+    fun getCorsConfiguration(): CorsConfiguration{
         val corsConfiguration = CorsConfiguration()
         corsConfiguration.addAllowedMethod("GET")
         corsConfiguration.addAllowedMethod("POST")
@@ -102,25 +96,18 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
         corsConfiguration.addAllowedMethod("DELETE")
         corsConfiguration.addAllowedMethod("OPTIONS")
 
-        corsConfiguration.addAllowedOrigin(frontOrigin)
+        corsConfiguration.addAllowedOrigin(FRONT_ORIGIN)
         corsConfiguration.allowCredentials = true
-
-        val corsSource = UrlBasedCorsConfigurationSource()
-        corsSource.registerCorsConfiguration("/**", corsConfiguration)
-
-        return corsSource
+        return corsConfiguration
     }
 
-    @Autowired
-    @Throws(Exception::class)
-    fun configureGlobal(
-        auth: AuthenticationManagerBuilder,
-        userDetailsService: UserDetailsService,
-        passwordEncoder: PasswordEncoder?
-    ) {
-        auth.eraseCredentials(true)
-            .userDetailsService(userDetailsService)
-            .passwordEncoder(passwordEncoder)
+    @Bean
+    fun  corsConfigurationSource():CorsConfigurationSource {
+
+        val corsSource = UrlBasedCorsConfigurationSource()
+        corsSource.registerCorsConfiguration("/**", getCorsConfiguration())
+
+        return corsSource
     }
 
     fun authenticationEntryPoint(): AuthenticationEntryPoint {
@@ -131,15 +118,15 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
         return ShumiproAccessDeniedHandler()
     }
 
-    fun authenticationSuccessHandler(): AuthenticationSuccessHandler {
-        return ShumiproAuthenticationSuccessHandler()
+    fun authenticationSuccessHandler(): AuthenticationSuccessHandler? {
+        return ShumiproAuthenticationSuccessHandler(SECRET_KEY)
     }
 
-    fun authenticationFailureHandler(): AuthenticationFailureHandler {
+    fun authenticationFailureHandler(): AuthenticationFailureHandler? {
         return ShumiproAuthenticationFailureHandler()
     }
 
-    fun logoutSuccessHandler(): LogoutSuccessHandler {
+    fun logoutSuccessHandler(): LogoutSuccessHandler? {
         return HttpStatusReturningLogoutSuccessHandler()
     }
 }

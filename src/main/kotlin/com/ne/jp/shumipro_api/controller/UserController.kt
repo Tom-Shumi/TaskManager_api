@@ -52,7 +52,7 @@ class UserController: BaseController() {
             // リクエストが不正だった場合
             return createReponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
         }
-        val userDtoRequest = UserDto().setUserDto(userRequest)
+        val userDtoRequest = UserDto().setUserDtoFromRequest(userRequest)
         val userDto: UserDto? = userService.registerUser(userDtoRequest)
         if (userDto is UserDto){
             // ユーザ登録成功
@@ -77,7 +77,7 @@ class UserController: BaseController() {
             // リクエストが不正だった場合
             return createReponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
         } else {
-            val userDtoRequest = UserDto().setUserDto(userRequest)
+            val userDtoRequest = UserDto().setUserDtoFromRequest(userRequest)
             userDtoRequest.username = username
             val userDto: UserDto? = userService.updateUser(userDtoRequest)
             if (userDto is UserDto){

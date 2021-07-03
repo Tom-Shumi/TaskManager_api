@@ -44,6 +44,9 @@ dependencies {
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	annotationProcessor("org.projectlombok:lombok")
 	implementation("org.springframework.boot:spring-boot-starter-tomcat")
+	implementation("com.auth0:java-jwt:3.3.0")
+	implementation("org.slf4j:slf4j-api")
+	implementation("ch.qos.logback:logback-core")
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 		exclude(module = "mockito-core")

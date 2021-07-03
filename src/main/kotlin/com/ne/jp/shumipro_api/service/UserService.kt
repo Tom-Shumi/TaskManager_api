@@ -24,7 +24,7 @@ class UserService {
      */
     fun getUser(username: String): UserDto?{
         val user: User? = userMapper.getUser(username)
-        return if (user is User ) UserDto().setUserDto(user) else null
+        return if (user is User ) UserDto().setUserDtoFromEntity(user) else null
     }
 
     /**
