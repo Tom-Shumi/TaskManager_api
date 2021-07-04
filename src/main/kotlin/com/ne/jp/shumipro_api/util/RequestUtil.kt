@@ -11,11 +11,13 @@ class RequestUtil {
     companion object{
 
         fun getCookie(request: HttpServletRequest, key: String?):String? {
-            val cookie: Array<Cookie> = request.cookies
+            val cookie: Array<Cookie>? = request.cookies
 
-            for (i in cookie.indices) {
-                if (cookie[i].name.equals(key)) {
-                    return cookie[i].value
+            if (cookie is Array<Cookie>) {
+                for (i in cookie.indices) {
+                    if (cookie[i].name.equals(key)) {
+                        return cookie[i].value
+                    }
                 }
             }
             return null
