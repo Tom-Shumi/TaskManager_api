@@ -23,8 +23,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import com.auth0.jwt.interfaces.DecodedJWT
 
 import com.auth0.jwt.JWTVerifier
+import com.ne.jp.shumipro_api.Constants.Companion.JWT_TOKEN
 import com.ne.jp.shumipro_api.entity.ShumiproLoginUser
 import com.ne.jp.shumipro_api.entity.User
+import com.ne.jp.shumipro_api.util.RequestUtil
 
 import javax.servlet.http.HttpServletRequest
 
@@ -62,11 +64,11 @@ class ShumiproTokenFilter(private var userMapper: UserMapper, secretKey: String)
     }
 
     private fun resolveToken(request: ServletRequest): String? {
-        val token = (request as HttpServletRequest).getHeader("Authorization")
-        return if (token == null || !token.startsWith("Bearer ")) {
+        val token = RequestUtil.getCookie(request as HttpServletRequest, JWT_TOKEN)
+        return if (token == null || !token.startsWith("Bearer")) {
             null
         } else {
-            token.substring(7) // remove "Bearer "
+            token.substring(6) // remove "Bearer"
         }
     }
 

@@ -2,6 +2,7 @@ package com.ne.jp.shumipro_api.security
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import com.ne.jp.shumipro_api.Constants.Companion.JWT_TOKEN
 import com.ne.jp.shumipro_api.entity.ShumiproLoginUser
 import lombok.extern.slf4j.Slf4j
 import org.slf4j.LoggerFactory
@@ -13,6 +14,7 @@ import org.springframework.security.core.Authentication
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import org.springframework.security.web.WebAttributes
+import javax.servlet.http.Cookie
 
 @Slf4j
 class ShumiproAuthenticationSuccessHandler: AuthenticationSuccessHandler {
@@ -58,8 +60,8 @@ class ShumiproAuthenticationSuccessHandler: AuthenticationSuccessHandler {
     }
 
     private fun setToken(response: HttpServletResponse, token: String) {
-        response.setHeader("Authorization", String.format("Bearer %s", token))
-        response.setHeader("Access-Control-Expose-Headers", "Authorization")
+        val cookie = Cookie(JWT_TOKEN, String.format("Bearer%s", token))
+        response.addCookie(cookie);
     }
 
     private fun clearAuthenticationAttributes(request: HttpServletRequest) {
