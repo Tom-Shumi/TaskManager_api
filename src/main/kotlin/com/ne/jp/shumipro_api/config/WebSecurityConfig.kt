@@ -1,5 +1,6 @@
 package com.ne.jp.shumipro_api.config
 
+import com.ne.jp.shumipro_api.Constants
 import com.ne.jp.shumipro_api.mapper.UserMapper
 import com.ne.jp.shumipro_api.security.*
 import org.springframework.context.annotation.Bean
@@ -62,7 +63,7 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
                 .accessDeniedHandler(accessDeniedHandler())
             .and()
             .formLogin()
-                .loginProcessingUrl("/login").permitAll()
+                .loginProcessingUrl(Constants.LOGIN_PATH).permitAll()
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .successHandler(authenticationSuccessHandler())
