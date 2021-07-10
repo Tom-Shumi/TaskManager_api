@@ -44,3 +44,36 @@ CREATE TABLE public.users (
 	adminflg bpchar(1) NOT NULL,
 	CONSTRAINT users_pkey PRIMARY KEY (username)
 );
+
+-- public.daily_task definition
+
+-- Drop table
+
+-- DROP TABLE public.daily_task;
+
+CREATE TABLE public.daily_task (
+	id serial NOT NULL,
+	username varchar(50) NOT NULL,
+	title varchar(100) NOT NULL,
+	description varchar(255) NULL,
+	priority int2 NOT NULL,
+	quota int4 NOT NULL,
+	delete_flg bpchar(1) NOT NULL,
+	create_date date NOT NULL,
+	CONSTRAINT daily_task_pkey PRIMARY KEY (id)
+);
+
+-- public.daily_task_history definition
+
+-- Drop table
+
+-- DROP TABLE public.daily_task_history;
+
+CREATE TABLE public.daily_task_history (
+	id serial NOT NULL,
+	daily_task_id int4 NOT NULL,
+	done_date date NOT NULL,
+	done_time int4 NOT NULL,
+	quota int4 NOT NULL,
+	CONSTRAINT daily_task_history_pkey PRIMARY KEY (id)
+);
