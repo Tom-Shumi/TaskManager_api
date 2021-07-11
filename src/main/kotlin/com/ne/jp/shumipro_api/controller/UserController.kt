@@ -32,10 +32,10 @@ class UserController: BaseController() {
         if (userDto is UserDto){
             // ユーザ取得成功
             val jsonString = gson.toJson(UserResponse().setUserResponse(userDto))
-            return createReponseEntity(HttpStatus.OK, jsonString)
+            return createResponseEntity(HttpStatus.OK, jsonString)
         } else {
             // ユーザが存在しない場合
-            return createReponseEntity(HttpStatus.NOT_FOUND, "$username do not found")
+            return createResponseEntity(HttpStatus.NOT_FOUND, "$username do not found")
         }
     }
 
@@ -50,17 +50,17 @@ class UserController: BaseController() {
         val errorMsg: String? = checkErrors(errors)
         if (errorMsg is String){
             // リクエストが不正だった場合
-            return createReponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
+            return createResponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
         }
         val userDtoRequest = UserDto().setUserDtoFromRequest(userRequest)
         val userDto: UserDto? = userService.registerUser(userDtoRequest)
         return if (userDto is UserDto){
             // ユーザ登録成功
             val jsonString = gson.toJson(UserResponse().setUserResponse(userDto))
-            createReponseEntity(HttpStatus.OK, jsonString)
+            createResponseEntity(HttpStatus.OK, jsonString)
         } else {
             // 同一のユーザ名が既に存在した場合
-            createReponseEntity(HttpStatus.BAD_REQUEST, "${userRequest.username} already exist")
+            createResponseEntity(HttpStatus.BAD_REQUEST, "${userRequest.username} already exist")
         }
     }
 
@@ -75,7 +75,7 @@ class UserController: BaseController() {
         val errorMsg: String? = checkErrors(errors)
         if (errorMsg is String){
             // リクエストが不正だった場合
-            return createReponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
+            return createResponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
         } else {
             val userDtoRequest = UserDto().setUserDtoFromRequest(userRequest)
             userDtoRequest.username = username
@@ -83,10 +83,10 @@ class UserController: BaseController() {
             if (userDto is UserDto){
                 // ユーザ更新成功
                 val jsonString = gson.toJson(UserResponse().setUserResponse(userDto))
-                return createReponseEntity(HttpStatus.OK, jsonString)
+                return createResponseEntity(HttpStatus.OK, jsonString)
             } else {
                 // 対象ユーザが存在しなかった場合
-                return createReponseEntity(HttpStatus.BAD_REQUEST, "${userRequest.username} is not exist")
+                return createResponseEntity(HttpStatus.BAD_REQUEST, "${userRequest.username} is not exist")
             }
         }
     }
@@ -99,10 +99,10 @@ class UserController: BaseController() {
         val result: Int = userService.deleteUser(username)
         if (result > 0){
             // ユーザ削除成功
-            return createReponseEntity(HttpStatus.NO_CONTENT, "")
+            return createResponseEntity(HttpStatus.NO_CONTENT, "")
         } else {
             // ユーザが存在しない場合
-            return createReponseEntity(HttpStatus.NOT_FOUND, "$username does not found")
+            return createResponseEntity(HttpStatus.NOT_FOUND, "$username does not found")
         }
     }
 }

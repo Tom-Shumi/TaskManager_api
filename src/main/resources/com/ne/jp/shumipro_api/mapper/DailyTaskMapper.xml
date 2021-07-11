@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ne.jp.shumipro_api.mapper.DailyTaskMapper">
+
+    <select id="getDailyTaskInfoByUsername" resultType="com.ne.jp.shumipro_api.dto.DailyTaskInfoDto"
+            parameterType="map">
+        SELECT
+          dt.id
+          , dt.username
+          , dt.title
+          , dt.description
+          , dt.priority
+          , dt.quota
+          , dt.delete_flg deleteFlg
+          , dt.create_date createDate
+          , dth.done_date doneDate
+          , dth.done_time doneTime
+        FROM
+          daily_task dt
+          LEFT JOIN (SELECT * FROM daily_task_history WHERE done_date = #{doneDate}) dth
+            ON dt.id = dth.daily_task_id
+        WHERE
+          dt.username = #{username}
+          AND dt.delete_flg = '0'
+        ORDER BY
+          dt.priority ASC
+          , dt.id DESC
+    </select>
+
+</mapper>

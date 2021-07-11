@@ -11,6 +11,6 @@ import javax.servlet.ServletException
 class ShumiproControllerAdvice: BaseController() {
     @ExceptionHandler(ServletException::class)
     fun servletExceptionHandle(e: ServletException?): ResponseEntity<String> {
-        return createReponseEntity(HttpStatus.BAD_REQUEST, "Bad request")
+        return createResponseEntity(HttpStatus.BAD_REQUEST, "Bad request")
     }
 }

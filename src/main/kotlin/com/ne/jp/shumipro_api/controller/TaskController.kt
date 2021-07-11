@@ -36,9 +36,9 @@ class TaskController: BaseController() {
         if (taskDtoList is List<TaskDto>){
             // タスク取得成功
             val jsonString = gson.toJson(taskDtoList.map{createTaskResponse(it)}.toList())
-            return createReponseEntity(HttpStatus.OK, jsonString)
+            return createResponseEntity(HttpStatus.OK, jsonString)
         } else {
-            return createReponseEntity(HttpStatus.NO_CONTENT, null)
+            return createResponseEntity(HttpStatus.NO_CONTENT, null)
         }
     }
 
@@ -56,7 +56,7 @@ class TaskController: BaseController() {
         val errorMsg: String? = checkErrors(errors)
         if (errorMsg is String){
             // リクエストが不正だった場合
-            return createReponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
+            return createResponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
         }
         val taskDtoRequest = TaskDto().setTaskDto(taskRequest)
         taskDtoRequest.username = loginUser.username
@@ -64,10 +64,10 @@ class TaskController: BaseController() {
         if (taskDto is TaskDto){
             // タスク登録成功
             val jsonString = gson.toJson(TaskResponse().setTaskResponse(taskDto))
-            return createReponseEntity(HttpStatus.OK, jsonString)
+            return createResponseEntity(HttpStatus.OK, jsonString)
         } else {
             // ユーザが存在しない場合
-            return createReponseEntity(HttpStatus.BAD_REQUEST, "${loginUser.username} does not exist")
+            return createResponseEntity(HttpStatus.BAD_REQUEST, "${loginUser.username} does not exist")
         }
     }
 
@@ -79,7 +79,7 @@ class TaskController: BaseController() {
         val errorMsg: String? = checkErrors(errors)
         if (errorMsg is String){
             // リクエストが不正だった場合
-            return createReponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
+            return createResponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
         }
         val taskDtoRequest = TaskDto().setTaskDto(taskRequest)
         taskDtoRequest.id = taskId
@@ -88,10 +88,10 @@ class TaskController: BaseController() {
         return if (taskDto is TaskDto){
             // タスク更新成功
             val jsonString = gson.toJson(TaskResponse().setTaskResponse(taskDto))
-            createReponseEntity(HttpStatus.OK, jsonString)
+            createResponseEntity(HttpStatus.OK, jsonString)
         } else {
             // タスクが存在しない場合
-            createReponseEntity(HttpStatus.BAD_REQUEST, "this task does not exist")
+            createResponseEntity(HttpStatus.BAD_REQUEST, "this task does not exist")
         }
     }
 
@@ -103,17 +103,17 @@ class TaskController: BaseController() {
         val errorMsg: String? = checkErrors(errors)
         if (errorMsg is String){
             // リクエストが不正だった場合
-            return createReponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
+            return createResponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
         }
         val taskDtoRequest = TaskDto(id = taskId, status = taskStatusRequest.status)
         val taskDto = taskService.updateStatusTask(taskDtoRequest)
         if (taskDto is TaskDto){
             // タスク更新成功
             val jsonString = gson.toJson(TaskResponse().setTaskResponse(taskDto))
-            return createReponseEntity(HttpStatus.OK, jsonString)
+            return createResponseEntity(HttpStatus.OK, jsonString)
         } else {
             // タスクが存在しない場合
-            return createReponseEntity(HttpStatus.BAD_REQUEST, "this task does not exist")
+            return createResponseEntity(HttpStatus.BAD_REQUEST, "this task does not exist")
         }
     }
 
@@ -127,10 +127,10 @@ class TaskController: BaseController() {
         taskDtoRequest.username = loginUser.username
         if (taskService.deleteTask(taskDtoRequest) > 0){
             // タスク削除成功
-            return createReponseEntity(HttpStatus.NO_CONTENT, "")
+            return createResponseEntity(HttpStatus.NO_CONTENT, "")
         } else {
             // タスクが存在しない場合
-            return createReponseEntity(HttpStatus.NOT_FOUND, "this task does not found")
+            return createResponseEntity(HttpStatus.NOT_FOUND, "this task does not found")
         }
     }
 }
