@@ -45,7 +45,7 @@ class UserController: BaseController() {
      * @param errors
      * @return response
      */
-    @PostMapping()
+    @PostMapping("noAuth")
     fun registerUser(@Validated @RequestBody userRequest: UserRequest, errors: Errors) : ResponseEntity<String>{
         val errorMsg: String? = checkErrors(errors)
         if (errorMsg is String){
@@ -54,13 +54,13 @@ class UserController: BaseController() {
         }
         val userDtoRequest = UserDto().setUserDtoFromRequest(userRequest)
         val userDto: UserDto? = userService.registerUser(userDtoRequest)
-        if (userDto is UserDto){
+        return if (userDto is UserDto){
             // ユーザ登録成功
             val jsonString = gson.toJson(UserResponse().setUserResponse(userDto))
-            return createReponseEntity(HttpStatus.OK, jsonString)
+            createReponseEntity(HttpStatus.OK, jsonString)
         } else {
             // 同一のユーザ名が既に存在した場合
-            return createReponseEntity(HttpStatus.BAD_REQUEST, "${userRequest.username} already exist")
+            createReponseEntity(HttpStatus.BAD_REQUEST, "${userRequest.username} already exist")
         }
     }
 

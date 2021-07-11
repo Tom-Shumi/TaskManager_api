@@ -24,6 +24,7 @@ import com.auth0.jwt.interfaces.DecodedJWT
 
 import com.auth0.jwt.JWTVerifier
 import com.ne.jp.shumipro_api.Constants
+import com.ne.jp.shumipro_api.Constants.Companion.CREATE_USER_PATH
 import com.ne.jp.shumipro_api.Constants.Companion.JWT_TOKEN
 import com.ne.jp.shumipro_api.Constants.Companion.LOGIN_PATH
 import com.ne.jp.shumipro_api.entity.ShumiproLoginUser
@@ -48,7 +49,9 @@ class ShumiproTokenFilter(private var userMapper: UserMapper, secretKey: String)
     @Throws(IOException::class, ServletException::class)
     override fun doFilter(request: ServletRequest, response: ServletResponse, filterChain: FilterChain) {
         val token: String? = resolveToken(request)
-        if (token == null || LOGIN_PATH == (request as HttpServletRequest).servletPath) {
+        if (token == null
+            || LOGIN_PATH == (request as HttpServletRequest).servletPath
+            || CREATE_USER_PATH == request.servletPath) {
             filterChain.doFilter(request, response)
             return
         }

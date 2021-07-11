@@ -1,6 +1,7 @@
 package com.ne.jp.shumipro_api.config
 
 import com.ne.jp.shumipro_api.Constants
+import com.ne.jp.shumipro_api.Constants.Companion.CREATE_USER_PATH
 import com.ne.jp.shumipro_api.mapper.UserMapper
 import com.ne.jp.shumipro_api.security.*
 import org.springframework.context.annotation.Bean
@@ -54,8 +55,7 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity){
         http
             .authorizeRequests()
-            .mvcMatchers("/api/user/**").hasRole("ADMIN")
-            .mvcMatchers("/api/task/**").hasRole("USER")
+            .mvcMatchers(CREATE_USER_PATH).permitAll()
             .anyRequest().authenticated()
             .and()
             .exceptionHandling()
