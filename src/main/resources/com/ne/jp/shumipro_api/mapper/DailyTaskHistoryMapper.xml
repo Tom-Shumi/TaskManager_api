@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ne.jp.shumipro_api.mapper.DailyTaskHistoryMapper">
+
+    <select id="getByDailyTaskIdAndDoneDate" resultType="com.ne.jp.shumipro_api.entity.DailyTaskHistory">
+        SELECT
+            *
+        FROM
+            DailyTaskHistory
+        WHERE
+            daily_task_id = #{dailyTaskId}
+            AND done_date = #{doneDate}
+    </select>
+
+    <insert id="insert" parameterType="com.ne.jp.shumipro_api.entity.DailyTaskHistory"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO DailyTaskHistory (
+            daily_task_id , done_date , done_time , quota)
+        VALUES (
+            #{daily_task_id} , #{done_date} , #{done_time} , #{quota})
+    </insert>
+
+    <update id="update" parameterType="com.ne.jp.shumipro_api.entity.DailyTaskHistory">
+        UPDATE DailyTaskHistory
+        SET
+            username = #{daily_task_id}
+            , task = #{done_date}
+            , priority = #{done_time}
+            , status = #{quota}
+        WHERE
+            id = #{id}
+    </update>
+</mapper>
