@@ -1,25 +1,17 @@
 package com.ne.jp.shumipro_api.response
 
 import com.ne.jp.shumipro_api.dto.DailyTaskHistoryDto
-import com.ne.jp.shumipro_api.dto.TaskDto
-import com.ne.jp.shumipro_api.util.DateUtil
-import java.util.*
+import java.time.LocalDate
 
 data class DailyTaskHistoryResponse(
-    var id: Int? = null
-    , var dailyTaskId: Int? = null
-    , var doneDate: Date? = null
-    , var doneTime: Int? = null
-    , var quota: Int? = null
+    var id: Int
+    , var dailyTaskId: Int
+    , var doneDate: LocalDate
+    , var doneTime: Int
+    , var quota: Int
 ) {
 
-    fun setDailyTaskHistoryResponse(dailyTaskHistoryDto: DailyTaskHistoryDto): DailyTaskHistoryResponse{
-        this.id = dailyTaskHistoryDto.id
-        this.dailyTaskId = dailyTaskHistoryDto.dailyTaskId
-        this.doneDate = dailyTaskHistoryDto.doneDate
-        this.doneTime = dailyTaskHistoryDto.doneTime
-        this.quota = dailyTaskHistoryDto.quota
-        return this
-    }
+    constructor(dto: DailyTaskHistoryDto)
+            : this(dto.id!!, dto.dailyTaskId, dto.doneDate!!, dto.doneTime, dto.quota)
 
 }

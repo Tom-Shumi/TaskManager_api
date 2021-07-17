@@ -15,7 +15,10 @@ class DailyTaskHistoryService {
     @Autowired
     lateinit var dailyTaskHistoryMapper: DailyTaskHistoryMapper
 
-    fun registerDailyTaskHistory(dto: DailyTaskHistoryDto): DailyTaskHistoryDto? {
+    fun registerDailyTaskHistory(dto: DailyTaskHistoryDto): DailyTaskHistoryDto {
+
+        // TODO デイリータスクがあるか確認。なければエラーを返却する。
+
         val currentDate = LocalDate.now()
         val current = dailyTaskHistoryMapper.getByDailyTaskIdAndDoneDate(dto.dailyTaskId, currentDate)
         return if (current is DailyTaskHistory) {

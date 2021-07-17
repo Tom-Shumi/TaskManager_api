@@ -18,4 +18,8 @@ data class DailyTaskHistoryDto(
             : this(dailyTaskHistory.id, dailyTaskHistory.daily_task_id, dailyTaskHistory.done_date,
                     dailyTaskHistory.done_time, dailyTaskHistory.quota)
 
+    constructor(request: DailyTaskHistoryRequest)
+            : this(null, request.daily_task_id, null,
+                    request.done_time, request.quota)
+
 }

@@ -8,7 +8,7 @@
         SELECT
             *
         FROM
-            DailyTaskHistory
+            daily_task_history
         WHERE
             daily_task_id = #{dailyTaskId}
             AND done_date = #{doneDate}
@@ -16,19 +16,19 @@
 
     <insert id="insert" parameterType="com.ne.jp.shumipro_api.entity.DailyTaskHistory"
             useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO DailyTaskHistory (
+        INSERT INTO daily_task_history (
             daily_task_id , done_date , done_time , quota)
         VALUES (
             #{daily_task_id} , #{done_date} , #{done_time} , #{quota})
     </insert>
 
     <update id="update" parameterType="com.ne.jp.shumipro_api.entity.DailyTaskHistory">
-        UPDATE DailyTaskHistory
+        UPDATE daily_task_history
         SET
-            username = #{daily_task_id}
-            , task = #{done_date}
-            , priority = #{done_time}
-            , status = #{quota}
+            daily_task_id = #{daily_task_id}
+            , done_date = #{done_date}
+            , done_time = #{done_time}
+            , quota = #{quota}
         WHERE
             id = #{id}
     </update>
