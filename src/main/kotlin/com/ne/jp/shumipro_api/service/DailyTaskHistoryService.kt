@@ -17,12 +17,17 @@ class DailyTaskHistoryService {
 
     fun registerDailyTaskHistory(dto: DailyTaskHistoryDto): DailyTaskHistoryDto? {
         val currentDate = LocalDate.now()
-        val current = dailyTaskHistoryMapper.getByDailyTaskIdAndDoneDate(dto.dailyTaskId!!, currentDate)
-        if (current is DailyTaskHistory) {
-            // 更新処理
+        val current = dailyTaskHistoryMapper.getByDailyTaskIdAndDoneDate(dto.dailyTaskId, currentDate)
+        return if (current is DailyTaskHistory) {
+            // update
+            current.done_time += dto.doneTime
+            dailyTaskHistoryMapper.update(current)
+            DailyTaskHistoryDto(current)
         } else {
-            // 登録処理
+            // insert
+            val dailyTaskHistory = DailyTaskHistory(dto.dailyTaskId, currentDate, dto.doneTime, dto.quota)
+            dailyTaskHistoryMapper.insert(dailyTaskHistory)
+            DailyTaskHistoryDto(dailyTaskHistory)
         }
-        return null
     }
 }
