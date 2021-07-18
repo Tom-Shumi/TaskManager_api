@@ -45,8 +45,13 @@ class DailyTaskHistoryController: BaseController()  {
             return createResponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
         }
         val dtoRequest = DailyTaskHistoryDto(request)
-        val dto: DailyTaskHistoryDto = dailyTaskHistoryService.registerDailyTaskHistory(dtoRequest)
-        val jsonString = gson.toJson(DailyTaskHistoryResponse(dto))
-        return createResponseEntity(HttpStatus.OK, jsonString)
+        val dto = dailyTaskHistoryService.registerDailyTaskHistory(dtoRequest)
+        if (dto is DailyTaskHistoryDto) {
+            val jsonString = gson.toJson(DailyTaskHistoryResponse(dto))
+            return createResponseEntity(HttpStatus.OK, jsonString)
+        } else {
+            // リクエストが不正だった場合
+            return createResponseEntity(HttpStatus.BAD_REQUEST, "DailyTask does not exist")
+        }
     }
 }

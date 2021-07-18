@@ -9,7 +9,6 @@ data class DailyTaskHistoryRequest(
     @field:NotNull(message="{e.001}")
     var daily_task_id: Int,
     @field:NotNull(message="{e.001}")
-    @field:Min(value = 1, message="{e.003}")
     var done_time: Int,
     @field:NotNull(message="{e.001}")
     @field:Min(value = 1, message="{e.003}")

@@ -1,6 +1,7 @@
 package com.ne.jp.shumipro_api.mapper
 
 import com.ne.jp.shumipro_api.dto.DailyTaskInfoDto
+import com.ne.jp.shumipro_api.entity.DailyTask
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Param
 import java.time.LocalDate
@@ -10,4 +11,6 @@ import java.util.*
 interface DailyTaskMapper {
 
     fun getDailyTaskInfoByUsername(@Param("username") username: String, @Param("doneDate") doneDate: LocalDate): List<DailyTaskInfoDto>
+
+    fun getDailyTaskById(@Param("id") id: Int): DailyTask?
 }
