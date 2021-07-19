@@ -17,6 +17,10 @@
           , dt.create_date createDate
           , dth.done_date doneDate
           , dth.done_time doneTime
+          , CASE
+              WHEN 0 >= dt.quota - dth.done_time THEN 1
+              ELSE 0
+            END doneFlg
         FROM
           daily_task dt
           LEFT JOIN (SELECT * FROM daily_task_history WHERE done_date = #{doneDate}) dth
@@ -25,7 +29,8 @@
           dt.username = #{username}
           AND dt.delete_flg = '0'
         ORDER BY
-          dt.priority ASC
+          doneFlg ASC
+          , dt.priority ASC
           , dt.id DESC
     </select>
 
