@@ -1,7 +1,5 @@
 package com.ne.jp.shumipro_api.request
 
-import java.util.*
-import javax.validation.constraints.Max
 import javax.validation.constraints.Min
 import javax.validation.constraints.NotNull
 
