@@ -27,9 +27,12 @@
             ON dt.id = dth.daily_task_id
         WHERE
           dt.username = #{username}
-          AND dt.delete_flg = '0'
+          <if test="!includeDeleteFlg">
+            AND dt.delete_flg = '0'
+          </if>
         ORDER BY
-          doneFlg ASC
+          deleteFlg ASC
+          , doneFlg ASC
           , dt.priority ASC
           , dt.id DESC
     </select>

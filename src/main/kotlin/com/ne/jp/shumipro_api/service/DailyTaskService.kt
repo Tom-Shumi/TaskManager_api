@@ -21,8 +21,8 @@ class DailyTaskService {
     @Autowired
     lateinit var userMapper: UserMapper
 
-    fun getDailyTaskList(username: String): List<DailyTaskInfoDto> {
-        return dailyTaskMapper.getDailyTaskInfoByUsername(username, LocalDate.now())
+    fun getDailyTaskList(username: String, includeDeleteFlg: Boolean): List<DailyTaskInfoDto> {
+        return dailyTaskMapper.getDailyTaskInfoByUsername(username, LocalDate.now(), includeDeleteFlg)
     }
 
     fun registerDailyTask(dto: DailyTaskDto): DailyTaskDto? {

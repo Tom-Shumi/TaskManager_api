@@ -37,8 +37,8 @@ class DailyTaskController: BaseController() {
      * 当日のデイリータスク一覧情報取得
      */
     @GetMapping("", "/")
-    fun getDailyTaskList(@AuthenticationPrincipal loginUser: ShumiproLoginUser): ResponseEntity<String> {
-        val dailyTaskInfoDtoList: List<DailyTaskInfoDto> = dailyTaskService.getDailyTaskList(loginUser.username)
+    fun getDailyTaskList(@AuthenticationPrincipal loginUser: ShumiproLoginUser, @RequestParam("includeDeleteFlg") includeDeleteFlg: Boolean): ResponseEntity<String> {
+        val dailyTaskInfoDtoList: List<DailyTaskInfoDto> = dailyTaskService.getDailyTaskList(loginUser.username, includeDeleteFlg)
         return if (CollectionUtils.isEmpty(dailyTaskInfoDtoList)){
             createResponseEntity(HttpStatus.NO_CONTENT, null)
         } else {

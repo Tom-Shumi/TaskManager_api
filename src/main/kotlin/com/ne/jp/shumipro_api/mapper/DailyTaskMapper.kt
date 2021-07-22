@@ -11,7 +11,8 @@ import java.util.*
 @Mapper
 interface DailyTaskMapper {
 
-    fun getDailyTaskInfoByUsername(@Param("username") username: String, @Param("doneDate") doneDate: LocalDate): List<DailyTaskInfoDto>
+    fun getDailyTaskInfoByUsername(@Param("username") username: String, @Param("doneDate") doneDate: LocalDate,
+                                   @Param("includeDeleteFlg") includeDeleteFlg: Boolean): List<DailyTaskInfoDto>
 
     fun getDailyTaskById(@Param("id") id: Int): DailyTask?
 
