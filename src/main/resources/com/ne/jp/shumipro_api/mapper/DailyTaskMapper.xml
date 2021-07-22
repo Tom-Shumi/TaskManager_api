@@ -51,4 +51,25 @@
             id = #{id}
     </select>
 
+    <insert id="insert" parameterType="com.ne.jp.shumipro_api.entity.DailyTask"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO daily_task (
+            username
+            , title
+            , description
+            , priority
+            , quota
+            , delete_flg
+            , create_date
+        )
+        VALUES (
+            #{username}
+            , #{title}
+            , #{description}
+            , #{priority}
+            , #{quota}
+            , #{delete_flg}
+            , #{create_date}
+        )
+    </insert>
 </mapper>

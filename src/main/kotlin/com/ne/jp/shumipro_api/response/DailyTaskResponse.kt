@@ -1,20 +1,20 @@
-package com.ne.jp.shumipro_api.entity
+package com.ne.jp.shumipro_api.response
 
 import com.ne.jp.shumipro_api.dto.DailyTaskDto
 import java.time.LocalDate
 
-data class DailyTask(
-    var id: Int?
+data class DailyTaskResponse (
+    var id: Int
     , var username: String
     , var title: String
     , var description: String?
     , var priority: Int
     , var quota: Int
-    , var delete_flg: Int
-    , var create_date: LocalDate
+    , var deleteFlg: Int
+    , var createDate: LocalDate
 ) {
 
     constructor(dto: DailyTaskDto)
-            : this(id =null, dto.username, dto.title, dto.description, dto.priority,
+            : this(dto.id!!, dto.username, dto.title, dto.description, dto.priority,
                     dto.quota, dto.deleteFlg, dto.createDate)
 }

@@ -1,16 +1,21 @@
 package com.ne.jp.shumipro_api.dto
 
+import com.ne.jp.shumipro_api.entity.DailyTaskHistory
+import com.ne.jp.shumipro_api.request.DailyTaskRequest
+import java.time.LocalDate
 import java.util.*
 
 data class DailyTaskDto(
-    var id: Int? = 0
-    , var username: String? = null
-    , var title: String? = null
-    , var description: String? = null
-    , var priority: Int? = null
-    , var quota: Int? = null
-    , var deleteFlg: Int? = null
-    , var createDate: Date? = null
+    var id: Int?
+    , var username: String
+    , var title: String
+    , var description: String?
+    , var priority: Int
+    , var quota: Int
+    , var deleteFlg: Int
+    , var createDate: LocalDate
 ) {
-
+    constructor(request: DailyTaskRequest, username: String, createDate: LocalDate)
+            : this(null, username, request.title, request.description,
+        request.priority, request.quota, request.deleteFlg, createDate)
 }
