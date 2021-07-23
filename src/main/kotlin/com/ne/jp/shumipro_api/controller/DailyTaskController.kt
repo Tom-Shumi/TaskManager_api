@@ -42,7 +42,7 @@ class DailyTaskController: BaseController() {
         return if (CollectionUtils.isEmpty(dailyTaskInfoDtoList)){
             createResponseEntity(HttpStatus.NO_CONTENT, null)
         } else {
-            // タスク取得成功
+            // デイリータスク取得成功
             val jsonString = gson.toJson(dailyTaskInfoDtoList.map{DailyTaskInfoResponse().setDailyTaskInfoResponse(it)}.toList())
             createResponseEntity(HttpStatus.OK, jsonString)
         }
@@ -70,6 +70,21 @@ class DailyTaskController: BaseController() {
         } else {
             // ユーザが存在しない場合
             createResponseEntity(HttpStatus.BAD_REQUEST, "${loginUser.username} does not exist")
+        }
+    }
+
+    /**
+     * デイリータスク削除
+     */
+    @DeleteMapping("/{id}")
+    fun deleteDailyTask(@PathVariable("id") id: Int, @AuthenticationPrincipal loginUser: ShumiproLoginUser) : ResponseEntity<String> {
+
+        if (dailyTaskService.deleteDailyTask(id, loginUser.username) > 0){
+            // 削除成功
+            return createResponseEntity(HttpStatus.NO_CONTENT, "")
+        } else {
+            // デイリータスクが存在しない場合
+            return createResponseEntity(HttpStatus.NOT_FOUND, "this daily task does not found")
         }
     }
 }

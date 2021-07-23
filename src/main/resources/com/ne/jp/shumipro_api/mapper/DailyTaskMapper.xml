@@ -37,7 +37,7 @@
           , dt.id DESC
     </select>
 
-    <select id="getDailyTaskById" resultType="com.ne.jp.shumipro_api.entity.DailyTask"
+    <select id="findById" resultType="com.ne.jp.shumipro_api.entity.DailyTask"
             parameterType="map">
         SELECT
             id
@@ -75,4 +75,8 @@
             , #{create_date}
         )
     </insert>
+
+    <delete id="delete" parameterType="integer">
+        DELETE FROM daily_task WHERE id = #{id}
+    </delete>
 </mapper>

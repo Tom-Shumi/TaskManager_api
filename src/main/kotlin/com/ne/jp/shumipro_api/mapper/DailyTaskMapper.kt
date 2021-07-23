@@ -14,7 +14,9 @@ interface DailyTaskMapper {
     fun getDailyTaskInfoByUsername(@Param("username") username: String, @Param("doneDate") doneDate: LocalDate,
                                    @Param("includeDeleteFlg") includeDeleteFlg: Boolean): List<DailyTaskInfoDto>
 
-    fun getDailyTaskById(@Param("id") id: Int): DailyTask?
+    fun findById(@Param("id") id: Int): DailyTask?
 
     fun insert(dailyTask: DailyTask)
+
+    fun delete(@Param("id") id: Int): Int
 }

@@ -21,7 +21,7 @@ class DailyTaskHistoryService {
 
     fun registerDailyTaskHistory(dto: DailyTaskHistoryDto): DailyTaskHistoryDto? {
 
-        val dailyTask = dailyTaskMapper.getDailyTaskById(dto.dailyTaskId)
+        val dailyTask = dailyTaskMapper.findById(dto.dailyTaskId)
         if (dailyTask !is DailyTask) return null
 
         val currentDate = LocalDate.now()

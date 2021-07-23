@@ -36,4 +36,13 @@ class DailyTaskService {
             null
         }
     }
+
+    fun deleteDailyTask(id: Int, username: String): Int {
+        val dailyTaskCheck = dailyTaskMapper.findById(id)
+        return if (dailyTaskCheck is DailyTask && dailyTaskCheck.username.equals(username)) {
+            dailyTaskMapper.delete(id)
+        } else {
+            0
+        }
+    }
 }
