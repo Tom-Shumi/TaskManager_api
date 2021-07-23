@@ -74,6 +74,30 @@ class DailyTaskController: BaseController() {
     }
 
     /**
+     * デイリータスク更新
+     */
+    @PutMapping("/{id}")
+    fun updateDailyTask(@PathVariable("id") id: Int,@Validated @RequestBody request: DailyTaskRequest,
+                   errors: Errors, @AuthenticationPrincipal loginUser: ShumiproLoginUser): ResponseEntity<String> {
+        val errorMsg: String? = checkErrors(errors)
+        if (errorMsg is String){
+            // リクエストが不正だった場合
+            return createResponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
+        }
+        val dtoRequest = DailyTaskDto(request, loginUser.username, LocalDate.now())
+        dtoRequest.id = id
+        val dto: DailyTaskDto? = dailyTaskService.updateDailyTask(dtoRequest)
+        return if (dto is DailyTaskDto){
+            // デイリータスク更新成功
+            val jsonString = gson.toJson(DailyTaskResponse(dto))
+            createResponseEntity(HttpStatus.OK, jsonString)
+        } else {
+            // タスクが存在しない場合
+            createResponseEntity(HttpStatus.BAD_REQUEST, "this daily task does not exist")
+        }
+    }
+
+    /**
      * デイリータスク削除
      */
     @DeleteMapping("/{id}")

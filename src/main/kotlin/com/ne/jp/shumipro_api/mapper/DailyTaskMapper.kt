@@ -19,4 +19,6 @@ interface DailyTaskMapper {
     fun insert(dailyTask: DailyTask)
 
     fun delete(@Param("id") id: Int): Int
+
+    fun update(dailyTask: DailyTask): Int
 }

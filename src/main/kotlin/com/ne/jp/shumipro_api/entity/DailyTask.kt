@@ -15,6 +15,6 @@ data class DailyTask(
 ) {
 
     constructor(dto: DailyTaskDto)
-            : this(id =null, dto.username, dto.title, dto.description, dto.priority,
+            : this(dto.id, dto.username, dto.title, dto.description, dto.priority,
                     dto.quota, dto.deleteFlg, dto.createDate)
 }

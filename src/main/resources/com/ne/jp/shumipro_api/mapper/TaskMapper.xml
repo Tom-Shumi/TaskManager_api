@@ -76,6 +76,7 @@
         WHERE
             id = #{id}
     </update>
+
     <delete id="deleteTask" parameterType="integer">
         DELETE FROM task WHERE id = #{id}
     </delete>

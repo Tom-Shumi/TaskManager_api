@@ -2,6 +2,7 @@ package com.ne.jp.shumipro_api.service
 
 import com.ne.jp.shumipro_api.dto.DailyTaskDto
 import com.ne.jp.shumipro_api.dto.DailyTaskInfoDto
+import com.ne.jp.shumipro_api.dto.TaskDto
 import com.ne.jp.shumipro_api.entity.DailyTask
 import com.ne.jp.shumipro_api.entity.Task
 import com.ne.jp.shumipro_api.entity.User
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
+import java.util.*
 
 @Service
 @Transactional
@@ -37,9 +39,20 @@ class DailyTaskService {
         }
     }
 
+    fun updateDailyTask(dto: DailyTaskDto): DailyTaskDto? {
+        val dailyTaskBefore = dailyTaskMapper.findById(dto.id!!)
+        return if (dailyTaskBefore is DailyTask && dailyTaskBefore.username == dto.username) {
+            val dailyTask = DailyTask(dto)
+            dailyTaskMapper.update(dailyTask)
+            dto
+        } else {
+            null
+        }
+    }
+
     fun deleteDailyTask(id: Int, username: String): Int {
         val dailyTaskCheck = dailyTaskMapper.findById(id)
-        return if (dailyTaskCheck is DailyTask && dailyTaskCheck.username.equals(username)) {
+        return if (dailyTaskCheck is DailyTask && dailyTaskCheck.username == username) {
             dailyTaskMapper.delete(id)
         } else {
             0

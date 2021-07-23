@@ -76,7 +76,22 @@
         )
     </insert>
 
+    <update id="update" parameterType="com.ne.jp.shumipro_api.entity.DailyTask">
+        UPDATE daily_task
+        SET
+            username = #{username}
+            , title = #{title}
+            , description = #{description}
+            , priority = #{priority}
+            , quota = #{quota}
+            , delete_flg = #{delete_flg}
+            , create_date = #{create_date}
+        WHERE
+            id = #{id}
+    </update>
+
     <delete id="delete" parameterType="integer">
         DELETE FROM daily_task WHERE id = #{id}
     </delete>
+
 </mapper>
