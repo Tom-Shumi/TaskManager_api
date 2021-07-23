@@ -2,17 +2,12 @@ package com.ne.jp.shumipro_api.controller
 
 import com.ne.jp.shumipro_api.dto.DailyTaskDto
 import com.ne.jp.shumipro_api.dto.DailyTaskInfoDto
-import com.ne.jp.shumipro_api.dto.TaskDto
-import com.ne.jp.shumipro_api.entity.DailyTask
 import com.ne.jp.shumipro_api.entity.ShumiproLoginUser
 import com.ne.jp.shumipro_api.request.DailyTaskRequest
-import com.ne.jp.shumipro_api.request.TaskRequest
 import com.ne.jp.shumipro_api.response.DailyTaskInfoResponse
 import com.ne.jp.shumipro_api.response.DailyTaskResponse
-import com.ne.jp.shumipro_api.response.TaskCommentResponse
-import com.ne.jp.shumipro_api.response.TaskResponse
 import com.ne.jp.shumipro_api.service.DailyTaskService
-import com.ne.jp.shumipro_api.service.TaskService
+import com.ne.jp.shumipro_api.util.DateUtil.Companion.toLocalDateYYYYMMDD
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -22,6 +17,7 @@ import org.springframework.validation.Errors
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 /**
  * デイリータスクコントローラ
@@ -84,7 +80,8 @@ class DailyTaskController: BaseController() {
             // リクエストが不正だった場合
             return createResponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
         }
-        val dtoRequest = DailyTaskDto(request, loginUser.username, LocalDate.now())
+        val dtoRequest = DailyTaskDto(request, loginUser.username,
+            toLocalDateYYYYMMDD(request.createDate)!!, toLocalDateYYYYMMDD(request.deleteDate))
         dtoRequest.id = id
         val dto: DailyTaskDto? = dailyTaskService.updateDailyTask(dtoRequest)
         return if (dto is DailyTaskDto){

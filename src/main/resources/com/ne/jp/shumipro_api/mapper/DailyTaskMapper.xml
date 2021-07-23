@@ -15,6 +15,7 @@
           , dt.quota
           , dt.delete_flg deleteFlg
           , dt.create_date createDate
+          , dt.delete_date deleteDate
           , dth.done_date doneDate
           , dth.done_time doneTime
           , CASE
@@ -48,6 +49,7 @@
             , quota
             , delete_flg
             , create_date
+            , delete_date
         FROM
             daily_task
         WHERE
@@ -64,6 +66,7 @@
             , quota
             , delete_flg
             , create_date
+            , delete_date
         )
         VALUES (
             #{username}
@@ -73,6 +76,7 @@
             , #{quota}
             , #{delete_flg}
             , #{create_date}
+            , #{delete_date}
         )
     </insert>
 
@@ -86,6 +90,7 @@
             , quota = #{quota}
             , delete_flg = #{delete_flg}
             , create_date = #{create_date}
+            , delete_date = #{delete_date}
         WHERE
             id = #{id}
     </update>

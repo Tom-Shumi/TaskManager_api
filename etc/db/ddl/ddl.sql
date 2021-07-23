@@ -60,6 +60,7 @@ CREATE TABLE public.daily_task (
 	quota int4 NOT NULL,
 	delete_flg bpchar(1) NOT NULL,
 	create_date date NOT NULL,
+	delete_date date,
 	CONSTRAINT daily_task_pkey PRIMARY KEY (id)
 );
 

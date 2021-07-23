@@ -13,6 +13,7 @@ data class DailyTaskInfoResponse(
     , var quota: Int? = null
     , var deleteFlg: Int? = null
     , var createDate: String? = null
+    , var deleteDate: String? = null
     , var doneDate: String? = null
     , var doneTime: Int? = null
 ) {
@@ -26,6 +27,7 @@ data class DailyTaskInfoResponse(
         this.quota = dailyTaskInfoDto.quota
         this.deleteFlg = dailyTaskInfoDto.deleteFlg
         this.createDate = DateUtil.toStringYYYYMMDD(dailyTaskInfoDto.createDate)
+        this.deleteDate = DateUtil.toStringYYYYMMDD(dailyTaskInfoDto.deleteDate)
         this.doneDate = DateUtil.toStringYYYYMMDD(dailyTaskInfoDto.doneDate)
         this.doneTime = dailyTaskInfoDto.doneTime
         return this;

@@ -12,9 +12,10 @@ data class DailyTaskResponse (
     , var quota: Int
     , var deleteFlg: Int
     , var createDate: LocalDate
+    , var deleteDate: LocalDate?
 ) {
 
     constructor(dto: DailyTaskDto)
             : this(dto.id!!, dto.username, dto.title, dto.description, dto.priority,
-                    dto.quota, dto.deleteFlg, dto.createDate)
+                    dto.quota, dto.deleteFlg, dto.createDate, dto.deleteDate)
 }

@@ -11,6 +11,7 @@ data class DailyTaskInfoDto(
     , var quota: Int? = null
     , var deleteFlg: Int? = null
     , var createDate: Date? = null
+    , var deleteDate: Date? = null
     , var doneDate: Date? = null
     , var doneTime: Int? = null
 ) {
