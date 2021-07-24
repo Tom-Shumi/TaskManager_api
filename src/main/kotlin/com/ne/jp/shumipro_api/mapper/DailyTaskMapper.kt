@@ -1,5 +1,6 @@
 package com.ne.jp.shumipro_api.mapper
 
+import com.ne.jp.shumipro_api.dto.DailyTaskHistoryInfoDto
 import com.ne.jp.shumipro_api.dto.DailyTaskInfoDto
 import com.ne.jp.shumipro_api.entity.DailyTask
 import com.ne.jp.shumipro_api.entity.Task

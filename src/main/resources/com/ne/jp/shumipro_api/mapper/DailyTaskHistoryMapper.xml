@@ -14,6 +14,35 @@
             AND done_date = #{doneDate}
     </select>
 
+    <select id="getDailyTaskHistory" resultType="com.ne.jp.shumipro_api.dto.DailyTaskHistoryInfoDto"
+            parameterType="map">
+        SELECT
+            dt.id as dailyTaskId,
+            dt.title,
+            dth.done_date as doneDate,
+            dth.done_time as doneTime,
+            dth.quota,
+            CASE
+                WHEN 0 >= dt.quota - dth.done_time THEN 1
+                ELSE 0
+            END doneFlg
+        FROM
+            daily_task dt
+            LEFT JOIN
+                (SELECT * FROM daily_task_history WHERE done_date = #{targetDate}) dth
+                ON  dt.id = dth.daily_task_id
+        where
+            username = #{username}
+            AND (
+                delete_date >= #{targetDate}
+                OR  delete_date is null
+            )
+        ORDER BY
+            doneFlg ASC,
+            dt.priority ASC,
+            dt.id DESC
+    </select>
+
     <insert id="insert" parameterType="com.ne.jp.shumipro_api.entity.DailyTaskHistory"
             useGeneratedKeys="true" keyProperty="id">
         INSERT INTO daily_task_history (
