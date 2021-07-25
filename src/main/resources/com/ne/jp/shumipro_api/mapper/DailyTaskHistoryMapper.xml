@@ -37,6 +37,7 @@
                 delete_date >= #{targetDate}
                 OR  delete_date is null
             )
+            AND #{targetDate} >= create_date
         ORDER BY
             doneFlg ASC,
             dt.priority ASC,
