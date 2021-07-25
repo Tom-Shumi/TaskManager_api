@@ -49,19 +49,17 @@ class DailyTaskHistoryService {
 
     fun getDailyTaskHistory(username: String, nextTargetDateStr: String?): List<List<DailyTaskHistoryInfoDto>>? {
 
-        var nextTargetDate: LocalDate
-
-        if (StringUtil.isEmpty(nextTargetDateStr)) {
-            nextTargetDate = LocalDate.now();
+        val nextTargetDate: LocalDate = if (StringUtil.isEmpty(nextTargetDateStr)) {
+            LocalDate.now();
         } else {
-            nextTargetDate = DateUtil.toLocalDateYYYYMMDD(nextTargetDateStr) ?: return null
+            DateUtil.toLocalDateNonDelimiterYYYYMMDD(nextTargetDateStr) ?: return null
         }
 
         val responseList: MutableList<List<DailyTaskHistoryInfoDto>> = mutableListOf()
 
         for (i in 0 until 5) {
-            nextTargetDate = nextTargetDate.minusDays(i.toLong())
-            responseList.add(dailyTaskHistoryMapper.getDailyTaskHistory(username, nextTargetDate))
+            val tempDate = nextTargetDate.minusDays(i.toLong())
+            responseList.add(dailyTaskHistoryMapper.getDailyTaskHistory(username, tempDate))
         }
 
         return responseList;
