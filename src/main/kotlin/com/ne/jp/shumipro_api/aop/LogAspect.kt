@@ -15,12 +15,12 @@ class LogAspect {
     @Before("execution(* *..*Controller.*(..))")
     fun startLog(joinPoint: JoinPoint) {
         val logger: Logger = LoggerFactory.getLogger(joinPoint.javaClass)
-        logger.info("Start:" + joinPoint.signature.name)
+        logger.info("Start:" + joinPoint.target.javaClass + "." + joinPoint.signature.name)
     }
 
     @After("execution(* *..*Controller.*(..))")
     fun endLog(joinPoint: JoinPoint) {
         val logger: Logger = LoggerFactory.getLogger(joinPoint.javaClass)
-        logger.info("End:" + joinPoint.signature.name)
+        logger.info("End:" + joinPoint.target.javaClass + "." + joinPoint.signature.name)
     }
 }
