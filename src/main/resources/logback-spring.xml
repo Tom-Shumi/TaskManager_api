@@ -16,23 +16,22 @@
         <property name="LOG_FILE" value="/opt/tomcat-9/logs/shumipro_api.log" />
     </springProfile>
 
-    　<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-    　　<encoder>
-    　　<pattern>%date{yyyy-MM-dd HH:mm:ss} [%thread] %level %logger{0} - %msg \(%file:%line\)%n</pattern>
-    　　</encoder>
-    　　</appender>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder>
+    　<pattern>%date{yyyy-MM-dd HH:mm:ss} [%thread] %level %logger{0} - %msg \(%file:%line\)%n</pattern>
+    　</encoder>
+    　</appender>
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <encoder>
-            <pattern>%date{yyyy-MM-dd HH:mm:ss} [%thread] %level %logger{0} - %msg \(%file:%line\)%n</pattern>
-        </encoder>
-        <file>${LOG_FILE}</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_FILE}.%d{yyyyMMdd}</fileNamePattern>
-            <maxHistory>5</maxHistory>
-        </rollingPolicy>
+      <encoder>
+        <pattern>%date{yyyy-MM-dd HH:mm:ss} [%thread] %level %logger{0} - %msg \(%file:%line\)%n</pattern>
+      </encoder>
+      <file>${LOG_FILE}</file>
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>${LOG_FILE}.%d{yyyyMMdd}</fileNamePattern>
+        <maxHistory>5</maxHistory>
+      </rollingPolicy>
     </appender>
     <root level="INFO">
-        <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
     </root>
 </configuration>

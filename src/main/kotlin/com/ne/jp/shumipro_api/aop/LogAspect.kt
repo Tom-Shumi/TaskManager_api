@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component
 @Component
 @Aspect
 class LogAspect {
+
     @Before("execution(* *..*Controller.*(..))")
     fun startLog(joinPoint: JoinPoint) {
         val logger: Logger = LoggerFactory.getLogger(joinPoint.javaClass)
