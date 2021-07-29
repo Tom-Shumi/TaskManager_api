@@ -30,8 +30,17 @@ import com.ne.jp.shumipro_api.entity.ShumiproLoginUser
 import com.ne.jp.shumipro_api.entity.User
 import com.ne.jp.shumipro_api.util.RequestUtil
 import com.ne.jp.shumipro_api.util.StringUtil
+import org.apache.naming.SelectorContext
+import java.util.stream.Collectors
+import java.util.stream.Stream
 
 import javax.servlet.http.HttpServletRequest
+import org.springframework.web.util.ContentCachingResponseWrapper
+import org.springframework.web.util.ContentCachingRequestWrapper
+import org.apache.naming.SelectorContext.prefix
+import java.io.UnsupportedEncodingException
+import java.nio.charset.Charset
+
 
 @Slf4j
 class ShumiproTokenFilter(private var userMapper: UserMapper, secretKey: String) : GenericFilterBean() {
@@ -105,11 +114,26 @@ class ShumiproTokenFilter(private var userMapper: UserMapper, secretKey: String)
     private fun outputRequestLog(request: HttpServletRequest) {
         val queryString = request.queryString;
         if (StringUtil.isEmpty(queryString)) {
-            log.info("Request:{} {}", request.method, request.requestURI);
+            log.info("Request: {} {}", request.method, request.requestURI);
         } else {
-            log.info("Request:{} {}?{}", request.method, request.requestURI, queryString);
+            log.info("Request: {} {}?{}", request.method, request.requestURI, queryString);
         }
 
-        // TODO リクエストボデイログ出力
+        val requestWrapper = wrapRequest(request)
+        val content = requestWrapper.contentAsByteArray // 取得できない。。
+        if (content.isNotEmpty()) {
+            val contentString = String(content, Charset.forName("UTF-8"))
+            Stream.of(contentString.split("\r\n|\r|\n")).forEach { line ->
+                log.info("Request Body: {}", line)
+            }
+        }
+    }
+
+    private fun wrapRequest(request: HttpServletRequest): ContentCachingRequestWrapper {
+        return if (request is ContentCachingRequestWrapper) {
+            request
+        } else {
+            ContentCachingRequestWrapper(request)
+        }
     }
 }
