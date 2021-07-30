@@ -59,27 +59,40 @@ class ShumiproTokenFilter(private var userMapper: UserMapper, secretKey: String)
     override fun doFilter(request: ServletRequest, response: ServletResponse, filterChain: FilterChain) {
 
         request as HttpServletRequest
-        outputRequestLog(request)
+        val requestWrapper = wrapRequest(request)
 
-        val token: String? = resolveToken(request)
-        if (token == null
-            || LOGIN_PATH == request.servletPath
-            || CREATE_USER_PATH == request.servletPath) {
-            filterChain.doFilter(request, response)
-            return
-        }
+        outputRequestLog(requestWrapper)
 
         try {
-            authentication(verifyToken(token))
-        } catch (e: JWTVerificationException) {
-            log.error("verify token error", e)
-            SecurityContextHolder.clearContext()
-            (response as HttpServletResponse).sendError(
-                HttpStatus.UNAUTHORIZED.value(),
-                HttpStatus.UNAUTHORIZED.reasonPhrase
-            )
+            val token: String? = resolveToken(requestWrapper)
+            if (token == null
+                || LOGIN_PATH == requestWrapper.servletPath
+                || CREATE_USER_PATH == requestWrapper.servletPath) {
+                filterChain.doFilter(requestWrapper, response)
+                return
+            }
+
+            try {
+                authentication(verifyToken(token))
+            } catch (e: JWTVerificationException) {
+                log.error("verify token error", e)
+                SecurityContextHolder.clearContext()
+                (response as HttpServletResponse).sendError(
+                    HttpStatus.UNAUTHORIZED.value(),
+                    HttpStatus.UNAUTHORIZED.reasonPhrase
+                )
+            }
+            filterChain.doFilter(requestWrapper, response)
+        } finally {
+            val content = requestWrapper.contentAsByteArray
+            if (content.isNotEmpty()) {
+                val contentString = String(content, Charset.forName("UTF-8"))
+                Stream.of(contentString.split("\r\n|\r|\n")).forEach { line ->
+                    log.info("Request Body: {}", line)
+                }
+            }
         }
-        filterChain.doFilter(request, response)
+
     }
 
     private fun resolveToken(request: ServletRequest): String? {
@@ -117,15 +130,6 @@ class ShumiproTokenFilter(private var userMapper: UserMapper, secretKey: String)
             log.info("Request: {} {}", request.method, request.requestURI);
         } else {
             log.info("Request: {} {}?{}", request.method, request.requestURI, queryString);
-        }
-
-        val requestWrapper = wrapRequest(request)
-        val content = requestWrapper.contentAsByteArray // 取得できない。。
-        if (content.isNotEmpty()) {
-            val contentString = String(content, Charset.forName("UTF-8"))
-            Stream.of(contentString.split("\r\n|\r|\n")).forEach { line ->
-                log.info("Request Body: {}", line)
-            }
         }
     }
 
