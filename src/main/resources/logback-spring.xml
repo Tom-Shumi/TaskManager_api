@@ -5,16 +5,8 @@
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
     <timestamp key="LOG_DATE" datePattern="yyyyMMdd"/>
-
-    <!--dev環境用設定 -->
-    <springProfile name="dev">
-        <property name="LOG_FILE" value="/Users/shumiya/Desktop/dev/logs/shumipro_api.log" />
-    </springProfile>
-
-    <!--product環境用設定 -->
-    <springProfile name="product">
-        <property name="LOG_FILE" value="/opt/tomcat-9/logs/shumipro_api.log" />
-    </springProfile>
+    <springProperty name="logFile" source="log.file" />
+    <property name="LOG_FILE" value="${logFile}" />
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
       <encoder>
