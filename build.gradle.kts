@@ -61,6 +61,8 @@ dependencies {
 	testImplementation("com.ninja-squad:DbSetup-kotlin:2.1.0")
 	testRuntimeOnly ("org.junit.platform:junit-platform-launcher")
 	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+	testImplementation ("org.mockito:mockito-core")
+	testImplementation ("org.mockito:mockito-junit-jupiter")
 }
 
 tasks.withType<KotlinCompile> {
