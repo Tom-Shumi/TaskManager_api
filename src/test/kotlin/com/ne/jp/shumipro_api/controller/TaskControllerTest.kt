@@ -1,10 +1,7 @@
 package com.ne.jp.shumipro_api.controller
 
 import com.google.gson.Gson
-import com.ne.jp.shumipro_api.dto.TaskCommentDto
 import com.ne.jp.shumipro_api.dto.TaskDto
-import com.ne.jp.shumipro_api.entity.ShumiproLoginUser
-import com.ne.jp.shumipro_api.entity.User
 import com.ne.jp.shumipro_api.service.TaskCommentService
 import com.ne.jp.shumipro_api.service.TaskService
 import com.ne.jp.shumipro_api.util.HandlerMethodArgumentResolverImpl
@@ -16,16 +13,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.Mockito
-import org.springframework.core.MethodParameter
-import org.springframework.lang.Nullable
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import org.springframework.web.bind.support.WebDataBinderFactory
-import org.springframework.web.context.request.NativeWebRequest
-import org.springframework.web.method.support.HandlerMethodArgumentResolver
-import org.springframework.web.method.support.ModelAndViewContainer
 import org.mockito.Mockito.`when`
 
 
