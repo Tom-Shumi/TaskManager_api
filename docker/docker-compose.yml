@@ -7,7 +7,7 @@ services:
             - "6379:6379"
         volumes:
             - "./data/redis:/data/redis"
-    
+
     postgresql:
         image: "postgres:latest"
         ports:
@@ -31,3 +31,13 @@ services:
         links:
             - redis_session
             - postgresql
+            - shumipro_front
+
+    shumipro_front:
+        image: "shumipro_front:latest"
+        ports:
+            - "3000:3000"
+        volumes:
+            - ".:/app"
+        links:
+            - shumipro_api
