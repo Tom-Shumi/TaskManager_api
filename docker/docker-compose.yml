@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-    redis:
+    redis_session:
         image: "redis:latest"
         ports:
             - "6379:6379"
@@ -26,3 +26,8 @@ services:
             - "8080:8080"
         volumes:
             - ".:/app"
+        environment:
+            SPRING_PROFILES_ACTIVE: docker
+        links:
+            - redis_session
+            - postgresql
