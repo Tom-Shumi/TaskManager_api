@@ -25,19 +25,15 @@ services:
         ports:
             - "8080:8080"
         volumes:
-            - ".:/app"
+            - "./shumipro_api:/app"
         environment:
             SPRING_PROFILES_ACTIVE: docker
-        links:
-            - redis_session
-            - postgresql
-            - shumipro_front
 
     shumipro_front:
-        image: "shumipro_front:latest"
+        image: node:14.15.5
         ports:
             - "3000:3000"
+        working_dir: /app
         volumes:
-            - ".:/app"
-        links:
-            - shumipro_api
+            - "./shumipro_front:/app"
+        command: [sh, -c, npm install && npm run build && npm run start]
