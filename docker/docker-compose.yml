@@ -36,4 +36,4 @@ services:
         working_dir: /app
         volumes:
             - "./shumipro_front:/app"
-        command: [sh, -c, npm install && npm run build && npm run start]
+        command: [sh, -c, npm install -D webpack && npm install && npm run build && npm run start]
