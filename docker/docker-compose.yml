@@ -36,4 +36,14 @@ services:
         working_dir: /app
         volumes:
             - "./shumipro_front:/app"
-        command: [sh, -c, npm install -D webpack && npm install && npm run build && npm run start]
+        command: [sh, -c, npm install -D webpack && npm install && npm run export && npm run start]
+        
+    nginx:
+        image: "nginx:latest"
+        ports:
+            - 80:80
+        volumes:
+            - ./shumipro_front/out:/var/www
+            - ./nginx:/etc/nginx/conf.d
+        depends_on:
+            - shumipro_front
