@@ -37,7 +37,7 @@ services:
         volumes:
             - "./shumipro_front:/app"
         environment:
-            API_SERVER: ${API_SERVER}
+            NEXT_PUBLIC_API_SERVER: $NEXT_PUBLIC_API_SERVER
         command: [sh, -c, npm install -D webpack && npm install && npm run export && npm run start]
 
     nginx:
