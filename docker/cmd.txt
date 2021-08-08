@@ -10,3 +10,8 @@ docker rm
 
 cd /Users/shumiya/Desktop/dev/workspace_intelliJ/shumipro_api/docker/shumipro_api
 docker build -t shumipro_api .
+
+
+
+
+---- ec2 ----
