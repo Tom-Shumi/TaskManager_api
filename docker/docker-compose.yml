@@ -15,8 +15,8 @@ services:
         volumes:
             - "./postgres/init:/data/postgresql"
         environment:
-            POSTGRES_USER: shumiya
-            POSTGRES_PASSWORD: shumiya
+            POSTGRES_USER: $DB_USERNAME
+            POSTGRES_PASSWORD: $DB_PASSWORD
             POSTGRES_DB: shumi_db
             POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
 
@@ -28,6 +28,10 @@ services:
             - "./shumipro_api:/app"
         environment:
             SPRING_PROFILES_ACTIVE: docker
+            DB_USERNAME: $DB_USERNAME
+            DB_PASSWORD: $DB_PASSWORD
+            FRONT_ORIGIN: $FRONT_ORIGIN
+            API_TOKEN_SECRET_KEY: $API_TOKEN_SECRET_KEY
 
     shumipro_front:
         image: node:14.15.5
