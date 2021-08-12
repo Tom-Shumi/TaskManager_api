@@ -42,14 +42,24 @@ services:
             - "./shumipro_front:/app"
         environment:
             NEXT_PUBLIC_API_SERVER: $NEXT_PUBLIC_API_SERVER
-        command: [sh, -c, npm install -D webpack && npm install && npm run export && npm run start]
+        command: [sh, -c, npm install -D webpack && npm install && npm build && npm run start]
 
     nginx:
         image: "nginx:latest"
         ports:
             - 80:80
+            - 443:443
         volumes:
-            - ./shumipro_front/out:/var/www
+            - ./shumipro_front/out:/var/www/html
             - ./nginx:/etc/nginx/conf.d
+            - ./letsencrypt:/etc/letsencrypt
         depends_on:
             - shumipro_front
+
+    certbot:
+        image: certbot/certbot:v1.7.0
+        volumes:
+            - ./letsencrypt:/etc/letsencrypt
+            - ./shumipro_front/out:/var/www/html
+        command: ["--version"]
+
