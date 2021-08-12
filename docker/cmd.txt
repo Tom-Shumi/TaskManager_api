@@ -1,5 +1,7 @@
 
 ■ Backend
+
+
 gradle build
 
 cp /Users/shumiya/Desktop/dev/workspace_intelliJ/shumipro_api/build/libs/shumipro_api-0.0.1-SNAPSHOT.war /Users/shumiya/Desktop/dev/workspace_intelliJ/shumipro_api/docker/shumipro_api/shumipro_api-0.0.1-SNAPSHOT.war
@@ -9,6 +11,9 @@ docker rmi
 docker rm 
 
 cd /Users/shumiya/Desktop/dev/workspace_intelliJ/shumipro_api/docker/shumipro_api
+
+sudo service docker start
+
 docker build -t shumipro_api .
 
 
