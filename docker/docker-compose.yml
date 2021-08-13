@@ -21,9 +21,10 @@ services:
             POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
 
     shumipro_api:
-        image: "shumipro_api:latest"
+        image: zenika/kotlin:latest
         ports:
             - "8080:8080"
+        working_dir: /app
         volumes:
             - "./shumipro_api:/app"
         environment:
@@ -32,6 +33,7 @@ services:
             DB_PASSWORD: $DB_PASSWORD
             FRONT_ORIGIN: $FRONT_ORIGIN
             API_TOKEN_SECRET_KEY: $API_TOKEN_SECRET_KEY
+        command: ["java", "-jar", "shumipro_api-0.0.1-SNAPSHOT.war"]
 
     shumipro_front:
         image: node:14.15.5
