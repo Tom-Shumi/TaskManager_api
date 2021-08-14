@@ -24,6 +24,7 @@ bin/
 *.iml
 *.ipr
 *.jar
+*.war
 *.log
 *.log.*
 out/
