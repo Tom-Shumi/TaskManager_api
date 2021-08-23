@@ -14,6 +14,7 @@ data class DailyTaskInfoDto(
     , var deleteDate: Date? = null
     , var doneDate: Date? = null
     , var doneTime: Int? = null
+    , var dispOrder: Int? = null
 ) {
 
 }

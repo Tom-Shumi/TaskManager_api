@@ -18,6 +18,7 @@
           , dt.delete_date deleteDate
           , dth.done_date doneDate
           , dth.done_time doneTime
+          , dt.disp_order dispOrder
           , CASE
               WHEN 0 >= dt.quota - dth.done_time THEN 1
               ELSE 0
@@ -34,7 +35,8 @@
         ORDER BY
           deleteFlg ASC
           , doneFlg ASC
-          , dt.priority ASC
+          , disp_order ASC
+          , dt.priority DESC
           , dt.id DESC
     </select>
 
@@ -50,6 +52,7 @@
             , delete_flg
             , create_date
             , delete_date
+            , disp_order
         FROM
             daily_task
         WHERE
@@ -67,6 +70,7 @@
             , delete_flg
             , create_date
             , delete_date
+            , disp_order
         )
         VALUES (
             #{username}
@@ -77,6 +81,7 @@
             , #{delete_flg}
             , #{create_date}
             , #{delete_date}
+            , #{disp_order}
         )
     </insert>
 
@@ -91,6 +96,7 @@
             , delete_flg = #{delete_flg}
             , create_date = #{create_date}
             , delete_date = #{delete_date}
+            , disp_order = #{disp_order}
         WHERE
             id = #{id}
     </update>

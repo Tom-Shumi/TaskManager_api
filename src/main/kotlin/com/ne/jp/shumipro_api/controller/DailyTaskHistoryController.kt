@@ -41,7 +41,28 @@ class DailyTaskHistoryController: BaseController()  {
             return createResponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
         }
         val dtoRequest = DailyTaskHistoryDto(request)
-        val dto = dailyTaskHistoryService.registerDailyTaskHistory(dtoRequest)
+        val dto = dailyTaskHistoryService.registerTodayDailyTaskHistory(dtoRequest)
+        return if (dto is DailyTaskHistoryDto) {
+            val jsonString = gson.toJson(DailyTaskHistoryResponse(dto))
+            createResponseEntity(HttpStatus.OK, jsonString)
+        } else {
+            // リクエストが不正だった場合
+            createResponseEntity(HttpStatus.BAD_REQUEST, "DailyTask does not exist")
+        }
+    }
+
+    /**
+     * デイリータスク履歴登録（遅れて登録）
+     */
+    @PostMapping("/register_later")
+    fun registerDailyTaskHistoryRegisterLater(@Validated @RequestBody request: DailyTaskHistoryRequest, errors: Errors, @AuthenticationPrincipal loginUser: ShumiproLoginUser): ResponseEntity<String> {
+        val errorMsg: String? = checkErrors(errors)
+        if (errorMsg is String){
+            // リクエストが不正だった場合
+            return createResponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
+        }
+        val dtoRequest = DailyTaskHistoryDto(request)
+        val dto = dailyTaskHistoryService.registerLaterDailyTaskHistory(dtoRequest)
         return if (dto is DailyTaskHistoryDto) {
             val jsonString = gson.toJson(DailyTaskHistoryResponse(dto))
             createResponseEntity(HttpStatus.OK, jsonString)

@@ -16,6 +16,7 @@ data class DailyTaskInfoResponse(
     , var deleteDate: String? = null
     , var doneDate: String? = null
     , var doneTime: Int? = null
+    , var dispOrder: Int? = null
 ) {
 
     fun setDailyTaskInfoResponse(dailyTaskInfoDto: DailyTaskInfoDto): DailyTaskInfoResponse{
@@ -30,6 +31,7 @@ data class DailyTaskInfoResponse(
         this.deleteDate = DateUtil.toStringYYYYMMDD(dailyTaskInfoDto.deleteDate)
         this.doneDate = DateUtil.toStringYYYYMMDD(dailyTaskInfoDto.doneDate)
         this.doneTime = dailyTaskInfoDto.doneTime
+        this.dispOrder = dailyTaskInfoDto.dispOrder
         return this;
     }
 }

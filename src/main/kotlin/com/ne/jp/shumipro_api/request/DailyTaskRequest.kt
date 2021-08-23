@@ -27,6 +27,8 @@ data class DailyTaskRequest (
     var deleteFlg: Int,
 
     var createDate: String?,
-    var deleteDate: String?
+    var deleteDate: String?,
+
+    var dispOrder: Int?
 ) {
 }

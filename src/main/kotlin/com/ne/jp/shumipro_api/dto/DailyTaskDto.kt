@@ -15,12 +15,13 @@ data class DailyTaskDto(
     , var deleteFlg: Int
     , var createDate: LocalDate
     , var deleteDate: LocalDate?
+    , var dispOrder: Int?
 ) {
     constructor(request: DailyTaskRequest, username: String, createDate: LocalDate)
             : this(null, username, request.title, request.description,
-        request.priority, request.quota, request.deleteFlg, createDate, null)
+        request.priority, request.quota, request.deleteFlg, createDate, null, request.dispOrder)
 
     constructor(request: DailyTaskRequest, username: String, createDate: LocalDate, deleteDate: LocalDate?)
             : this(null, username, request.title, request.description,
-        request.priority, request.quota, request.deleteFlg, createDate, deleteDate)
+        request.priority, request.quota, request.deleteFlg, createDate, deleteDate, request.dispOrder)
 }

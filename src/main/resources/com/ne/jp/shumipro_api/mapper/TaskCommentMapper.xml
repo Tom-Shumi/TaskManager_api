@@ -71,7 +71,7 @@
     <select id="getTaskCommentGraphIndo" resultType="hashmap"
             parameterType="hashmap">
         SELECT
-            TO_CHAR(create_date, 'YYYY/MM/DD') date
+            TO_CHAR(create_date, 'YYYY-MM-DD') date
             , COUNT(*) count
         FROM
             task_comment

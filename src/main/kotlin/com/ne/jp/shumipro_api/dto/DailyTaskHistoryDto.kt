@@ -19,7 +19,7 @@ data class DailyTaskHistoryDto(
                     dailyTaskHistory.done_time, dailyTaskHistory.quota)
 
     constructor(request: DailyTaskHistoryRequest)
-            : this(null, request.daily_task_id, null,
+            : this(null, request.daily_task_id, request.done_date,
                     request.done_time, request.quota)
 
 }

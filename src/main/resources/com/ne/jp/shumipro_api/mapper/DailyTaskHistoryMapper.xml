@@ -21,7 +21,7 @@
             dt.title,
             dth.done_date as doneDate,
             dth.done_time as doneTime,
-            dth.quota,
+            COALESCE(dth.quota, dt.quota) as quota,
             CASE
                 WHEN 0 >= dt.quota - dth.done_time THEN 1
                 ELSE 0
@@ -40,6 +40,7 @@
             AND #{targetDate} >= create_date
         ORDER BY
             doneFlg ASC,
+            dt.disp_order ASC,
             dt.priority ASC,
             dt.id DESC
     </select>

@@ -12,7 +12,7 @@ import java.util.TimeZone
 @Configuration
 class WebMvcConfig: WebMvcConfigurer {
 
-    @Value("\${front.origin}")
+    @Value("\${allow.front.origin}")
     private val frontOrigin: String = ""
 
     override fun addCorsMappings(registry: CorsRegistry) {
@@ -20,6 +20,7 @@ class WebMvcConfig: WebMvcConfigurer {
             .allowedOrigins(frontOrigin)
             .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
             .allowCredentials(true);
+
         super.addCorsMappings(registry)
     }
 }

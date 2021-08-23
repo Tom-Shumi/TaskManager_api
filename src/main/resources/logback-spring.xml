@@ -6,6 +6,7 @@
 
     <timestamp key="LOG_DATE" datePattern="yyyyMMdd"/>
     <springProperty name="logFile" source="log.file" />
+    <springProperty name="logLevel" source="log.level" />
     <property name="LOG_FILE" value="${logFile}" />
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -23,7 +24,7 @@
         <maxHistory>5</maxHistory>
       </rollingPolicy>
     </appender>
-    <root level="ERROR">
+    <root level="${logLevel}">
         <appender-ref ref="FILE"/>
     </root>
 </configuration>

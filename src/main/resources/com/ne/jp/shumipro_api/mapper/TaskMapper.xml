@@ -84,7 +84,7 @@
     <select id="getPlanTaskGraphInfo" resultType="hashmap"
             parameterType="hashmap">
         SELECT
-            TO_CHAR(plan_date, 'YYYY/MM/DD') date
+            TO_CHAR(plan_date, 'YYYY-MM-DD') date
             , COUNT(*) count
         FROM
             task
@@ -101,7 +101,7 @@
     <select id="getDoneTaskGraphIndo" resultType="hashmap"
             parameterType="hashmap">
         SELECT
-            TO_CHAR(done_date, 'YYYY/MM/DD') date
+            TO_CHAR(done_date, 'YYYY-MM-DD') date
             , COUNT(*) count
         FROM
             task

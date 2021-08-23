@@ -78,3 +78,5 @@ CREATE TABLE public.daily_task_history (
 	quota int4 NOT NULL,
 	CONSTRAINT daily_task_history_pkey PRIMARY KEY (id)
 );
+
+ALTER TABLE daily_task ADD COLUMN disp_order int4;

@@ -13,9 +13,10 @@ data class DailyTaskResponse (
     , var deleteFlg: Int
     , var createDate: LocalDate
     , var deleteDate: LocalDate?
+    , var dispOrder: Int?
 ) {
 
     constructor(dto: DailyTaskDto)
             : this(dto.id!!, dto.username, dto.title, dto.description, dto.priority,
-                    dto.quota, dto.deleteFlg, dto.createDate, dto.deleteDate)
+                    dto.quota, dto.deleteFlg, dto.createDate, dto.deleteDate, dto.dispOrder)
 }

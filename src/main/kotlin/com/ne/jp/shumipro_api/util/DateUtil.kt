@@ -10,10 +10,10 @@ import java.util.*
 class DateUtil {
     companion object{
 
-        private const val YYYYMMDD: String = "yyyy/MM/dd"
+        private const val YYYYMMDD: String = "yyyy-MM-dd"
         private const val nonDelimiterYYYYMMDD: String = "yyyyMMdd"
         private val dfYYYYMMDD: SimpleDateFormat = SimpleDateFormat(YYYYMMDD)
-        private val dfYYYYMMDDHHMMSS = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+        private val dfYYYYMMDDHHMMSS = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 
         fun toLocalDateYYYYMMDD(date: String?): LocalDate? {
             return try {

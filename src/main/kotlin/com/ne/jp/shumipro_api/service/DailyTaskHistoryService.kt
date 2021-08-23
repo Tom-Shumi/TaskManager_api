@@ -23,13 +23,12 @@ class DailyTaskHistoryService {
     @Autowired
     lateinit var dailyTaskMapper: DailyTaskMapper
 
-    fun registerDailyTaskHistory(dto: DailyTaskHistoryDto): DailyTaskHistoryDto? {
+    private fun registerDailyTaskHistory(dto: DailyTaskHistoryDto, doneDate: LocalDate): DailyTaskHistoryDto? {
 
         val dailyTask = dailyTaskMapper.findById(dto.dailyTaskId)
         if (dailyTask !is DailyTask) return null
 
-        val currentDate = LocalDate.now()
-        val current = dailyTaskHistoryMapper.getByDailyTaskIdAndDoneDate(dto.dailyTaskId, currentDate)
+        val current = dailyTaskHistoryMapper.getByDailyTaskIdAndDoneDate(dto.dailyTaskId, doneDate)
         return if (current is DailyTaskHistory) {
             // update
             current.done_time += dto.doneTime
@@ -41,10 +40,18 @@ class DailyTaskHistoryService {
             // insert
             if (dto.doneTime < 0) dto.doneTime = 0
 
-            val dailyTaskHistory = DailyTaskHistory(dto.dailyTaskId, currentDate, dto.doneTime, dto.quota)
+            val dailyTaskHistory = DailyTaskHistory(dto.dailyTaskId, doneDate, dto.doneTime, dto.quota)
             dailyTaskHistoryMapper.insert(dailyTaskHistory)
             DailyTaskHistoryDto(dailyTaskHistory)
         }
+    }
+
+    fun registerTodayDailyTaskHistory(dto: DailyTaskHistoryDto): DailyTaskHistoryDto? {
+        return registerDailyTaskHistory(dto, LocalDate.now())
+    }
+
+    fun registerLaterDailyTaskHistory(dto: DailyTaskHistoryDto): DailyTaskHistoryDto? {
+        return registerDailyTaskHistory(dto, dto.doneDate!!)
     }
 
     fun getDailyTaskHistory(username: String, nextTargetDateStr: String?): List<List<DailyTaskHistoryInfoDto>>? {

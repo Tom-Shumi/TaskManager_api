@@ -40,7 +40,7 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
     @Autowired
     lateinit var userMapper: UserMapper
 
-    @Value("\${front.origin}")
+    @Value("\${allow.front.origin}")
     private val FRONT_ORIGIN: String = ""
 
     @Value("\${security.secret-key}")
