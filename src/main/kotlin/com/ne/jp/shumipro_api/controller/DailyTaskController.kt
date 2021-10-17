@@ -108,4 +108,15 @@ class DailyTaskController: BaseController() {
             return createResponseEntity(HttpStatus.NOT_FOUND, "this daily task does not found")
         }
     }
+
+    /**
+     * デイリータスク表示順更新
+     */
+    @PutMapping("/dispOrder")
+    fun updateDailyTaskDispOrder(@RequestParam(name = "fromDispOrder") fromDispOrder: Int, @RequestParam(name = "toDispOrder") toDispOrder: Int,
+                        @AuthenticationPrincipal loginUser: ShumiproLoginUser): ResponseEntity<String> {
+
+        dailyTaskService.updateDailyTaskDispOrder(fromDispOrder, toDispOrder, loginUser.username)
+        return createResponseEntity(HttpStatus.NO_CONTENT, "")
+    }
 }

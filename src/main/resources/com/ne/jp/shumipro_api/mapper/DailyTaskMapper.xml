@@ -105,4 +105,24 @@
         DELETE FROM daily_task WHERE id = #{id}
     </delete>
 
+    <select id="getDailyTaskDispOrder" resultType="com.ne.jp.shumipro_api.entity.DailyTask">
+        SELECT
+            *
+        FROM
+            daily_task
+        WHERE
+            username = #{username}
+            AND delete_flg = '0'
+        ORDER BY
+            disp_order
+    </select>
+
+    <update id="updateDailyTaskDispOrder">
+        UPDATE
+            daily_task
+        SET
+            disp_order = #{dispOrder}
+        WHERE
+            id = #{id}
+    </update>
 </mapper>

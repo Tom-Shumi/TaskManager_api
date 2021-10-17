@@ -22,4 +22,8 @@ interface DailyTaskMapper {
     fun delete(@Param("id") id: Int): Int
 
     fun update(dailyTask: DailyTask): Int
+
+    fun getDailyTaskDispOrder(@Param("username") username: String): MutableList<DailyTask>
+
+    fun updateDailyTaskDispOrder(@Param("id") id: Int, @Param("dispOrder") dispOrder: Int)
 }

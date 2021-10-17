@@ -70,4 +70,21 @@ class DailyTaskService {
             0
         }
     }
+
+    fun updateDailyTaskDispOrder(fromDispOrder: Int, toDispOrder: Int, username: String) {
+        val dailyTaskList = dailyTaskMapper.getDailyTaskDispOrder(username)
+
+        // 移動させるタスク取得
+        val targetDailyTask: DailyTask = dailyTaskList[fromDispOrder - 1]
+        // 移動前のタスクを削除
+        dailyTaskList.removeAt(fromDispOrder - 1)
+
+        dailyTaskList.add(toDispOrder - 1, targetDailyTask)
+
+        var newDispOrder = 1
+        for (dailyTask in dailyTaskList )  {
+            dailyTaskMapper.updateDailyTaskDispOrder(dailyTask.id!!, newDispOrder)
+            newDispOrder++
+        }
+    }
 }
