@@ -113,10 +113,10 @@ class DailyTaskController: BaseController() {
      * デイリータスク表示順更新
      */
     @PutMapping("/dispOrder")
-    fun updateDailyTaskDispOrder(@RequestParam(name = "fromDispOrder") fromDispOrder: Int, @RequestParam(name = "toDispOrder") toDispOrder: Int,
+    fun updateDailyTaskDispOrder(@RequestParam(name = "id") id: Int, @RequestParam(name = "newDispOrder") newDispOrder: Int,
                         @AuthenticationPrincipal loginUser: ShumiproLoginUser): ResponseEntity<String> {
 
-        dailyTaskService.updateDailyTaskDispOrder(fromDispOrder, toDispOrder, loginUser.username)
+        dailyTaskService.updateDailyTaskDispOrder(id, newDispOrder, loginUser.username)
         return createResponseEntity(HttpStatus.NO_CONTENT, "")
     }
 }

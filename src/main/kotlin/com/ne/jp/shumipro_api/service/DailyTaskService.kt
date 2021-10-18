@@ -71,20 +71,24 @@ class DailyTaskService {
         }
     }
 
-    fun updateDailyTaskDispOrder(fromDispOrder: Int, toDispOrder: Int, username: String) {
+    fun updateDailyTaskDispOrder(id: Int, newDispOrder: Int, username: String) {
         val dailyTaskList = dailyTaskMapper.getDailyTaskDispOrder(username)
+        val prevDispOrder = dailyTaskMapper.findById(id)?.disp_order
 
-        // 移動させるタスク取得
-        val targetDailyTask: DailyTask = dailyTaskList[fromDispOrder - 1]
-        // 移動前のタスクを削除
-        dailyTaskList.removeAt(fromDispOrder - 1)
+        if (prevDispOrder is Int) {
+            // 移動させるタスク取得
+            val targetDailyTask: DailyTask = dailyTaskList[prevDispOrder - 1]
+            // 移動前のタスクを削除
+            dailyTaskList.removeAt(prevDispOrder - 1)
 
-        dailyTaskList.add(toDispOrder - 1, targetDailyTask)
+            dailyTaskList.add(newDispOrder - 1, targetDailyTask)
 
-        var newDispOrder = 1
-        for (dailyTask in dailyTaskList )  {
-            dailyTaskMapper.updateDailyTaskDispOrder(dailyTask.id!!, newDispOrder)
-            newDispOrder++
+            var renumberingDispOrder = 1
+            for (dailyTask in dailyTaskList )  {
+                dailyTaskMapper.updateDailyTaskDispOrder(dailyTask.id!!, renumberingDispOrder)
+                renumberingDispOrder++
+            }
         }
+
     }
 }
