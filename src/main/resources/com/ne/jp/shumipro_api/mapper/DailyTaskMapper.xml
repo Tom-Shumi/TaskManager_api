@@ -96,7 +96,6 @@
             , delete_flg = #{delete_flg}
             , create_date = #{create_date}
             , delete_date = #{delete_date}
-            , disp_order = #{disp_order}
         WHERE
             id = #{id}
     </update>
@@ -125,4 +124,14 @@
         WHERE
             id = #{id}
     </update>
+
+    <select id="countNotDelete" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            daily_task
+        WHERE
+            username = #{username}
+            AND delete_flg = '0'
+    </select>
 </mapper>

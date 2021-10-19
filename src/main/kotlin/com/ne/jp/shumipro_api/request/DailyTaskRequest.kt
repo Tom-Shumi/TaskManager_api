@@ -28,7 +28,5 @@ data class DailyTaskRequest (
 
     var createDate: String?,
     var deleteDate: String?,
-
-    var dispOrder: Int?
 ) {
 }

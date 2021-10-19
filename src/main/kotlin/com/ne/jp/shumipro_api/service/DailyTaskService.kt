@@ -33,6 +33,9 @@ class DailyTaskService {
             val dailyTask = DailyTask(dto)
             if (dailyTask.delete_flg == 1) {
                 dailyTask.delete_date = LocalDate.now()
+            } else {
+                val count = dailyTaskMapper.countNotDelete(userCheck.username!!)
+                dailyTask.disp_order = count + 1
             }
             dailyTaskMapper.insert(dailyTask)
             dto.id = dailyTask.id
@@ -50,9 +53,12 @@ class DailyTaskService {
             // 削除から復活させた場合
             if (dailyTaskBefore.delete_flg == 1 && dailyTask.delete_flg == 0) {
                 dailyTask.delete_date = null
+                val count = dailyTaskMapper.countNotDelete(dto.username)
+                dailyTask.disp_order = count + 1
             // 削除に変更した場合
             } else if (dailyTaskBefore.delete_flg == 0 && dailyTask.delete_flg == 1) {
                 dailyTask.delete_date = LocalDate.now()
+                dailyTask.disp_order = null
             }
 
             dailyTaskMapper.update(dailyTask)

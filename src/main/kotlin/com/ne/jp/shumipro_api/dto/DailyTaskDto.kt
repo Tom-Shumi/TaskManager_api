@@ -19,9 +19,9 @@ data class DailyTaskDto(
 ) {
     constructor(request: DailyTaskRequest, username: String, createDate: LocalDate)
             : this(null, username, request.title, request.description,
-        request.priority, request.quota, request.deleteFlg, createDate, null, request.dispOrder)
+        request.priority, request.quota, request.deleteFlg, createDate, null, null)
 
     constructor(request: DailyTaskRequest, username: String, createDate: LocalDate, deleteDate: LocalDate?)
             : this(null, username, request.title, request.description,
-        request.priority, request.quota, request.deleteFlg, createDate, deleteDate, request.dispOrder)
+        request.priority, request.quota, request.deleteFlg, createDate, deleteDate, null)
 }
