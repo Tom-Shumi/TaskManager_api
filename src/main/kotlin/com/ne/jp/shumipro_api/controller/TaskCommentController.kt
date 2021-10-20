@@ -31,7 +31,7 @@ class TaskCommentController: BaseController() {
         val taskCommentDtoList = taskCommentService.getTaskCommentList(taskId, nextKey)
         return if (taskCommentDtoList is List<TaskCommentDto>){
             // タスクコメント取得成功
-            val jsonString = gson.toJson(taskCommentDtoList.map{TaskCommentResponse().setTaskCommentResponse(it)}.toList())
+            val jsonString = gson.toJson(taskCommentDtoList.map{TaskCommentResponse(it)}.toList())
             createResponseEntity(HttpStatus.OK, jsonString)
         } else {
             createResponseEntity(HttpStatus.NO_CONTENT, null)
@@ -49,11 +49,11 @@ class TaskCommentController: BaseController() {
             // リクエストが不正だった場合
             return createResponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
         }
-        val taskCommentDtoRequest = TaskCommentDto(taskId = taskId, username = loginUser.username, comment = taskCommentRequest.comment)
+        val taskCommentDtoRequest = TaskCommentDto(null, taskId, loginUser.username, taskCommentRequest.comment)
         val taskCommentDto = taskCommentService.registerTaskComment(taskCommentDtoRequest)
         if (taskCommentDto is TaskCommentDto){
             // タスクコメント登録成功
-            val jsonString = gson.toJson(TaskCommentResponse().setTaskCommentResponse(taskCommentDto))
+            val jsonString = gson.toJson(TaskCommentResponse(taskCommentDto))
             return createResponseEntity(HttpStatus.OK, jsonString)
         } else {
             // タスクが存在しない場合
@@ -73,11 +73,11 @@ class TaskCommentController: BaseController() {
             // リクエストが不正だった場合
             return createResponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
         }
-        val taskCommentDtoRequest = TaskCommentDto(id = taskCommentId, taskId = taskId, username = loginUser.username, comment = taskCommentRequest.comment)
+        val taskCommentDtoRequest = TaskCommentDto(taskCommentId, taskId, loginUser.username, taskCommentRequest.comment)
         val taskCommentDto = taskCommentService.updateTaskComment(taskCommentDtoRequest)
         return if (taskCommentDto is TaskCommentDto){
             // タスクコメント更新成功
-            val jsonString = gson.toJson(TaskCommentResponse().setTaskCommentResponse(taskCommentDto))
+            val jsonString = gson.toJson(TaskCommentResponse(taskCommentDto))
             createResponseEntity(HttpStatus.OK, jsonString)
         } else {
             // タスクコメントが存在しない場合
@@ -91,16 +91,13 @@ class TaskCommentController: BaseController() {
     @DeleteMapping("/{taskId}/{taskCommentId}")
     fun deleteTaskComment(@PathVariable("taskId") taskId: Int, @PathVariable("taskCommentId") taskCommentId: Int
                           , @AuthenticationPrincipal loginUser: ShumiproLoginUser): ResponseEntity<String>{
-        val taskCommentDto = TaskCommentDto()
-        taskCommentDto.id = taskCommentId
-        taskCommentDto.taskId = taskId
-        taskCommentDto.username = loginUser.username
-        if (taskCommentService.deleteTaskComment(taskCommentDto) > 0){
+        val taskCommentDto = TaskCommentDto(taskCommentId, taskId, loginUser.username, null)
+        return if (taskCommentService.deleteTaskComment(taskCommentDto) > 0){
             // タスクコメント削除成功
-            return createResponseEntity(HttpStatus.NO_CONTENT, "")
+            createResponseEntity(HttpStatus.NO_CONTENT, "")
         } else {
             // タスクコメントが存在しない場合
-            return createResponseEntity(HttpStatus.NOT_FOUND, "this task comment does not found")
+            createResponseEntity(HttpStatus.NOT_FOUND, "this task comment does not found")
         }
     }
 }

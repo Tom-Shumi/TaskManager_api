@@ -6,12 +6,12 @@ import java.util.*
 
 data class DailyTaskHistory(
     var id: Int?
-    , var daily_task_id: Int
-    , var done_date: LocalDate
-    , var done_time: Int
+    , var dailyTaskId: Int
+    , var doneDate: LocalDate
+    , var doneTime: Int
     , var quota: Int
 ) {
 
-    constructor(daily_task_id: Int, done_date: LocalDate, done_time: Int, quota: Int)
-            : this(id =null, daily_task_id, done_date, done_time, quota)
+    constructor(dailyTaskId: Int, doneDate: LocalDate, doneTime: Int, quota: Int)
+            : this(id =null, dailyTaskId, doneDate, doneTime, quota)
 }

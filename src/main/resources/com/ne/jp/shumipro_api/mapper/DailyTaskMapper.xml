@@ -13,12 +13,12 @@
           , dt.description
           , dt.priority
           , dt.quota
-          , dt.delete_flg deleteFlg
-          , dt.create_date createDate
-          , dt.delete_date deleteDate
-          , dth.done_date doneDate
-          , dth.done_time doneTime
-          , dt.disp_order dispOrder
+          , dt.delete_flg
+          , dt.create_date
+          , dt.delete_date
+          , dth.done_date
+          , dth.done_time
+          , dt.disp_order
           , CASE
               WHEN 0 >= dt.quota - dth.done_time THEN 1
               ELSE 0

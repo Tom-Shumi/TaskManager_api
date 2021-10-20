@@ -3,6 +3,7 @@ package com.ne.jp.shumipro_api.dto
 import com.ne.jp.shumipro_api.entity.Task
 import com.ne.jp.shumipro_api.request.TaskRequest
 import com.ne.jp.shumipro_api.request.UserRequest
+import java.time.LocalDate
 import java.util.*
 
 data class TaskDto(
@@ -12,8 +13,8 @@ data class TaskDto(
     , var priority: Int? = 0
     , var status: Int? = 0
     , var description: String? = ""
-    , var planDate: Date? = null
-    , var doneDate: Date? = null
+    , var planDate: LocalDate? = null
+    , var doneDate: LocalDate? = null
 ) {
 
     fun setTaskDto(task: Task): TaskDto{

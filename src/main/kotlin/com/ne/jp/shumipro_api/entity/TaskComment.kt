@@ -1,22 +1,17 @@
 package com.ne.jp.shumipro_api.entity
 
 import com.ne.jp.shumipro_api.dto.TaskCommentDto
+import java.time.LocalDate
 import java.util.*
 
 data class TaskComment(
-    var id: Int? = 0
-    , var task_id: Int? = 0
-    , var username: String? = ""
-    , var comment: String? = ""
-    , var create_date: Date? = null
+    var id: Int
+    , var taskId: Int
+    , var username: String
+    , var comment: String?
+    , var createDate: LocalDate
 ) {
 
-    fun setTaskComment(taskCommentDto: TaskCommentDto): TaskComment {
-        this.id = taskCommentDto.id
-        this.task_id = taskCommentDto.taskId
-        this.username = taskCommentDto.username
-        this.comment = taskCommentDto.comment
-        this.create_date = taskCommentDto.createDate
-        return this
-    }
+    constructor(dto: TaskCommentDto):
+            this(dto.id, dto.taskId, dto.username, dto.comment, dto.createDate)
 }

@@ -19,8 +19,8 @@
         SELECT
             dt.id as dailyTaskId,
             dt.title,
-            dth.done_date as doneDate,
-            dth.done_time as doneTime,
+            dth.done_date,
+            dth.done_time,
             COALESCE(dth.quota, dt.quota) as quota,
             CASE
                 WHEN 0 >= dt.quota - dth.done_time THEN 1

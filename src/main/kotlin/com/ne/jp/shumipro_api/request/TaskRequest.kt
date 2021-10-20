@@ -1,5 +1,6 @@
 package com.ne.jp.shumipro_api.request
 
+import java.time.LocalDate
 import java.util.*
 import javax.validation.constraints.Max
 import javax.validation.constraints.Min
@@ -17,6 +18,6 @@ data class TaskRequest(
     @field:Max(value = 3, message="{e.003}")
     var status: Int?,
     var description: String?,
-    var date: Date?
+    var date: LocalDate?
 ) {
 }

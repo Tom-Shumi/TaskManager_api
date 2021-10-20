@@ -10,10 +10,10 @@ data class DailyTask(
     , var description: String?
     , var priority: Int
     , var quota: Int
-    , var delete_flg: Int
-    , var create_date: LocalDate
-    , var delete_date: LocalDate?
-    , var disp_order: Int?
+    , var deleteFlg: Int
+    , var createDate: LocalDate
+    , var deleteDate: LocalDate?
+    , var dispOrder: Int?
 ) {
 
     constructor(dto: DailyTaskDto)
