@@ -49,10 +49,10 @@
             , create_date
         )
         VALUES (
-            #{task_id}
+            #{taskId}
             , #{username}
             , #{comment}
-            , #{create_date}
+            , #{createDate}
         )
     </insert>
 

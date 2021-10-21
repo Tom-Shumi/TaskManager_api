@@ -50,15 +50,15 @@
         INSERT INTO daily_task_history (
             daily_task_id , done_date , done_time , quota)
         VALUES (
-            #{daily_task_id} , #{done_date} , #{done_time} , #{quota})
+            #{dailyTaskId} , #{doneDate} , #{doneTime} , #{quota})
     </insert>
 
     <update id="update" parameterType="com.ne.jp.shumipro_api.entity.DailyTaskHistory">
         UPDATE daily_task_history
         SET
-            daily_task_id = #{daily_task_id}
-            , done_date = #{done_date}
-            , done_time = #{done_time}
+            daily_task_id = #{dailyTaskId}
+            , done_date = #{doneDate}
+            , done_time = #{doneTime}
             , quota = #{quota}
         WHERE
             id = #{id}

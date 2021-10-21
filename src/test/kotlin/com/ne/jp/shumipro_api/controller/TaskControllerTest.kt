@@ -33,7 +33,7 @@ class TaskControllerTest {
     @InjectMocks
     private lateinit var taskController: TaskController
 
-    val handlerMethodArgumentResolver = HandlerMethodArgumentResolverImpl()
+    private val handlerMethodArgumentResolver = HandlerMethodArgumentResolverImpl()
 
     @BeforeEach
     fun initMock() {
@@ -44,7 +44,7 @@ class TaskControllerTest {
 
     @Test
     fun getTaskListOne() {
-        val taskDto = TaskDto(id = 1)
+        val taskDto = TaskDto(1, "username", "task", 1, 1, "desc", null, null)
         `when`(taskService.getTaskList(MockitoUtil.any(), MockitoUtil.any())).thenReturn(listOf(taskDto))
 
         mockMvc.perform(get("/api/task/"))

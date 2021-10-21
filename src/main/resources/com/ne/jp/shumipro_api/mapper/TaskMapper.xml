@@ -59,8 +59,8 @@
             , #{priority}
             , #{status}
             , #{description}
-            , #{plan_date}
-            , #{done_date}
+            , #{planDate}
+            , #{doneDate}
         )
     </insert>
     <update id="updateTask" parameterType="com.ne.jp.shumipro_api.entity.Task">
@@ -71,8 +71,8 @@
             , priority = #{priority}
             , status = #{status}
             , description = #{description}
-            , plan_date = #{plan_date}
-            , done_date = #{done_date}
+            , plan_date = #{planDate}
+            , done_date = #{doneDate}
         WHERE
             id = #{id}
     </update>

@@ -78,10 +78,10 @@
             , #{description}
             , #{priority}
             , #{quota}
-            , #{delete_flg}
-            , #{create_date}
-            , #{delete_date}
-            , #{disp_order}
+            , #{deleteFlg}
+            , #{createDate}
+            , #{deleteDate}
+            , #{dispOrder}
         )
     </insert>
 
@@ -93,9 +93,9 @@
             , description = #{description}
             , priority = #{priority}
             , quota = #{quota}
-            , delete_flg = #{delete_flg}
-            , create_date = #{create_date}
-            , delete_date = #{delete_date}
+            , delete_flg = #{deleteFlg}
+            , create_date = #{createDate}
+            , delete_date = #{deleteDate}
         WHERE
             id = #{id}
     </update>

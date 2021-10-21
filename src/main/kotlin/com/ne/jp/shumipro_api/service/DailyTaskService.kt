@@ -31,11 +31,11 @@ class DailyTaskService {
         val userCheck: User? = userMapper.getUser(dto.username)
         return if (userCheck is User){
             val dailyTask = DailyTask(dto)
-            if (dailyTask.delete_flg == 1) {
-                dailyTask.delete_date = LocalDate.now()
+            if (dailyTask.deleteFlg == 1) {
+                dailyTask.deleteDate = LocalDate.now()
             } else {
-                val count = dailyTaskMapper.countNotDelete(userCheck.username!!)
-                dailyTask.disp_order = count + 1
+                val count = dailyTaskMapper.countNotDelete(userCheck.username)
+                dailyTask.dispOrder = count + 1
             }
             dailyTaskMapper.insert(dailyTask)
             dto.id = dailyTask.id
@@ -51,16 +51,15 @@ class DailyTaskService {
             val dailyTask = DailyTask(dto)
 
             // 削除から復活させた場合
-            if (dailyTaskBefore.delete_flg == 1 && dailyTask.delete_flg == 0) {
-                dailyTask.delete_date = null
+            if (dailyTaskBefore.deleteFlg == 1 && dailyTask.deleteFlg == 0) {
+                dailyTask.deleteDate = null
                 val count = dailyTaskMapper.countNotDelete(dto.username)
-                dailyTask.disp_order = count + 1
+                dailyTask.dispOrder = count + 1
             // 削除に変更した場合
-            } else if (dailyTaskBefore.delete_flg == 0 && dailyTask.delete_flg == 1) {
-                dailyTask.delete_date = LocalDate.now()
-                dailyTask.disp_order = null
+            } else if (dailyTaskBefore.deleteFlg == 0 && dailyTask.deleteFlg == 1) {
+                dailyTask.deleteDate = LocalDate.now()
+                dailyTask.dispOrder = null
             }
-
             dailyTaskMapper.update(dailyTask)
             dto
         } else {
@@ -79,7 +78,7 @@ class DailyTaskService {
 
     fun updateDailyTaskDispOrder(id: Int, newDispOrder: Int, username: String) {
         val dailyTaskList = dailyTaskMapper.getDailyTaskDispOrder(username)
-        val prevDispOrder = dailyTaskMapper.findById(id)?.disp_order
+        val prevDispOrder = dailyTaskMapper.findById(id)?.dispOrder
 
         if (prevDispOrder is Int) {
             // 移動させるタスク取得

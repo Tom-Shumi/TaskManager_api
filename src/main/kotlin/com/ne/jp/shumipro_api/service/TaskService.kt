@@ -29,7 +29,7 @@ class TaskService {
             , "status" to status)
         val taskList: List<Task>? = taskMapper.getTaskByUsername(param)
         return if (taskList is List<Task> && taskList.isNotEmpty()){
-            taskList.map{ it -> TaskDto().setTaskDto(it)}.toList()
+            taskList.map{TaskDto(it)}.toList()
         } else {
             null
         }
@@ -41,7 +41,7 @@ class TaskService {
     fun registerTask(taskDto: TaskDto): TaskDto? {
         val userCheck: User? = userMapper.getUser(taskDto.username!!)
         return if (userCheck is User){
-            val task = Task().setTask(taskDto)
+            val task = Task(taskDto)
             taskMapper.insertTask(task)
             taskDto.id = task.id
             taskDto
@@ -56,12 +56,12 @@ class TaskService {
     fun updateTask(taskDto: TaskDto): TaskDto? {
         val taskBefore = taskMapper.getTaskById(taskDto.id!!)
         return if (taskBefore is Task && taskBefore.username.equals(taskDto.username)) {
-            val task = Task().setTask(taskDto)
+            val task = Task(taskDto)
             if (task.status == 3) {
-                task.plan_date = taskBefore.plan_date
-                task.done_date = if (task.done_date is Date) {task.done_date} else {Date()}
+                task.planDate = taskBefore.planDate
+                task.doneDate = if (task.doneDate is LocalDate) {task.doneDate} else { LocalDate.now()}
             } else {
-                task.done_date = taskBefore.done_date
+                task.doneDate = taskBefore.doneDate
             }
             taskMapper.updateTask(task)
             taskDto

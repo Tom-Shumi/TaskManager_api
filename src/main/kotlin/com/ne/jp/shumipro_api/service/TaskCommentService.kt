@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.*
+import java.time.LocalDate
 
 @Service
 @Transactional
@@ -30,17 +30,17 @@ class TaskCommentService {
             , "limit" to limit)
         val taskCommentList = taskCommentMapper.getTaskCommentByTaskId(param)
         return if (taskCommentList is List<TaskComment> && taskCommentList.isNotEmpty()){
-            taskCommentList.map{ it -> TaskCommentDto().setTaskCommentDto(it)}.toList()
+            taskCommentList.map{TaskCommentDto(it)}.toList()
         } else {
             null
         }
     }
 
     fun registerTaskComment(taskCommentDto: TaskCommentDto): TaskCommentDto?{
-        val taskCheck: Task? = taskMapper.getTaskById(taskCommentDto.taskId!!)
+        val taskCheck: Task? = taskMapper.getTaskById(taskCommentDto.taskId)
         return if (taskCheck is Task){
-            val taskComment = TaskComment().setTaskComment(taskCommentDto)
-            taskComment.create_date = Date()
+            val taskComment = TaskComment(taskCommentDto)
+            taskComment.createDate = LocalDate.now()
             taskCommentMapper.insertTaskComment(taskComment)
             taskCommentDto.id = taskComment.id
             taskCommentDto
@@ -58,7 +58,7 @@ class TaskCommentService {
         return if (taskComment is TaskComment) {
             taskComment.comment = taskCommentDto.comment
             taskCommentMapper.updateTaskComment(taskComment)
-            taskCommentDto.createDate = taskComment.create_date
+            taskCommentDto.createDate = taskComment.createDate
             taskCommentDto
         } else {
             null

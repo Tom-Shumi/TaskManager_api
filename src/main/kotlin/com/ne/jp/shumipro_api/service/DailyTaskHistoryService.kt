@@ -31,8 +31,8 @@ class DailyTaskHistoryService {
         val current = dailyTaskHistoryMapper.getByDailyTaskIdAndDoneDate(dto.dailyTaskId, doneDate)
         return if (current is DailyTaskHistory) {
             // update
-            current.done_time += dto.doneTime
-            if (current.done_time < 0) current.done_time = 0
+            current.doneTime += dto.doneTime
+            if (current.doneTime < 0) current.doneTime = 0
 
             dailyTaskHistoryMapper.update(current)
             DailyTaskHistoryDto(current)

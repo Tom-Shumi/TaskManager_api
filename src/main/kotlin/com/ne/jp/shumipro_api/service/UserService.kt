@@ -24,7 +24,7 @@ class UserService {
      */
     fun getUser(username: String): UserDto?{
         val user: User? = userMapper.getUser(username)
-        return if (user is User ) UserDto().setUserDtoFromEntity(user) else null
+        return if (user is User ) UserDto(user) else null
     }
 
     /**
@@ -38,7 +38,7 @@ class UserService {
             return null
         }
         userDto.encodedPassword = passwordEncoder.encode(userDto.password)
-        val user = User().setUser(userDto)
+        val user = User(userDto)
         userMapper.insertUser(user)
         return userDto
     }
@@ -50,7 +50,7 @@ class UserService {
         val userCheck: User? = userMapper.getUser(userDto.username!!)
         if (userCheck is User){
             userDto.encodedPassword = passwordEncoder.encode(userDto.password)
-            val user = User().setUser(userDto)
+            val user = User(userDto)
             userMapper.updateUser(user)
             return userDto
         } else {

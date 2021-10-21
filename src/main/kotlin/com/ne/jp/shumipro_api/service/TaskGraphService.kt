@@ -16,7 +16,6 @@ class TaskGraphService {
     lateinit var taskCommentMapper: TaskCommentMapper
 
     fun getTaskGraphInfo(username : String) : TaskGraphDto {
-        var taskGraphDto = TaskGraphDto()
 
         val fromDate  = LocalDate.now().minusDays(6)
         val toDate = LocalDate.now().plusDays(6)
@@ -25,10 +24,9 @@ class TaskGraphService {
             "username" to username
             , "fromDate" to fromDate
             , "toDate" to toDate)
-        taskGraphDto.planTask = taskMapper.getPlanTaskGraphInfo(param)
-        taskGraphDto.doneTask = taskMapper.getDoneTaskGraphIndo(param)
-        taskGraphDto.comment = taskCommentMapper.getTaskCommentGraphIndo(param)
 
-        return taskGraphDto
+        return TaskGraphDto(taskMapper.getPlanTaskGraphInfo(param),
+            taskMapper.getDoneTaskGraphIndo(param),
+            taskCommentMapper.getTaskCommentGraphIndo(param))
     }
 }
