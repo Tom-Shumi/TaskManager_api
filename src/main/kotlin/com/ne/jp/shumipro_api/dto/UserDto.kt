@@ -4,25 +4,13 @@ import com.ne.jp.shumipro_api.entity.User
 import com.ne.jp.shumipro_api.request.UserRequest
 
 data class UserDto(
-    var username: String? = ""
-    ,var password: String? = ""
-    ,var encodedPassword: String? = ""
-    ,var enabledflg: Int? = 0
-    ,var adminflg: Int? = 0) {
+    var username: String,
+    var password: String?,
+    var encodedPassword: String?,
+    var enabledflg: Int,
+    var adminflg: Int) {
 
-    fun setUserDtoFromRequest(userRequest: UserRequest): UserDto{
-        username = userRequest.username
-        password = userRequest.password
-        enabledflg = userRequest.enabledflg
-        adminflg = userRequest.adminflg
-        return this
-    }
+    constructor(request: UserRequest): this(request.username, request.password, null, request.enabledflg, request.adminflg)
 
-    fun setUserDtoFromEntity(user: User): UserDto{
-        username = user.username
-        password = user.password
-        enabledflg = user.enabledflg
-        adminflg = user.adminflg
-        return this
-    }
+    constructor(user: User): this(user.username, user.password, null, user.enabledflg, user.adminflg)
 }

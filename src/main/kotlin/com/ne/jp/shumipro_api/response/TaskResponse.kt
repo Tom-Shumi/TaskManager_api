@@ -7,25 +7,18 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 data class TaskResponse(
-    var id: Int? = 0
-    , var username: String? = ""
-    , var task: String? = ""
-    , var priority: Int? = 0
-    , var status: Int? = 0
-    , var description: String? = ""
-    , var planDate: String? = ""
-    , var doneDate: String? = ""
-    , var comments: List<TaskCommentResponse>? = null
+    var id: Int?,
+    var username: String?,
+    var task: String,
+    var priority: Int,
+    var status: Int,
+    var description: String?,
+    var planDate: String?,
+    var doneDate: String?,
+    var comments: List<TaskCommentResponse>?
 ) {
-    fun setTaskResponse(taskDto: TaskDto): TaskResponse{
-        this.id = taskDto.id
-        this.username = taskDto.username
-        this.task = taskDto.task
-        this.priority = taskDto.priority
-        this.status = taskDto.status
-        this.description = taskDto.description
-        this.planDate = DateUtil.toStringYYYYMMDD(taskDto.planDate)
-        this.doneDate = DateUtil.toStringYYYYMMDD(taskDto.doneDate)
-        return this
-    }
+
+    constructor(dto: TaskDto): this(dto.id, dto.username, dto.task, dto.priority, dto.status, dto.description,
+        DateUtil.toStringYYYYMMDD(dto.planDate), DateUtil.toStringYYYYMMDD(dto.doneDate), null)
+
 }

@@ -4,11 +4,11 @@ import com.ne.jp.shumipro_api.dto.DailyTaskHistoryDto
 import java.time.LocalDate
 
 data class DailyTaskHistoryResponse(
-    var id: Int
-    , var dailyTaskId: Int
-    , var doneDate: LocalDate
-    , var doneTime: Int
-    , var quota: Int
+    var id: Int,
+    var dailyTaskId: Int,
+    var doneDate: LocalDate,
+    var doneTime: Int,
+    var quota: Int
 ) {
 
     constructor(dto: DailyTaskHistoryDto)

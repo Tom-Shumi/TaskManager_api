@@ -31,7 +31,7 @@ class UserController: BaseController() {
         val userDto: UserDto? = userService.getUser(username)
         if (userDto is UserDto){
             // ユーザ取得成功
-            val jsonString = gson.toJson(UserResponse().setUserResponse(userDto))
+            val jsonString = gson.toJson(UserResponse(userDto))
             return createResponseEntity(HttpStatus.OK, jsonString)
         } else {
             // ユーザが存在しない場合
@@ -52,11 +52,11 @@ class UserController: BaseController() {
             // リクエストが不正だった場合
             return createResponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
         }
-        val userDtoRequest = UserDto().setUserDtoFromRequest(userRequest)
+        val userDtoRequest = UserDto(userRequest)
         val userDto: UserDto? = userService.registerUser(userDtoRequest)
         return if (userDto is UserDto){
             // ユーザ登録成功
-            val jsonString = gson.toJson(UserResponse().setUserResponse(userDto))
+            val jsonString = gson.toJson(UserResponse(userDto))
             createResponseEntity(HttpStatus.OK, jsonString)
         } else {
             // 同一のユーザ名が既に存在した場合
@@ -77,12 +77,12 @@ class UserController: BaseController() {
             // リクエストが不正だった場合
             return createResponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
         } else {
-            val userDtoRequest = UserDto().setUserDtoFromRequest(userRequest)
+            val userDtoRequest = UserDto(userRequest)
             userDtoRequest.username = username
             val userDto: UserDto? = userService.updateUser(userDtoRequest)
             if (userDto is UserDto){
                 // ユーザ更新成功
-                val jsonString = gson.toJson(UserResponse().setUserResponse(userDto))
+                val jsonString = gson.toJson(UserResponse(userDto))
                 return createResponseEntity(HttpStatus.OK, jsonString)
             } else {
                 // 対象ユーザが存在しなかった場合

@@ -7,38 +7,24 @@ import java.time.LocalDate
 import java.util.*
 
 data class TaskDto(
-    var id: Int? = 0
-    , var username: String? = ""
-    , var task: String? = ""
-    , var priority: Int? = 0
-    , var status: Int? = 0
-    , var description: String? = ""
-    , var planDate: LocalDate? = null
-    , var doneDate: LocalDate? = null
+    var id: Int?,
+    var username: String?,
+    var task: String,
+    var priority: Int,
+    var status: Int,
+    var description: String?,
+    var planDate: LocalDate?,
+    var doneDate: LocalDate?
 ) {
 
-    fun setTaskDto(task: Task): TaskDto{
-        this.id = task.id
-        this.username = task.username
-        this.task = task.task
-        this.priority = task.priority
-        this.status = task.status
-        this.description = task.description
-        this.planDate = task.plan_date
-        this.doneDate = task.done_date
-        return this
-    }
-    fun setTaskDto(taskRequest: TaskRequest): TaskDto{
-        this.task = taskRequest.task
-        this.priority = taskRequest.priority
-        this.status = taskRequest.status
-        this.description = taskRequest.description
-        if (taskRequest.status == 3) {
-            this.doneDate = taskRequest.date
-        } else {
-            this.planDate = taskRequest.date
-        }
+    constructor(task: Task): this(task.id, task.username, task.task, task.priority, task.status, task.description, task.planDate, task.doneDate)
 
-        return this
+    constructor(request: TaskRequest): this(null, null, request.task, request.priority,
+        request.status, request.description, null, null) {
+        if (request.status == 3) {
+            this.doneDate = request.date
+        } else {
+            this.planDate = request.date
+        }
     }
 }

@@ -5,14 +5,10 @@ import com.ne.jp.shumipro_api.dto.TaskGraphDto
 import com.ne.jp.shumipro_api.util.DateUtil
 
 data class TaskGraphResponse(
-    var planTask : List<Map<String, Int>>? = null
-    , var doneTask : List<Map<String, Int>>? = null
-    , var comment : List<Map<String, Int>>? = null
+    var planTask : List<Map<String, Int>>?,
+    var doneTask : List<Map<String, Int>>?,
+    var comment : List<Map<String, Int>>?
 ) {
-    fun setTaskGraphResponse(taskGraphDto: TaskGraphDto): TaskGraphResponse{
-        this.planTask = taskGraphDto.planTask
-        this.doneTask = taskGraphDto.doneTask
-        this.comment = taskGraphDto.comment
-        return this
-    }
+
+    constructor(dto: TaskGraphDto): this(dto.planTask, dto.doneTask, dto.comment)
 }

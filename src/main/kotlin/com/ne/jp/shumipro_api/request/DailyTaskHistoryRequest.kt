@@ -6,12 +6,12 @@ import javax.validation.constraints.NotNull
 
 data class DailyTaskHistoryRequest(
     @field:NotNull(message="{e.001}")
-    var daily_task_id: Int,
+    var dailyTaskId: Int,
     @field:NotNull(message="{e.001}")
-    var done_time: Int,
+    var doneTime: Int,
     @field:NotNull(message="{e.001}")
     @field:Min(value = 1, message="{e.003}")
     var quota: Int,
-    var done_date: LocalDate?
+    var doneDate: LocalDate?
 ) {
 }

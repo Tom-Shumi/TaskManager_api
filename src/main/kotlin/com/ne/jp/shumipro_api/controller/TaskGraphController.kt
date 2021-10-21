@@ -27,7 +27,7 @@ class TaskGraphController: BaseController() {
     @GetMapping
     fun getTaskGraphInfo(@AuthenticationPrincipal loginUser: ShumiproLoginUser): ResponseEntity<String> {
         val taskGraphDto = taskGraphService.getTaskGraphInfo(loginUser.username)
-        val taskGraphResponse = gson.toJson(TaskGraphResponse().setTaskGraphResponse(taskGraphDto))
+        val taskGraphResponse = gson.toJson(TaskGraphResponse(taskGraphDto))
         return createResponseEntity(HttpStatus.OK, taskGraphResponse)
     }
 

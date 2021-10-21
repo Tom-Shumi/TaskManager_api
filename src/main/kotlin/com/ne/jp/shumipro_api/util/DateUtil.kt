@@ -12,8 +12,6 @@ class DateUtil {
 
         private const val YYYYMMDD: String = "yyyy-MM-dd"
         private const val nonDelimiterYYYYMMDD: String = "yyyyMMdd"
-        private val dfYYYYMMDD: SimpleDateFormat = SimpleDateFormat(YYYYMMDD)
-        private val dfYYYYMMDDHHMMSS = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 
         fun toLocalDateYYYYMMDD(date: String?): LocalDate? {
             return try {
@@ -34,10 +32,5 @@ class DateUtil {
         fun toStringYYYYMMDD(date: LocalDate?): String
             = if (date is LocalDate) date.format(DateTimeFormatter.ofPattern(YYYYMMDD)) else ""
 
-        fun toStringYYYYMMDD(date: Date?):String
-            = if (Objects.nonNull(date)) dfYYYYMMDD.format(date) else ""
-
-        fun toStringYYYYMMDDHHMMSS(date: Date?):String
-                = if (Objects.nonNull(date)) dfYYYYMMDDHHMMSS.format(date) else ""
     }
 }

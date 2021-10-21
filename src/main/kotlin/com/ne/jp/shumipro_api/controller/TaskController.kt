@@ -43,9 +43,9 @@ class TaskController: BaseController() {
     }
 
     fun createTaskResponse(taskDto: TaskDto): TaskResponse{
-        val taskResponse = TaskResponse().setTaskResponse(taskDto)
+        val taskResponse = TaskResponse(taskDto)
         val taskCommentList = taskCommentService.getTaskCommentList(taskDto.id!!, null)
-        taskResponse.comments = taskCommentList?.map{it -> TaskCommentResponse().setTaskCommentResponse(it)}?.toList()
+        taskResponse.comments = taskCommentList?.map{it -> TaskCommentResponse(it)}?.toList()
         return taskResponse
     }
     /**
@@ -58,12 +58,12 @@ class TaskController: BaseController() {
             // リクエストが不正だった場合
             return createResponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
         }
-        val taskDtoRequest = TaskDto().setTaskDto(taskRequest)
+        val taskDtoRequest = TaskDto(taskRequest)
         taskDtoRequest.username = loginUser.username
         val taskDto: TaskDto? = taskService.registerTask(taskDtoRequest)
         return if (taskDto is TaskDto){
             // タスク登録成功
-            val jsonString = gson.toJson(TaskResponse().setTaskResponse(taskDto))
+            val jsonString = gson.toJson(TaskResponse(taskDto))
             createResponseEntity(HttpStatus.OK, jsonString)
         } else {
             // ユーザが存在しない場合
@@ -81,13 +81,13 @@ class TaskController: BaseController() {
             // リクエストが不正だった場合
             return createResponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
         }
-        val taskDtoRequest = TaskDto().setTaskDto(taskRequest)
+        val taskDtoRequest = TaskDto(taskRequest)
         taskDtoRequest.id = taskId
         taskDtoRequest.username = loginUser.username
         val taskDto = taskService.updateTask(taskDtoRequest)
         return if (taskDto is TaskDto){
             // タスク更新成功
-            val jsonString = gson.toJson(TaskResponse().setTaskResponse(taskDto))
+            val jsonString = gson.toJson(TaskResponse(taskDto))
             createResponseEntity(HttpStatus.OK, jsonString)
         } else {
             // タスクが存在しない場合
@@ -105,11 +105,10 @@ class TaskController: BaseController() {
             // リクエストが不正だった場合
             return createResponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
         }
-        val taskDtoRequest = TaskDto(id = taskId, status = taskStatusRequest.status)
-        val taskDto = taskService.updateStatusTask(taskDtoRequest)
+        val taskDto = taskService.updateStatusTask(taskId, taskStatusRequest.status)
         if (taskDto is TaskDto){
             // タスク更新成功
-            val jsonString = gson.toJson(TaskResponse().setTaskResponse(taskDto))
+            val jsonString = gson.toJson(TaskResponse(taskDto))
             return createResponseEntity(HttpStatus.OK, jsonString)
         } else {
             // タスクが存在しない場合
@@ -122,10 +121,7 @@ class TaskController: BaseController() {
      */
     @DeleteMapping("/{taskId}")
     fun deleteTask(@PathVariable("taskId") taskId: Int, @AuthenticationPrincipal loginUser: ShumiproLoginUser) : ResponseEntity<String> {
-        val taskDtoRequest = TaskDto()
-        taskDtoRequest.id = taskId
-        taskDtoRequest.username = loginUser.username
-        if (taskService.deleteTask(taskDtoRequest) > 0){
+        if (taskService.deleteTask(taskId, loginUser.username) > 0){
             // タスク削除成功
             return createResponseEntity(HttpStatus.NO_CONTENT, "")
         } else {

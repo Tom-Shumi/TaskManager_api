@@ -6,16 +6,16 @@ import java.time.LocalDate
 import java.util.*
 
 data class DailyTaskDto(
-    var id: Int?
-    , var username: String
-    , var title: String
-    , var description: String?
-    , var priority: Int
-    , var quota: Int
-    , var deleteFlg: Int
-    , var createDate: LocalDate
-    , var deleteDate: LocalDate?
-    , var dispOrder: Int?
+    var id: Int?,
+    var username: String,
+    var title: String,
+    var description: String?,
+    var priority: Int,
+    var quota: Int,
+    var deleteFlg: Int,
+    var createDate: LocalDate,
+    var deleteDate: LocalDate?,
+    var dispOrder: Int?
 ) {
     constructor(request: DailyTaskRequest, username: String, createDate: LocalDate)
             : this(null, username, request.title, request.description,

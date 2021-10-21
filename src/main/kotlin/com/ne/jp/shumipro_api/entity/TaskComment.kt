@@ -5,11 +5,11 @@ import java.time.LocalDate
 import java.util.*
 
 data class TaskComment(
-    var id: Int
-    , var taskId: Int
-    , var username: String
-    , var comment: String?
-    , var createDate: LocalDate
+    var id: Int?,
+    var taskId: Int,
+    var username: String,
+    var comment: String?,
+    var createDate: LocalDate
 ) {
 
     constructor(dto: TaskCommentDto):

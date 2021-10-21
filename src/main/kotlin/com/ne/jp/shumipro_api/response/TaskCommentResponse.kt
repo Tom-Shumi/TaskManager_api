@@ -6,13 +6,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 data class TaskCommentResponse(
-    var id: Int
-    , var taskId: Int
-    , var username: String
-    , var comment: String?
-    , var createDate: String
+    var id: Int?,
+    var taskId: Int,
+    var username: String,
+    var comment: String?,
+    var createDate: String
 ) {
 
     constructor(dto: TaskCommentDto):
-            this(dto.id, dto.taskId, dto.username, dto.comment, DateUtil.toStringYYYYMMDDHHMMSS(dto.createDate))
+            this(dto.id, dto.taskId, dto.username, dto.comment, DateUtil.toStringYYYYMMDD(dto.createDate))
 }

@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull
 data class TaskCommentRequest(
 
     @field:NotNull(message="{e.001}")
-    var comment: String?
+    var comment: String
 
 ) {
 
