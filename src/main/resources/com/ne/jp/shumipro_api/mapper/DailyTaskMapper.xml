@@ -33,7 +33,7 @@
             AND dt.delete_flg = '0'
           </if>
         ORDER BY
-          deleteFlg ASC
+          delete_flg ASC
           , doneFlg ASC
           , disp_order ASC
           , dt.priority DESC
