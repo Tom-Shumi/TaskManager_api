@@ -22,7 +22,7 @@ import java.time.LocalDate
  * デイリータスクコントローラ
  */
 @RestController
-@RequestMapping("/api/daily_task")
+@RequestMapping("/api/dailyTask")
 class DailyTaskController: BaseController() {
 
     @Autowired

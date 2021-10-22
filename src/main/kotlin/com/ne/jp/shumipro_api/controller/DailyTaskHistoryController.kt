@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*
  * デイリータスク履歴コントローラ
  */
 @RestController
-@RequestMapping("/api/daily_task_history")
+@RequestMapping("/api/dailyTaskHistory")
 class DailyTaskHistoryController: BaseController()  {
 
     @Autowired
@@ -50,7 +50,7 @@ class DailyTaskHistoryController: BaseController()  {
     /**
      * デイリータスク履歴登録（遅れて登録）
      */
-    @PostMapping("/register_later")
+    @PostMapping("/registerLater")
     fun registerDailyTaskHistoryRegisterLater(@Validated @RequestBody request: DailyTaskHistoryRequest,
                                               errors: Errors, @AuthenticationPrincipal loginUser: ShumiproLoginUser): ResponseEntity<String> {
         val errorMsg: String? = checkErrors(errors)
