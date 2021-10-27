@@ -12,7 +12,7 @@ import java.util.*
 @Mapper
 interface DailyTaskMapper {
 
-    fun getDailyTaskInfoByUsername(@Param("username") username: String, @Param("doneDate") doneDate: LocalDate,
+    fun getDailyTaskList(@Param("username") username: String, @Param("doneDate") doneDate: LocalDate,
                                    @Param("includeDeleteFlg") includeDeleteFlg: Boolean): List<DailyTaskInfoDto>
 
     fun findById(@Param("id") id: Int): DailyTask?
@@ -28,4 +28,6 @@ interface DailyTaskMapper {
     fun updateDailyTaskDispOrder(@Param("id") id: Int, @Param("dispOrder") dispOrder: Int)
 
     fun countNotDelete(@Param("username") username: String): Int
+
+    fun getDailyTaskPlainList(@Param("username") username: String): List<DailyTaskInfoDto>
 }

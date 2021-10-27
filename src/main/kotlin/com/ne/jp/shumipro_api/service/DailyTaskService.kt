@@ -24,7 +24,7 @@ class DailyTaskService {
     lateinit var userMapper: UserMapper
 
     fun getDailyTaskList(username: String, includeDeleteFlg: Boolean): List<DailyTaskInfoDto> {
-        return dailyTaskMapper.getDailyTaskInfoByUsername(username, LocalDate.now(), includeDeleteFlg)
+        return dailyTaskMapper.getDailyTaskList(username, LocalDate.now(), includeDeleteFlg)
     }
 
     fun registerDailyTask(dto: DailyTaskDto): DailyTaskDto? {
@@ -94,6 +94,9 @@ class DailyTaskService {
                 renumberingDispOrder++
             }
         }
+    }
 
+    fun getDailyTaskPlainList(username: String): List<DailyTaskInfoDto> {
+        return dailyTaskMapper.getDailyTaskPlainList(username)
     }
 }

@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ne.jp.shumipro_api.mapper.DailyTaskMapper">
 
-    <select id="getDailyTaskInfoByUsername" resultType="com.ne.jp.shumipro_api.dto.DailyTaskInfoDto"
+    <select id="getDailyTaskList" resultType="com.ne.jp.shumipro_api.dto.DailyTaskInfoDto"
             parameterType="map">
         SELECT
           dt.id
@@ -134,4 +134,29 @@
             username = #{username}
             AND delete_flg = '0'
     </select>
+
+    <select id="getDailyTaskPlainList" resultType="com.ne.jp.shumipro_api.dto.DailyTaskInfoDto"
+            parameterType="map">
+        SELECT
+            dt.id
+            , dt.username
+            , dt.title
+            , dt.description
+            , dt.priority
+            , dt.quota
+            , dt.delete_flg
+            , dt.create_date
+            , dt.delete_date
+            , dt.disp_order
+        FROM
+            daily_task dt
+        WHERE
+            dt.username = #{username}
+            AND dt.delete_flg = '0'
+        ORDER BY
+            disp_order ASC
+            , dt.priority DESC
+            , dt.id DESC
+    </select>
+
 </mapper>

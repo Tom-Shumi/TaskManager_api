@@ -119,4 +119,19 @@ class DailyTaskController: BaseController() {
         dailyTaskService.updateDailyTaskDispOrder(id, newDispOrder, loginUser.username)
         return createResponseEntity(HttpStatus.NO_CONTENT, "")
     }
+
+    /**
+     * プレーンなデイリータスクの一覧を取得（DispOrderのみでソート）
+     */
+    @GetMapping("/plain")
+    fun getDailyTaskPlainList(@AuthenticationPrincipal loginUser: ShumiproLoginUser, ): ResponseEntity<String> {
+        val dailyTaskInfoDtoList: List<DailyTaskInfoDto> = dailyTaskService.getDailyTaskPlainList(loginUser.username)
+        return if (CollectionUtils.isEmpty(dailyTaskInfoDtoList)){
+            createResponseEntity(HttpStatus.NO_CONTENT, null)
+        } else {
+            // デイリータスク取得成功
+            val jsonString = gson.toJson(dailyTaskInfoDtoList.map{DailyTaskInfoResponse(it)}.toList())
+            createResponseEntity(HttpStatus.OK, jsonString)
+        }
+    }
 }
