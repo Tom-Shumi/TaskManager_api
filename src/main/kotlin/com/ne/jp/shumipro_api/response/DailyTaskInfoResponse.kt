@@ -1,6 +1,7 @@
 package com.ne.jp.shumipro_api.response
 
 import com.ne.jp.shumipro_api.dto.DailyTaskInfoDto
+import com.ne.jp.shumipro_api.dto.DailyTaskPlainInfoDto
 import com.ne.jp.shumipro_api.util.DateUtil
 import java.util.*
 
@@ -23,4 +24,7 @@ data class DailyTaskInfoResponse(
     this(dto.id, dto.username, dto.title, dto.description, dto.priority, dto.quota, dto.deleteFlg, DateUtil.toStringYYYYMMDD(dto.createDate),
         DateUtil.toStringYYYYMMDD(dto.deleteDate), DateUtil.toStringYYYYMMDD(dto.doneDate), dto.doneTime, dto.dispOrder)
 
+    constructor(dto: DailyTaskPlainInfoDto):
+            this(dto.id, dto.username, dto.title, dto.description, dto.priority, dto.quota, dto.deleteFlg, DateUtil.toStringYYYYMMDD(dto.createDate),
+                DateUtil.toStringYYYYMMDD(dto.deleteDate), null, null, dto.dispOrder)
 }

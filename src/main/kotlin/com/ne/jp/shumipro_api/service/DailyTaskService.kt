@@ -2,6 +2,7 @@ package com.ne.jp.shumipro_api.service
 
 import com.ne.jp.shumipro_api.dto.DailyTaskDto
 import com.ne.jp.shumipro_api.dto.DailyTaskInfoDto
+import com.ne.jp.shumipro_api.dto.DailyTaskPlainInfoDto
 import com.ne.jp.shumipro_api.dto.TaskDto
 import com.ne.jp.shumipro_api.entity.DailyTask
 import com.ne.jp.shumipro_api.entity.Task
@@ -96,7 +97,7 @@ class DailyTaskService {
         }
     }
 
-    fun getDailyTaskPlainList(username: String): List<DailyTaskInfoDto> {
+    fun getDailyTaskPlainList(username: String): List<DailyTaskPlainInfoDto> {
         return dailyTaskMapper.getDailyTaskPlainList(username)
     }
 }

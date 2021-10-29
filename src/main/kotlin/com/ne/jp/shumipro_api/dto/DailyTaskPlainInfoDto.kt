@@ -2,7 +2,7 @@ package com.ne.jp.shumipro_api.dto
 
 import java.time.LocalDate
 
-data class DailyTaskInfoDto(
+data class DailyTaskPlainInfoDto(
     var id: Int,
     var username: String,
     var title: String,
@@ -12,7 +12,5 @@ data class DailyTaskInfoDto(
     var deleteFlg: Int,
     var createDate: LocalDate,
     var deleteDate: LocalDate?,
-    var doneDate: LocalDate?,
-    var doneTime: Int?,
     var dispOrder: Int?
 )

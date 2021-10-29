@@ -2,6 +2,7 @@ package com.ne.jp.shumipro_api.mapper
 
 import com.ne.jp.shumipro_api.dto.DailyTaskHistoryInfoDto
 import com.ne.jp.shumipro_api.dto.DailyTaskInfoDto
+import com.ne.jp.shumipro_api.dto.DailyTaskPlainInfoDto
 import com.ne.jp.shumipro_api.entity.DailyTask
 import com.ne.jp.shumipro_api.entity.Task
 import org.apache.ibatis.annotations.Mapper
@@ -29,5 +30,5 @@ interface DailyTaskMapper {
 
     fun countNotDelete(@Param("username") username: String): Int
 
-    fun getDailyTaskPlainList(@Param("username") username: String): List<DailyTaskInfoDto>
+    fun getDailyTaskPlainList(@Param("username") username: String): List<DailyTaskPlainInfoDto>
 }

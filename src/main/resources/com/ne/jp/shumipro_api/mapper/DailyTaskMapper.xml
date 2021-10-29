@@ -135,7 +135,7 @@
             AND delete_flg = '0'
     </select>
 
-    <select id="getDailyTaskPlainList" resultType="com.ne.jp.shumipro_api.dto.DailyTaskInfoDto"
+    <select id="getDailyTaskPlainList" resultType="com.ne.jp.shumipro_api.dto.DailyTaskPlainInfoDto"
             parameterType="map">
         SELECT
             dt.id

@@ -2,6 +2,7 @@ package com.ne.jp.shumipro_api.controller
 
 import com.ne.jp.shumipro_api.dto.DailyTaskDto
 import com.ne.jp.shumipro_api.dto.DailyTaskInfoDto
+import com.ne.jp.shumipro_api.dto.DailyTaskPlainInfoDto
 import com.ne.jp.shumipro_api.entity.ShumiproLoginUser
 import com.ne.jp.shumipro_api.request.DailyTaskRequest
 import com.ne.jp.shumipro_api.response.DailyTaskInfoResponse
@@ -125,7 +126,7 @@ class DailyTaskController: BaseController() {
      */
     @GetMapping("/plain")
     fun getDailyTaskPlainList(@AuthenticationPrincipal loginUser: ShumiproLoginUser, ): ResponseEntity<String> {
-        val dailyTaskInfoDtoList: List<DailyTaskInfoDto> = dailyTaskService.getDailyTaskPlainList(loginUser.username)
+        val dailyTaskInfoDtoList: List<DailyTaskPlainInfoDto> = dailyTaskService.getDailyTaskPlainList(loginUser.username)
         return if (CollectionUtils.isEmpty(dailyTaskInfoDtoList)){
             createResponseEntity(HttpStatus.NO_CONTENT, null)
         } else {
