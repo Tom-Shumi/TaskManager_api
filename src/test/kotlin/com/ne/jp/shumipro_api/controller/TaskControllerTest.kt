@@ -6,7 +6,9 @@ import com.ne.jp.shumipro_api.service.TaskCommentService
 import com.ne.jp.shumipro_api.service.TaskService
 import com.ne.jp.shumipro_api.util.HandlerMethodArgumentResolverImpl
 import com.ne.jp.shumipro_api.util.MockitoUtil
+import org.junit.Ignore
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -42,6 +44,7 @@ class TaskControllerTest {
 
     private val gson = Gson()
 
+    @Disabled
     @Test
     fun getTaskListOne() {
         val taskDto = TaskDto(1, "username", "task", 1, 1, "desc", null, null)
