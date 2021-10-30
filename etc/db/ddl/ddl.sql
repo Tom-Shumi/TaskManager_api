@@ -80,3 +80,23 @@ CREATE TABLE public.daily_task_history (
 );
 
 ALTER TABLE daily_task ADD COLUMN disp_order int4;
+
+-- DROP TABLE public.zero_second_thinking_theme;
+
+CREATE TABLE public.zero_second_thinking_theme (
+	id serial NOT NULL,
+	username varchar(50) NOT NULL,
+	theme varchar(255) NOT NULL,
+	done_date date NOT NULL,
+	CONSTRAINT zero_second_thinking_theme_pkey PRIMARY KEY (id)
+);
+
+-- DROP TABLE public.zero_second_thinking_content;
+
+CREATE TABLE public.zero_second_thinking_content (
+	id serial NOT NULL,
+	theme_id int4 NOT NULL,
+	before_content_id int4 NULL,
+	content varchar(255) NOT NULL,
+	CONSTRAINT zero_second_thinking_content_pkey PRIMARY KEY (id)
+);
