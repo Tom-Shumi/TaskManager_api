@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ne.jp.shumipro_api.mapper.ZeroSecondThinkingThemeMapper">
+
+    <select id="getByUsernameAndNextKey" resultType="com.ne.jp.shumipro_api.dto.ZeroSecondThinkingDto">
+        SELECT
+            id
+            , theme
+            , done_date
+        FROM
+            zero_second_thinking_theme
+        WHERE
+            username = #{username}
+            <if test="nextKey != null">
+                AND id <![CDATA[<]]> #{nextKey}
+            </if>
+        ORDER BY
+            id DESC
+        LIMIT #{limit}
+    </select>
+
+</mapper>
