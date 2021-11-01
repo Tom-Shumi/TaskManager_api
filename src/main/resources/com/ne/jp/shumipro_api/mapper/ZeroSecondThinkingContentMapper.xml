@@ -4,9 +4,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ne.jp.shumipro_api.mapper.ZeroSecondThinkingContentMapper">
 
-    <select id="getDailyTaskPlainList" resultType="com.ne.jp.shumipro_api.dto.DailyTaskPlainInfoDto"
-            parameterType="map">
-
+    <select id="getByThemeId" resultType="com.ne.jp.shumipro_api.entity.ZeroSecondThinkingContent">
+        SELECT
+            id
+            , theme_id
+            , content
+        FROM
+            zero_second_thinking_content
+        WHERE
+            theme_id = #{themeId}
+        ORDER BY
+            id
     </select>
-
 </mapper>

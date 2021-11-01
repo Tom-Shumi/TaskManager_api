@@ -96,7 +96,6 @@ CREATE TABLE public.zero_second_thinking_theme (
 CREATE TABLE public.zero_second_thinking_content (
 	id serial NOT NULL,
 	theme_id int4 NOT NULL,
-	before_content_id int4 NULL,
 	content varchar(255) NOT NULL,
 	CONSTRAINT zero_second_thinking_content_pkey PRIMARY KEY (id)
 );

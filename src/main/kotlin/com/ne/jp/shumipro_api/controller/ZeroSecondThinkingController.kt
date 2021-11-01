@@ -3,6 +3,7 @@ package com.ne.jp.shumipro_api.controller
 import com.ne.jp.shumipro_api.dto.ZeroSecondThinkingDto
 import com.ne.jp.shumipro_api.entity.ShumiproLoginUser
 import com.ne.jp.shumipro_api.request.TaskCommentRequest
+import com.ne.jp.shumipro_api.request.ZeroSecondThinkingRequest
 import com.ne.jp.shumipro_api.response.ZeroSecondThinkingResponse
 import com.ne.jp.shumipro_api.service.ZeroSecondThinkingService
 import org.springframework.beans.factory.annotation.Autowired
@@ -42,28 +43,28 @@ class ZeroSecondThinkingController: BaseController() {
         }
     }
 
-//    /**
-//     * 0秒思考登録処理
-//     */
-//    @PostMapping
-//    fun registerZeroSecondThinking(@Validated @RequestBody zeroSecondThinkingRequest: ZeroSecondThinkingRequest,
-//                                   errors: Errors, @AuthenticationPrincipal loginUser: ShumiproLoginUser
-//    ): ResponseEntity<String> {
-//        val errorMsg: String? = checkErrors(errors)
-//        if (errorMsg is String){
-//            // リクエストが不正だった場合
-//            return createResponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
-//        }
-//        val dto = ZeroSecondThinkingDto(1)
-//        val id = zeroSecondThinkingService.registerZeroSecondThinking(dto)
-//        return if (id is Int){
-//            // 登録成功
-//            val param = mapOf("id" to id)
-//            val jsonString = gson.toJson(param)
-//            createResponseEntity(HttpStatus.OK, jsonString)
-//        } else {
-//            // ユーザが存在しない場合
-//            createResponseEntity(HttpStatus.BAD_REQUEST, "${loginUser.username} does not exist")
-//        }
-//    }
+    /**
+     * 0秒思考登録処理
+     */
+    @PostMapping
+    fun registerZeroSecondThinking(@Validated @RequestBody zeroSecondThinkingRequest: ZeroSecondThinkingRequest,
+                                   errors: Errors, @AuthenticationPrincipal loginUser: ShumiproLoginUser
+    ): ResponseEntity<String> {
+        val errorMsg: String? = checkErrors(errors)
+        if (errorMsg is String){
+            // リクエストが不正だった場合
+            return createResponseEntity(HttpStatus.BAD_REQUEST, errorMsg)
+        }
+        val id = zeroSecondThinkingService.registerZeroSecondThinking(loginUser.username,
+            zeroSecondThinkingRequest.theme, zeroSecondThinkingRequest.contentList)
+        return if (id is Int){
+            // 登録成功
+            val param = mapOf("id" to id)
+            val jsonString = gson.toJson(param)
+            createResponseEntity(HttpStatus.OK, jsonString)
+        } else {
+            // ユーザが存在しない場合
+            createResponseEntity(HttpStatus.BAD_REQUEST, "${loginUser.username} does not exist")
+        }
+    }
 }

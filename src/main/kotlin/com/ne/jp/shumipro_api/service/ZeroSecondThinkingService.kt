@@ -2,6 +2,7 @@ package com.ne.jp.shumipro_api.service
 
 import com.ne.jp.shumipro_api.dto.DailyTaskInfoDto
 import com.ne.jp.shumipro_api.dto.ZeroSecondThinkingDto
+import com.ne.jp.shumipro_api.entity.ZeroSecondThinkingContent
 import com.ne.jp.shumipro_api.mapper.UserMapper
 import com.ne.jp.shumipro_api.mapper.ZeroSecondThinkingContentMapper
 import com.ne.jp.shumipro_api.mapper.ZeroSecondThinkingThemeMapper
@@ -32,6 +33,15 @@ class ZeroSecondThinkingService {
             , "limit" to limit)
         val zeroSecondThinkingList = zeroSecondThinkingThemeMapper.getByUsernameAndNextKey(param)
 
+        for (zeroSecondThinking in zeroSecondThinkingList) {
+            zeroSecondThinking.contentList = zeroSecondThinkingContentMapper.getByThemeId(zeroSecondThinking.id)
+        }
+
         return zeroSecondThinkingList
+    }
+
+    fun registerZeroSecondThinking(username: String, theme: String, contentList: List<String>): Int? {
+        // TODO　実装
+        return 1
     }
 }
