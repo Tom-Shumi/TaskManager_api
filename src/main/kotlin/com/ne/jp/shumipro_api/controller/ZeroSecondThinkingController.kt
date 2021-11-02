@@ -48,8 +48,7 @@ class ZeroSecondThinkingController: BaseController() {
      */
     @PostMapping
     fun registerZeroSecondThinking(@Validated @RequestBody zeroSecondThinkingRequest: ZeroSecondThinkingRequest,
-                                   errors: Errors, @AuthenticationPrincipal loginUser: ShumiproLoginUser
-    ): ResponseEntity<String> {
+                                   errors: Errors, @AuthenticationPrincipal loginUser: ShumiproLoginUser): ResponseEntity<String> {
         val errorMsg: String? = checkErrors(errors)
         if (errorMsg is String){
             // リクエストが不正だった場合

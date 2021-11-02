@@ -21,4 +21,17 @@
         LIMIT #{limit}
     </select>
 
+    <insert id="insert" parameterType="com.ne.jp.shumipro_api.entity.ZeroSecondThinkingTheme"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO zero_second_thinking_theme (
+            username
+            , theme
+            , done_date
+        )
+        VALUES (
+            #{username}
+            , #{theme}
+            , #{doneDate}
+        )
+    </insert>
 </mapper>

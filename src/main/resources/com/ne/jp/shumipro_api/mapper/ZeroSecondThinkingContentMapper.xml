@@ -16,4 +16,16 @@
         ORDER BY
             id
     </select>
+
+    <insert id="insert" parameterType="com.ne.jp.shumipro_api.entity.ZeroSecondThinkingContent"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO zero_second_thinking_content (
+            theme_id
+            , content
+        )
+        VALUES (
+            #{themeId}
+            , #{content}
+        )
+    </insert>
 </mapper>

@@ -2,7 +2,9 @@ package com.ne.jp.shumipro_api.service
 
 import com.ne.jp.shumipro_api.dto.DailyTaskInfoDto
 import com.ne.jp.shumipro_api.dto.ZeroSecondThinkingDto
+import com.ne.jp.shumipro_api.entity.User
 import com.ne.jp.shumipro_api.entity.ZeroSecondThinkingContent
+import com.ne.jp.shumipro_api.entity.ZeroSecondThinkingTheme
 import com.ne.jp.shumipro_api.mapper.UserMapper
 import com.ne.jp.shumipro_api.mapper.ZeroSecondThinkingContentMapper
 import com.ne.jp.shumipro_api.mapper.ZeroSecondThinkingThemeMapper
@@ -41,7 +43,19 @@ class ZeroSecondThinkingService {
     }
 
     fun registerZeroSecondThinking(username: String, theme: String, contentList: List<String>): Int? {
-        // TODO　実装
-        return 1
+        val userCheck: User? = userMapper.getUser(username)
+        if (userCheck is User) {
+            val zeroSecondThinkingTheme = ZeroSecondThinkingTheme(null, username, theme, LocalDate.now())
+            zeroSecondThinkingThemeMapper.insert(zeroSecondThinkingTheme)
+
+            val themeId = zeroSecondThinkingTheme.id!!
+
+            for (content in contentList) {
+                zeroSecondThinkingContentMapper.insert(ZeroSecondThinkingContent(null, themeId, content))
+            }
+
+            return themeId
+        }
+        return null
     }
 }
