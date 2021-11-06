@@ -9,10 +9,10 @@ import java.time.LocalDate
 data class ZeroSecondThinkingResponse(
     var id: Int,
     var theme: String,
-    var doneDate: LocalDate,
+    var doneDate: String,
     var contentList: List<ZeroSecondThinkingContent>?
 ) {
 
     constructor(dto: ZeroSecondThinkingDto):
-            this(dto.id, dto.theme, dto.doneDate, dto.contentList)
+            this(dto.id, dto.theme, DateUtil.toStringYYYYMMDD(dto.doneDate), dto.contentList)
 }
