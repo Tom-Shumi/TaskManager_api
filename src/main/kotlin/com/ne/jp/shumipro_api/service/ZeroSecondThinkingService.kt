@@ -28,9 +28,10 @@ class ZeroSecondThinkingService {
     @Value("\${data.limit}")
     var limit: Int = 0
 
-    fun getZeroSecondThinkingList(username: String, nextKey: Int?): List<ZeroSecondThinkingDto> {
+    fun getZeroSecondThinkingList(username: String, search: String?, nextKey: Int?): List<ZeroSecondThinkingDto> {
         val param = mapOf(
             "username" to username
+            , "search" to search
             , "nextKey" to nextKey
             , "limit" to limit)
         val zeroSecondThinkingList = zeroSecondThinkingThemeMapper.getByUsernameAndNextKey(param)

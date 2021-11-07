@@ -13,6 +13,14 @@
             zero_second_thinking_theme
         WHERE
             username = #{username}
+            <if test="search != null">
+                AND (
+                    theme LIKE CONCAT('%', #{search}, '%') OR
+                    EXISTS (SELECT 1 FROM zero_second_thinking_content
+                                WHERE zero_second_thinking_theme.id = zero_second_thinking_content.theme_id
+                                AND content LIKE CONCAT('%', #{search}, '%'))
+                )
+            </if>
             <if test="nextKey != null">
                 AND id <![CDATA[<]]> #{nextKey}
             </if>
