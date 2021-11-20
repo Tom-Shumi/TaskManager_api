@@ -8,6 +8,7 @@ import com.ne.jp.shumipro_api.entity.ZeroSecondThinkingTheme
 import com.ne.jp.shumipro_api.mapper.UserMapper
 import com.ne.jp.shumipro_api.mapper.ZeroSecondThinkingContentMapper
 import com.ne.jp.shumipro_api.mapper.ZeroSecondThinkingThemeMapper
+import com.nimbusds.oauth2.sdk.util.StringUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
@@ -52,7 +53,9 @@ class ZeroSecondThinkingService {
             val themeId = zeroSecondThinkingTheme.id!!
 
             for (content in contentList) {
-                zeroSecondThinkingContentMapper.insert(ZeroSecondThinkingContent(null, themeId, content))
+                if (content != "・" && content != "　　[なぜ？]") {
+                    zeroSecondThinkingContentMapper.insert(ZeroSecondThinkingContent(null, themeId, content))
+                }
             }
 
             return themeId
