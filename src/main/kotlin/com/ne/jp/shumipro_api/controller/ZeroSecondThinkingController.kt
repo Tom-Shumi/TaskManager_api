@@ -67,4 +67,18 @@ class ZeroSecondThinkingController: BaseController() {
             createResponseEntity(HttpStatus.BAD_REQUEST, "${loginUser.username} does not exist")
         }
     }
+
+    /**
+     * 0秒思考削除処理
+     */
+    @DeleteMapping("/{themeId}")
+    fun deleteTask(@PathVariable("themeId") themeId: Int, @AuthenticationPrincipal loginUser: ShumiproLoginUser) : ResponseEntity<String> {
+        return if (zeroSecondThinkingService.deleteZeroSecondThinking(themeId, loginUser.username) > 0){
+            // 0秒思考削除成功
+            createResponseEntity(HttpStatus.NO_CONTENT, "")
+        } else {
+            // 0秒思考が存在しない場合
+            createResponseEntity(HttpStatus.NOT_FOUND, "this theme does not found")
+        }
+    }
 }

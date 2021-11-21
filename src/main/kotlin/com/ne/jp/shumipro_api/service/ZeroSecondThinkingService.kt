@@ -2,6 +2,7 @@ package com.ne.jp.shumipro_api.service
 
 import com.ne.jp.shumipro_api.dto.DailyTaskInfoDto
 import com.ne.jp.shumipro_api.dto.ZeroSecondThinkingDto
+import com.ne.jp.shumipro_api.entity.Task
 import com.ne.jp.shumipro_api.entity.User
 import com.ne.jp.shumipro_api.entity.ZeroSecondThinkingContent
 import com.ne.jp.shumipro_api.entity.ZeroSecondThinkingTheme
@@ -61,5 +62,16 @@ class ZeroSecondThinkingService {
             return themeId
         }
         return null
+    }
+
+    fun deleteZeroSecondThinking(themeId: Int, username: String): Int {
+        val themeCheck = zeroSecondThinkingThemeMapper.getById(themeId)
+        return if (themeCheck is ZeroSecondThinkingTheme && themeCheck.username.equals(username)) {
+            val deleteCount = zeroSecondThinkingThemeMapper.deleteById(themeId)
+            zeroSecondThinkingContentMapper.deleteByThemeId(themeId)
+            deleteCount
+        } else {
+            0
+        }
     }
 }
