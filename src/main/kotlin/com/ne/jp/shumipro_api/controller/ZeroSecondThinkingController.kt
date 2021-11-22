@@ -4,6 +4,7 @@ import com.ne.jp.shumipro_api.dto.ZeroSecondThinkingDto
 import com.ne.jp.shumipro_api.entity.ShumiproLoginUser
 import com.ne.jp.shumipro_api.request.TaskCommentRequest
 import com.ne.jp.shumipro_api.request.ZeroSecondThinkingRequest
+import com.ne.jp.shumipro_api.request.ZeroSecondThinkingUpdateRequest
 import com.ne.jp.shumipro_api.response.ZeroSecondThinkingResponse
 import com.ne.jp.shumipro_api.service.ZeroSecondThinkingService
 import org.springframework.beans.factory.annotation.Autowired
@@ -72,13 +73,43 @@ class ZeroSecondThinkingController: BaseController() {
      * 0秒思考削除処理
      */
     @DeleteMapping("/{themeId}")
-    fun deleteTask(@PathVariable("themeId") themeId: Int, @AuthenticationPrincipal loginUser: ShumiproLoginUser) : ResponseEntity<String> {
+    fun deleteZeroSecondThinking(@PathVariable("themeId") themeId: Int, @AuthenticationPrincipal loginUser: ShumiproLoginUser) : ResponseEntity<String> {
         return if (zeroSecondThinkingService.deleteZeroSecondThinking(themeId, loginUser.username) > 0){
             // 0秒思考削除成功
             createResponseEntity(HttpStatus.NO_CONTENT, "")
         } else {
             // 0秒思考が存在しない場合
             createResponseEntity(HttpStatus.NOT_FOUND, "this theme does not found")
+        }
+    }
+
+    /**
+     * 0秒思考テーマ更新処理
+     */
+    @PostMapping("/{themeId}")
+    fun updateTheme(@PathVariable("themeId") themeId: Int, @RequestBody requestBody: ZeroSecondThinkingUpdateRequest,
+                    @AuthenticationPrincipal loginUser: ShumiproLoginUser) : ResponseEntity<String> {
+        return if (zeroSecondThinkingService.updateZeroSecondThinkingTheme(themeId, requestBody.updateText, loginUser.username) > 0){
+            // 0秒思考テーマ更新成功
+            createResponseEntity(HttpStatus.NO_CONTENT, "")
+        } else {
+            // 対象が存在しない場合
+            createResponseEntity(HttpStatus.NOT_FOUND, "this theme does not found")
+        }
+    }
+
+    /**
+     * 0秒思考コンテンツ更新処理
+     */
+    @PostMapping("/{themeId}/{contentId}")
+    fun updateContent(@PathVariable("themeId") themeId: Int, @PathVariable("contentId") contentId: Int,
+                      @RequestBody requestBody: ZeroSecondThinkingUpdateRequest, @AuthenticationPrincipal loginUser: ShumiproLoginUser) : ResponseEntity<String> {
+        return if (zeroSecondThinkingService.updateZeroSecondThinkingContent(themeId, contentId, requestBody.updateText, loginUser.username) > 0){
+            // 0秒思考コンテンツ更新成功
+            createResponseEntity(HttpStatus.NO_CONTENT, "")
+        } else {
+            // 対象が存在しない場合
+            createResponseEntity(HttpStatus.NOT_FOUND, "this content does not found")
         }
     }
 }

@@ -66,10 +66,28 @@ class ZeroSecondThinkingService {
 
     fun deleteZeroSecondThinking(themeId: Int, username: String): Int {
         val themeCheck = zeroSecondThinkingThemeMapper.getById(themeId)
-        return if (themeCheck is ZeroSecondThinkingTheme && themeCheck.username.equals(username)) {
+        return if (themeCheck is ZeroSecondThinkingTheme && themeCheck.username == username) {
             val deleteCount = zeroSecondThinkingThemeMapper.deleteById(themeId)
             zeroSecondThinkingContentMapper.deleteByThemeId(themeId)
             deleteCount
+        } else {
+            0
+        }
+    }
+
+    fun updateZeroSecondThinkingTheme(themeId: Int, theme: String, username: String): Int {
+        val themeCheck = zeroSecondThinkingThemeMapper.getById(themeId)
+        return if (themeCheck is ZeroSecondThinkingTheme && themeCheck.username == username) {
+            zeroSecondThinkingThemeMapper.updateById(themeId, theme)
+        } else {
+            0
+        }
+    }
+
+    fun updateZeroSecondThinkingContent(themeId: Int, contentId: Int, content: String, username: String): Int {
+        val contentCheck = zeroSecondThinkingContentMapper.getByIdAndThemeIdAndUsername(contentId, themeId, username)
+        return if (contentCheck is ZeroSecondThinkingContent) {
+            zeroSecondThinkingContentMapper.updateById(themeId, content)
         } else {
             0
         }
