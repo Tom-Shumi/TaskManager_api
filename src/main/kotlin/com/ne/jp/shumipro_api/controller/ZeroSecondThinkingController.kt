@@ -104,7 +104,7 @@ class ZeroSecondThinkingController: BaseController() {
     @PostMapping("/{themeId}/{contentId}")
     fun updateContent(@PathVariable("themeId") themeId: Int, @PathVariable("contentId") contentId: Int,
                       @RequestBody requestBody: ZeroSecondThinkingUpdateRequest, @AuthenticationPrincipal loginUser: ShumiproLoginUser) : ResponseEntity<String> {
-        return if (zeroSecondThinkingService.updateZeroSecondThinkingContent(themeId, contentId, requestBody.updateText, loginUser.username) > 0){
+        return if (zeroSecondThinkingService.updateZeroSecondThinkingContent(themeId, contentId, requestBody.updateText, requestBody.isWhyText, loginUser.username) > 0){
             // 0秒思考コンテンツ更新成功
             createResponseEntity(HttpStatus.NO_CONTENT, "")
         } else {

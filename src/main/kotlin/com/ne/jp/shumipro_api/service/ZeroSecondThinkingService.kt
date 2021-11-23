@@ -1,5 +1,7 @@
 package com.ne.jp.shumipro_api.service
 
+import com.ne.jp.shumipro_api.Constants.Companion.ZERO_SECOND_THINKING_PREFIX_CONTENT
+import com.ne.jp.shumipro_api.Constants.Companion.ZERO_SECOND_THINKING_PREFIX_WHY
 import com.ne.jp.shumipro_api.dto.DailyTaskInfoDto
 import com.ne.jp.shumipro_api.dto.ZeroSecondThinkingDto
 import com.ne.jp.shumipro_api.entity.Task
@@ -54,7 +56,7 @@ class ZeroSecondThinkingService {
             val themeId = zeroSecondThinkingTheme.id!!
 
             for (content in contentList) {
-                if (content != "・" && content != "　　[なぜ？]") {
+                if (content != ZERO_SECOND_THINKING_PREFIX_CONTENT && content != ZERO_SECOND_THINKING_PREFIX_WHY) {
                     zeroSecondThinkingContentMapper.insert(ZeroSecondThinkingContent(null, themeId, content))
                 }
             }
@@ -84,7 +86,14 @@ class ZeroSecondThinkingService {
         }
     }
 
-    fun updateZeroSecondThinkingContent(themeId: Int, contentId: Int, content: String, username: String): Int {
+    fun updateZeroSecondThinkingContent(themeId: Int, contentId: Int, content: String, isWhyText: Boolean, username: String): Int {
+        val contentWithPrefix: String;
+        if (isWhyText) {
+            // TODO
+        } else {
+            // TODO
+        }
+
         val contentCheck = zeroSecondThinkingContentMapper.getByIdAndThemeIdAndUsername(contentId, themeId, username)
         return if (contentCheck is ZeroSecondThinkingContent) {
             zeroSecondThinkingContentMapper.updateById(themeId, content)
