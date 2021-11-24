@@ -1,5 +1,6 @@
 package com.ne.jp.shumipro_api.service
 
+import com.ne.jp.shumipro_api.Constants
 import com.ne.jp.shumipro_api.Constants.Companion.ZERO_SECOND_THINKING_PREFIX_CONTENT
 import com.ne.jp.shumipro_api.Constants.Companion.ZERO_SECOND_THINKING_PREFIX_WHY
 import com.ne.jp.shumipro_api.dto.DailyTaskInfoDto
@@ -87,16 +88,11 @@ class ZeroSecondThinkingService {
     }
 
     fun updateZeroSecondThinkingContent(themeId: Int, contentId: Int, content: String, isWhyText: Boolean, username: String): Int {
-        val contentWithPrefix: String;
-        if (isWhyText) {
-            // TODO
-        } else {
-            // TODO
-        }
+        val prefix = if (isWhyText) ZERO_SECOND_THINKING_PREFIX_WHY else ZERO_SECOND_THINKING_PREFIX_CONTENT;
 
         val contentCheck = zeroSecondThinkingContentMapper.getByIdAndThemeIdAndUsername(contentId, themeId, username)
         return if (contentCheck is ZeroSecondThinkingContent) {
-            zeroSecondThinkingContentMapper.updateById(themeId, content)
+            zeroSecondThinkingContentMapper.updateById(contentId, prefix + content)
         } else {
             0
         }
