@@ -33,6 +33,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation ("org.springframework.boot:spring-boot-starter-aop")
 	implementation("org.springframework.session:spring-session-data-redis")
+	implementation("org.elasticsearch:elasticsearch:7.10.2")
+	implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.10.2")
 	implementation ("io.lettuce:lettuce-core:6.1.1.RELEASE")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
