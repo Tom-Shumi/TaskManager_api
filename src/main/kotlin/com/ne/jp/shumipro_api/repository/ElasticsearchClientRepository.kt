@@ -1,16 +1,10 @@
 package com.ne.jp.shumipro_api.repository
 
 import com.ne.jp.shumipro_api.config.ElasticsearchClientConfig
-import org.elasticsearch.action.DocWriteResponse
-import org.elasticsearch.action.bulk.BulkRequest
-import org.elasticsearch.action.index.IndexRequest
 import org.elasticsearch.action.search.SearchRequest
 import org.elasticsearch.action.search.SearchResponse
 import org.elasticsearch.client.RequestOptions
 import org.elasticsearch.client.RestHighLevelClient
-import org.elasticsearch.client.indices.CreateIndexRequest
-import org.elasticsearch.index.query.QueryBuilders
-import org.elasticsearch.index.reindex.DeleteByQueryRequest
 import org.springframework.stereotype.Repository
 import java.lang.Exception
 
@@ -28,6 +22,7 @@ class ElasticsearchClientRepository(
         return try {
             restHighLevelClient.search(request, RequestOptions.DEFAULT)
         } catch (e: Exception) {
+            e.printStackTrace()
             setClient(elasticsearchClientConfig.getRecreateClient())
             null
         }
