@@ -1,6 +1,7 @@
 package com.ne.jp.shumipro_api.repository
 
 import com.ne.jp.shumipro_api.config.ElasticsearchClientConfig
+import com.ne.jp.shumipro_api.exception.ElasticsearchException
 import org.elasticsearch.action.search.SearchRequest
 import org.elasticsearch.action.search.SearchResponse
 import org.elasticsearch.client.RequestOptions
@@ -18,13 +19,12 @@ class ElasticsearchClientRepository(
         this.restHighLevelClient = restHighLevelClient
     }
 
-    fun search(request: SearchRequest): SearchResponse? {
+    fun search(request: SearchRequest): SearchResponse {
         return try {
             restHighLevelClient.search(request, RequestOptions.DEFAULT)
         } catch (e: Exception) {
-            e.printStackTrace()
             setClient(elasticsearchClientConfig.getRecreateClient())
-            null
+            throw e
         }
     }
 

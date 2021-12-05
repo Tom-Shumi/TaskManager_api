@@ -1,4 +1,7 @@
 package com.ne.jp.shumipro_api.dto
 
-class EsZeroSecondThinkingDocumentDto {
-}
+data class EsZeroSecondThinkingDocumentDto (
+    var id: Int,
+    var username: String,
+    var content: String
+)

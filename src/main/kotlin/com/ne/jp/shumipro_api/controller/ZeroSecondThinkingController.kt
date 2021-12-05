@@ -6,6 +6,7 @@ import com.ne.jp.shumipro_api.request.TaskCommentRequest
 import com.ne.jp.shumipro_api.request.ZeroSecondThinkingRequest
 import com.ne.jp.shumipro_api.request.ZeroSecondThinkingUpdateRequest
 import com.ne.jp.shumipro_api.response.ZeroSecondThinkingResponse
+import com.ne.jp.shumipro_api.service.EsZeroSecondThinkingService
 import com.ne.jp.shumipro_api.service.ZeroSecondThinkingService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -25,6 +26,8 @@ class ZeroSecondThinkingController: BaseController() {
 
     @Autowired
     lateinit var zeroSecondThinkingService: ZeroSecondThinkingService
+    @Autowired
+    lateinit var esZeroSecondThinkingService: EsZeroSecondThinkingService
 
     /**
      * 0秒思考一覧取得
@@ -35,6 +38,8 @@ class ZeroSecondThinkingController: BaseController() {
                                   @RequestParam(name = "nextKey", required = false) nextKey: Int?): ResponseEntity<String> {
 
         val zeroSecondThinkingList = zeroSecondThinkingService.getZeroSecondThinkingList(loginUser.username, search, nextKey)
+
+        esZeroSecondThinkingService.searchZeroSecondThinkingDocument(loginUser.username, "")
 
         return if (CollectionUtils.isEmpty(zeroSecondThinkingList)){
             createResponseEntity(HttpStatus.NO_CONTENT, null)
