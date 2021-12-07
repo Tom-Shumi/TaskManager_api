@@ -28,12 +28,14 @@ class ZeroSecondThinkingService {
     @Autowired
     lateinit var zeroSecondThinkingContentMapper: ZeroSecondThinkingContentMapper
     @Autowired
+    lateinit var esZeroSecondThinkingService: EsZeroSecondThinkingService
+    @Autowired
     lateinit var userMapper: UserMapper
 
     @Value("\${data.limit}")
     var limit: Int = 0
 
-    fun getZeroSecondThinkingList(username: String, search: String?, nextKey: Int?): List<ZeroSecondThinkingDto> {
+    fun getZeroSecondThinkingListFromDb(username: String, search: String?, nextKey: Int?): List<ZeroSecondThinkingDto> {
         val param = mapOf(
             "username" to username
             , "search" to search
@@ -46,6 +48,18 @@ class ZeroSecondThinkingService {
         }
 
         return zeroSecondThinkingList
+    }
+
+    fun getZeroSecondThinkingListFromEs(username: String, search: String, nextKey: Int?): List<ZeroSecondThinkingDto> {
+        val esZeroSecondThinkingList = esZeroSecondThinkingService.searchZeroSecondThinkingDocument(username, search)
+
+        // TODO コンテンツ配列のIDからテーマIDを取得する。
+
+        // TODO　上で取得したテーマIDとESから取得したテーマID結合
+
+        // TODO 上で結合したテーマIDを用いてDBを検索
+        
+        return listOf()
     }
 
     fun registerZeroSecondThinking(username: String, theme: String, contentList: List<String>): Int? {

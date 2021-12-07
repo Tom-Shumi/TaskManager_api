@@ -8,15 +8,18 @@ import com.ne.jp.shumipro_api.repository.ElasticsearchClientRepository
 import org.elasticsearch.action.search.SearchRequest
 import org.elasticsearch.index.query.BoolQueryBuilder
 import org.elasticsearch.index.query.MatchQueryBuilder
+import org.elasticsearch.index.query.QueryBuilders
 import org.elasticsearch.index.query.TermQueryBuilder
 import org.elasticsearch.search.builder.SearchSourceBuilder
+import org.elasticsearch.search.sort.FieldSortBuilder
+import org.elasticsearch.search.sort.SortOrder
 import org.springframework.stereotype.Service
 
 @Service
 class EsZeroSecondThinkingService(private val elasticsearchClientRepository: ElasticsearchClientRepository,
                                   private val objectMapper: ObjectMapper) {
 
-    fun searchZeroSecondThinkingDocument(username: String, searchString: String): List<EsZeroSecondThinkingDocumentDto> {
+    fun searchZeroSecondThinkingDocument(username: String, searchString: String): Map<String, List<EsZeroSecondThinkingDocumentDto>> {
         val searchSourceBuilder = SearchSourceBuilder()
         val boolQueryBuilder = BoolQueryBuilder()
 
@@ -24,12 +27,10 @@ class EsZeroSecondThinkingService(private val elasticsearchClientRepository: Ela
                         .filter(MatchQueryBuilder("content", searchString))
 
         searchSourceBuilder.query(boolQueryBuilder)
+        searchSourceBuilder.sort(FieldSortBuilder("id").order(SortOrder.DESC))
 
-        val themeList = search(ES_INDEX_NAME_THEME, searchSourceBuilder)
-        val contentList = search(ES_INDEX_NAME_CONTENT, searchSourceBuilder)
-
-        // TODO 返却するための処理
-        return listOf()
+        return mapOf(ES_INDEX_NAME_THEME to search(ES_INDEX_NAME_THEME, searchSourceBuilder),
+            ES_INDEX_NAME_CONTENT to search(ES_INDEX_NAME_CONTENT, searchSourceBuilder))
     }
 
     private fun search(index: String, searchSourceBuilder: SearchSourceBuilder): List<EsZeroSecondThinkingDocumentDto> {

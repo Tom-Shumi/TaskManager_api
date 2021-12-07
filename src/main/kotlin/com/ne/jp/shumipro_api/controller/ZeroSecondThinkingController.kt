@@ -36,10 +36,13 @@ class ZeroSecondThinkingController: BaseController() {
     fun getZeroSecondThinkingList(@AuthenticationPrincipal loginUser: ShumiproLoginUser,
                                   @RequestParam(name = "search", required = false) search: String?,
                                   @RequestParam(name = "nextKey", required = false) nextKey: Int?): ResponseEntity<String> {
+        val zeroSecondThinkingList: List<ZeroSecondThinkingDto>
 
-        val zeroSecondThinkingList = zeroSecondThinkingService.getZeroSecondThinkingList(loginUser.username, search, nextKey)
-
-        esZeroSecondThinkingService.searchZeroSecondThinkingDocument(loginUser.username, "")
+        if (search is String) {
+            zeroSecondThinkingList = zeroSecondThinkingService.getZeroSecondThinkingListFromEs(loginUser.username, search, nextKey)
+        } else {
+            zeroSecondThinkingList = zeroSecondThinkingService.getZeroSecondThinkingListFromDb(loginUser.username, search, nextKey)
+        }
 
         return if (CollectionUtils.isEmpty(zeroSecondThinkingList)){
             createResponseEntity(HttpStatus.NO_CONTENT, null)
