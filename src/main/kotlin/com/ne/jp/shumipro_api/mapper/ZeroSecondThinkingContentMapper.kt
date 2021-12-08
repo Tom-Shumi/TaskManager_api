@@ -26,4 +26,6 @@ interface ZeroSecondThinkingContentMapper {
 
     @Update("UPDATE zero_second_thinking_content SET content = #{content} WHERE id = #{id}")
     fun updateById(@Param("id") id: Int, @Param("content") content: String): Int
+
+    fun getByIdList(@Param("idList") idList: List<Int>): List<ZeroSecondThinkingContent>
 }

@@ -4,6 +4,7 @@ import com.ne.jp.shumipro_api.Constants
 import com.ne.jp.shumipro_api.Constants.Companion.ZERO_SECOND_THINKING_PREFIX_CONTENT
 import com.ne.jp.shumipro_api.Constants.Companion.ZERO_SECOND_THINKING_PREFIX_WHY
 import com.ne.jp.shumipro_api.dto.DailyTaskInfoDto
+import com.ne.jp.shumipro_api.dto.EsZeroSecondThinkingDocumentDto
 import com.ne.jp.shumipro_api.dto.ZeroSecondThinkingDto
 import com.ne.jp.shumipro_api.entity.Task
 import com.ne.jp.shumipro_api.entity.User
@@ -51,11 +52,14 @@ class ZeroSecondThinkingService {
     }
 
     fun getZeroSecondThinkingListFromEs(username: String, search: String, nextKey: Int?): List<ZeroSecondThinkingDto> {
-        val esZeroSecondThinkingList = esZeroSecondThinkingService.searchZeroSecondThinkingDocument(username, search)
+        val esZeroSecondThinkingListMap = esZeroSecondThinkingService.searchZeroSecondThinkingDocument(username, search)
 
-        // TODO コンテンツ配列のIDからテーマIDを取得する。
+        val contentList = esZeroSecondThinkingListMap[Constants.ES_INDEX_NAME_CONTENT]
+        val themeIdListFromContent = if (contentList is List<EsZeroSecondThinkingDocumentDto>) contentList.map { c -> c.id }.toList() else listOf()
+        val themeList = esZeroSecondThinkingListMap[Constants.ES_INDEX_NAME_THEME]
+        val themeIdList = if (themeList is List<EsZeroSecondThinkingDocumentDto>) themeList.map { t -> t.id }.toList() else listOf()
 
-        // TODO　上で取得したテーマIDとESから取得したテーマID結合
+        // TODO　対象のテーマIDを結合して作成
 
         // TODO 上で結合したテーマIDを用いてDBを検索
         
