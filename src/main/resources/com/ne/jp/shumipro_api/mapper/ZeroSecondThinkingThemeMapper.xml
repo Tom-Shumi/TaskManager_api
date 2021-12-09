@@ -29,6 +29,28 @@
         LIMIT #{limit}
     </select>
 
+    <select id="getByIdListAndNextKey" resultType="com.ne.jp.shumipro_api.dto.ZeroSecondThinkingDto">
+        SELECT
+            id
+            , theme
+            , done_date
+        FROM
+            zero_second_thinking_theme
+        WHERE 0
+            <if test="!idList.isEmpty()"> // TODO から配列チェック
+                AND id in
+                <foreach item="id" collection="idList" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="nextKey != null">
+                AND id <![CDATA[<]]> #{nextKey}
+            </if>
+        ORDER BY
+            id DESC
+        LIMIT #{limit}
+    </select>
+
     <insert id="insert" parameterType="com.ne.jp.shumipro_api.entity.ZeroSecondThinkingTheme"
             useGeneratedKeys="true" keyProperty="id">
         INSERT INTO zero_second_thinking_theme (

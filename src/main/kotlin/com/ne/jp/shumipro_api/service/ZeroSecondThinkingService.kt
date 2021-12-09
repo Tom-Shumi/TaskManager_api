@@ -42,11 +42,9 @@ class ZeroSecondThinkingService {
             , "search" to search
             , "nextKey" to nextKey
             , "limit" to limit)
-        val zeroSecondThinkingList = zeroSecondThinkingThemeMapper.getByUsernameAndNextKey(param)
 
-        for (zeroSecondThinking in zeroSecondThinkingList) {
-            zeroSecondThinking.contentList = zeroSecondThinkingContentMapper.getByThemeId(zeroSecondThinking.id)
-        }
+        val zeroSecondThinkingList = zeroSecondThinkingThemeMapper.getByUsernameAndNextKey(param)
+        fetchAndSetZeroSecondContentList(zeroSecondThinkingList)
 
         return zeroSecondThinkingList
     }
@@ -59,11 +57,18 @@ class ZeroSecondThinkingService {
         val themeList = esZeroSecondThinkingListMap[Constants.ES_INDEX_NAME_THEME]
         val themeIdList = if (themeList is List<EsZeroSecondThinkingDocumentDto>) themeList.map { t -> t.id }.toList() else listOf()
 
-        // TODO　対象のテーマIDを結合して作成
+        val joinedThemeIdList = (themeIdListFromContent + themeIdList).distinct()
 
-        // TODO 上で結合したテーマIDを用いてDBを検索
+        val zeroSecondThinkingList = zeroSecondThinkingThemeMapper.getByIdListAndNextKey(joinedThemeIdList, nextKey, limit)
+        fetchAndSetZeroSecondContentList(zeroSecondThinkingList)
         
-        return listOf()
+        return zeroSecondThinkingList
+    }
+
+    private fun fetchAndSetZeroSecondContentList(dtoList: List<ZeroSecondThinkingDto>) {
+        for (zeroSecondThinking in dtoList) {
+            zeroSecondThinking.contentList = zeroSecondThinkingContentMapper.getByThemeId(zeroSecondThinking.id)
+        }
     }
 
     fun registerZeroSecondThinking(username: String, theme: String, contentList: List<String>): Int? {

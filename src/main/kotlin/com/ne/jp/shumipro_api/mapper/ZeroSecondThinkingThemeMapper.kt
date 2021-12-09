@@ -19,4 +19,6 @@ interface ZeroSecondThinkingThemeMapper {
 
     @Update("UPDATE zero_second_thinking_theme SET theme = #{theme} WHERE id = #{id}")
     fun updateById(@Param("id") id: Int, @Param("theme") theme: String): Int
+
+    fun getByIdListAndNextKey(@Param("idList") idList: List<Int>, @Param("nextKey") nextKey: Int?, @Param("limit") limit: Int): List<ZeroSecondThinkingDto>
 }
