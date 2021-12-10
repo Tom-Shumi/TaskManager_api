@@ -6,10 +6,7 @@ import com.ne.jp.shumipro_api.Constants.Companion.ES_INDEX_NAME_THEME
 import com.ne.jp.shumipro_api.dto.EsZeroSecondThinkingDocumentDto
 import com.ne.jp.shumipro_api.repository.ElasticsearchClientRepository
 import org.elasticsearch.action.search.SearchRequest
-import org.elasticsearch.index.query.BoolQueryBuilder
-import org.elasticsearch.index.query.MatchQueryBuilder
-import org.elasticsearch.index.query.QueryBuilders
-import org.elasticsearch.index.query.TermQueryBuilder
+import org.elasticsearch.index.query.*
 import org.elasticsearch.search.builder.SearchSourceBuilder
 import org.elasticsearch.search.sort.FieldSortBuilder
 import org.elasticsearch.search.sort.SortOrder
@@ -24,7 +21,7 @@ class EsZeroSecondThinkingService(private val elasticsearchClientRepository: Ela
         val boolQueryBuilder = BoolQueryBuilder()
 
         boolQueryBuilder.filter(TermQueryBuilder("username", username))
-                        .filter(MatchQueryBuilder("content", searchString))
+                        .filter(RegexpQueryBuilder("content", ".*%s.*".format(searchString)))
 
         searchSourceBuilder.query(boolQueryBuilder)
         searchSourceBuilder.sort(FieldSortBuilder("id").order(SortOrder.DESC))

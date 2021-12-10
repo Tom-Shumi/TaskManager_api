@@ -58,6 +58,9 @@ class ZeroSecondThinkingService {
         val themeIdList = if (themeList is List<EsZeroSecondThinkingDocumentDto>) themeList.map { t -> t.id }.toList() else listOf()
 
         val joinedThemeIdList = (themeIdListFromContent + themeIdList).distinct()
+        if (joinedThemeIdList.isEmpty()) {
+            return emptyList()
+        }
 
         val zeroSecondThinkingList = zeroSecondThinkingThemeMapper.getByIdListAndNextKey(joinedThemeIdList, nextKey, limit)
         fetchAndSetZeroSecondContentList(zeroSecondThinkingList)

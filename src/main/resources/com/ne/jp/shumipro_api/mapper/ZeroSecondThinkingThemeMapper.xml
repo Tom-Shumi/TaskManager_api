@@ -36,13 +36,11 @@
             , done_date
         FROM
             zero_second_thinking_theme
-        WHERE 0
-            <if test="!idList.isEmpty()"> // TODO から配列チェック
-                AND id in
-                <foreach item="id" collection="idList" open="(" separator="," close=")">
-                    #{id}
-                </foreach>
-            </if>
+        WHERE
+            id in
+            <foreach item="id" collection="idList" open="(" separator="," close=")">
+                #{id}
+            </foreach>
             <if test="nextKey != null">
                 AND id <![CDATA[<]]> #{nextKey}
             </if>
