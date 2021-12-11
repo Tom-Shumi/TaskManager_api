@@ -21,7 +21,7 @@ class EsZeroSecondThinkingService(private val elasticsearchClientRepository: Ela
         val boolQueryBuilder = BoolQueryBuilder()
 
         boolQueryBuilder.filter(TermQueryBuilder("username", username))
-                        .filter(FuzzyQueryBuilder("content", searchString))
+                        .must(MatchQueryBuilder("content", searchString))
 
         searchSourceBuilder.query(boolQueryBuilder)
         searchSourceBuilder.sort(FieldSortBuilder("id").order(SortOrder.DESC))
