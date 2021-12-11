@@ -35,12 +35,7 @@ jobs:
 
       - name: Deploy
         run: |
-         # SSHセキュリティグループ開放
-         # aws ec2 authorize-security-group-ingress --group-id ${{ secrets.EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
-         # SSH接続 & deploy
          echo "${{ secrets.TASK_MANAGER_KEY }}" > private_key
          chmod 600 private_key
-         ssh -oStrictHostKeyChecking=no ${{ secrets.EC2_USER_NAME }}@${{ secrets.EC2_HOST_NAME }} -i private_key "cd /home/app_admin/app/ && touch text.text"
-
-         # SSHセキュリティグループ閉鎖
-         # aws ec2 revoke-security-group-ingress --group-id ${{ secrets.EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+         ssh -oStrictHostKeyChecking=no ${{ secrets.EC2_USER_NAME }}@${{ secrets.EC2_HOST_NAME }} -i private_key
+         cd /home/app_admin/app/ && touch text.text
