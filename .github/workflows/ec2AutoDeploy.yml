@@ -23,4 +23,4 @@ jobs:
         run: |
          echo "${{ secrets.TASK_MANAGER_KEY }}" > private_key
          chmod 600 private_key
-         ssh -oStrictHostKeyChecking=no ${{ secrets.EC2_USER_NAME }}@${{ secrets.EC2_HOST_NAME }} -i private_key "sh /home/app_admin/app/deployTest.sh"
+         ssh -oStrictHostKeyChecking=no ${{ secrets.EC2_USER_NAME }}@${{ secrets.EC2_HOST_NAME }} -i private_key "sh /home/app_admin/app/shumipro/deploy_script/api.sh"
