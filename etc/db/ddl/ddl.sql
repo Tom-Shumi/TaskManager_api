@@ -99,3 +99,22 @@ CREATE TABLE public.zero_second_thinking_content (
 	content varchar(255) NOT NULL,
 	CONSTRAINT zero_second_thinking_content_pkey PRIMARY KEY (id)
 );
+
+-- DROP TABLE public.learning;
+
+CREATE TABLE public.learning (
+	id serial NOT NULL,
+	category_id int4 NOT NULL,
+	content varchar(255) NOT NULL,
+	reference_url varchar(255),
+	create_date date NOT NULL,
+	CONSTRAINT learning_pkey PRIMARY KEY (id)
+);
+
+-- DROP TABLE public.learning_category;
+
+CREATE TABLE public.learning_category (
+	id serial NOT NULL,
+	name varchar(255) NOT NULL,
+	CONSTRAINT learning_category_pkey PRIMARY KEY (id)
+);

@@ -26,8 +26,6 @@ class ZeroSecondThinkingController: BaseController() {
 
     @Autowired
     lateinit var zeroSecondThinkingService: ZeroSecondThinkingService
-    @Autowired
-    lateinit var esZeroSecondThinkingService: EsZeroSecondThinkingService
 
     /**
      * 0秒思考一覧取得

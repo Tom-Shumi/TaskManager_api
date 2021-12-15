@@ -33,7 +33,7 @@ class UserService {
      * @return result
      */
     fun registerUser(userDto: UserDto): UserDto? {
-        val userCheck: User? = userMapper.getUser(userDto.username!!)
+        val userCheck: User? = userMapper.getUser(userDto.username)
         if (userCheck is User){
             return null
         }
@@ -47,7 +47,7 @@ class UserService {
      * ユーザ更新
      */
     fun updateUser(userDto: UserDto): UserDto? {
-        val userCheck: User? = userMapper.getUser(userDto.username!!)
+        val userCheck: User? = userMapper.getUser(userDto.username)
         if (userCheck is User){
             userDto.encodedPassword = passwordEncoder.encode(userDto.password)
             val user = User(userDto)

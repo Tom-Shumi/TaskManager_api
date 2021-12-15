@@ -56,6 +56,7 @@ class WebSecurityConfig: WebSecurityConfigurerAdapter() {
         http
             .authorizeRequests()
             .mvcMatchers(CREATE_USER_PATH).permitAll()
+            .mvcMatchers("/graphql").permitAll() // TODO
             .anyRequest().authenticated()
             .and()
             .exceptionHandling()
