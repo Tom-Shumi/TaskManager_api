@@ -2,6 +2,18 @@ type Book {
     id: String
     name: String
 }
+
+type LearningInfo {
+    id: ID
+    username: String
+    categoryId: Int
+    categoryName: String
+    content: String
+    referenceUrl: String
+    createDate: String
+}
+
 type Query {
     bookById(id: String): Book
+    getLearningByUsername(username: String): LearningInfo
 }

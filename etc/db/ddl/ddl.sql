@@ -104,6 +104,7 @@ CREATE TABLE public.zero_second_thinking_content (
 
 CREATE TABLE public.learning (
 	id serial NOT NULL,
+	username varchar(50) NOT NULL,
 	category_id int4 NOT NULL,
 	content varchar(255) NOT NULL,
 	reference_url varchar(255),
@@ -115,6 +116,7 @@ CREATE TABLE public.learning (
 
 CREATE TABLE public.learning_category (
 	id serial NOT NULL,
+	username varchar(50) NOT NULL,
 	name varchar(255) NOT NULL,
 	CONSTRAINT learning_category_pkey PRIMARY KEY (id)
 );
