@@ -15,5 +15,5 @@ type LearningInfo {
 
 type Query {
     bookById(id: String): Book
-    getLearningByUsername(username: String): LearningInfo
+#    getLearningByUsername(username: String): LearningInfo
 }
