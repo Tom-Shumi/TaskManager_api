@@ -41,7 +41,7 @@ class ZeroSecondThinkingController: BaseController() {
 //            zeroSecondThinkingList = zeroSecondThinkingService.getZeroSecondThinkingListFromDb(loginUser.username, search, nextKey)
 //        }
         val zeroSecondThinkingList = zeroSecondThinkingService.getZeroSecondThinkingListFromDb(loginUser.username, search, nextKey)
-        
+
         return if (CollectionUtils.isEmpty(zeroSecondThinkingList)){
             createResponseEntity(HttpStatus.NO_CONTENT, null)
         } else {
