@@ -8,5 +8,5 @@ data class Learning(
     var categoryId: Int,
     var content: String,
     var referenceUrl: String?,
-    var createDate: LocalDate
+    var createDate: LocalDate?
 )

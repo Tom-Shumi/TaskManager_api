@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ne.jp.shumipro_api.mapper.LearningMapper">
+
+    <select id="getByUsername" resultType="com.ne.jp.shumipro_api.dto.LearningInfoDto">
+        SELECT
+            l.*
+            , lc.name categoryName
+        FROM
+            learning l
+            LEFT JOIN learning_category lc ON l.category_Id = lc.id
+        WHERE
+        l.username = #{username}
+        <if test="search != null">
+            AND content LIKE CONCAT('%', #{search}, '%')
+        </if>
+        <if test="categoryId != null">
+            AND lc.id = #{categoryId}
+        </if>
+        <if test="nextKey != null">
+            AND l.id <![CDATA[<]]> #{nextKey}
+        </if>
+        ORDER BY id DESC
+        LIMIT #{limit}
+    </select>
+
+</mapper>

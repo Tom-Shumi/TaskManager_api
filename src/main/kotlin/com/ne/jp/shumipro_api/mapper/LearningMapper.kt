@@ -1,17 +1,17 @@
 package com.ne.jp.shumipro_api.mapper
 
 import com.ne.jp.shumipro_api.dto.LearningInfoDto
-import org.apache.ibatis.annotations.Mapper
-import org.apache.ibatis.annotations.Param
-import org.apache.ibatis.annotations.Select
+import com.ne.jp.shumipro_api.entity.Learning
+import org.apache.ibatis.annotations.*
 
 @Mapper
 interface LearningMapper {
 
-    @Select("SELECT l.*, lc.name categoryName " +
-            "FROM learning l " +
-            "LEFT JOIN learning_category lc ON l.category_Id = lc.id " +
-            "WHERE l.username = #{username} " +
-            "ORDER BY create_date DESC")
-    fun getLearningByUsername(@Param("username") username: String): List<LearningInfoDto>
+    fun getByUsername(@Param("username") username: String, @Param("search") search: String?, @Param("categoryId") categoryId: Int?,
+                              @Param("nextKey") nextKey: Int?, @Param("limit") limit: Int): List<LearningInfoDto>
+
+    @Insert("INSERT INTO learning (username, category_id, content, reference_url, create_date) " +
+            "VALUES(#{username}, #{categoryId}, #{content}, #{referenceUrl}, now())")
+    @Options(useGeneratedKeys = true, keyColumn = "id")
+    fun register(learning: Learning)
 }

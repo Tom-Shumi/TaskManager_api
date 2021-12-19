@@ -1,5 +1,6 @@
 package com.ne.jp.shumipro_api.util
 
+import org.springframework.security.core.context.SecurityContextHolder
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.servlet.ServletRequest
@@ -21,6 +22,10 @@ class RequestUtil {
                 }
             }
             return null
+        }
+
+        fun getUsername():String {
+            return SecurityContextHolder.getContext().authentication.name
         }
     }
 }
