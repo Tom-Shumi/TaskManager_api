@@ -19,11 +19,11 @@ type Query {
     listLearningCategory: [LearningCategory]
 }
 
-#type Mutation {
-    # registerLearning
+type Mutation {
+    registerLearning(content: String, categoryId: Int, referenceUrl: String): LearningInfo
     # registerLearningCategory
     # updateLearning
     # updateLearningCategory
     # deleteLearning
     # deleteLearningCategory
-#}
+}

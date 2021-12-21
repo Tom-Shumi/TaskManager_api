@@ -8,13 +8,9 @@ import org.springframework.stereotype.Component
 
 
 @Component
-class LearningResolver(private val learningService: LearningService): GraphQLQueryResolver {
+class LearningQueryResolver(private val learningService: LearningService): GraphQLQueryResolver {
     
     fun listLearningInfo(search: String?, categoryId: Int?, nextKey: Int?): List<LearningInfoDto> {
         return learningService.listLearningInfo(RequestUtil.getUsername(), search, categoryId, nextKey)
-    }
-
-    fun registerLearning(content: String, categoryId: Int, referenceUrl: String?): LearningInfoDto {
-        return learningService.registerLearning(RequestUtil.getUsername(), content, categoryId, referenceUrl)
     }
 }

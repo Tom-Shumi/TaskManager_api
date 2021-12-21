@@ -7,7 +7,7 @@ import graphql.kickstart.tools.GraphQLQueryResolver
 import org.springframework.stereotype.Component
 
 @Component
-class LearningCategoryResolver(private val learningCategoryService: LearningCategoryService): GraphQLQueryResolver {
+class LearningCategoryQueryResolver(private val learningCategoryService: LearningCategoryService): GraphQLQueryResolver {
 
     fun listLearningCategory(): List<LearningCategory> {
         return learningCategoryService.listLearningCategory(RequestUtil.getUsername())

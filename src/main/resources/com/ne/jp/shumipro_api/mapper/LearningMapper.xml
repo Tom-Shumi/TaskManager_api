@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ne.jp.shumipro_api.mapper.LearningMapper">
 
-    <select id="getByUsername" resultType="com.ne.jp.shumipro_api.dto.LearningInfoDto">
+    <select id="listLearningInfo" resultType="com.ne.jp.shumipro_api.dto.LearningInfoDto">
         SELECT
             l.*
             , lc.name categoryName
