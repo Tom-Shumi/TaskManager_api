@@ -12,7 +12,7 @@ interface LearningMapper {
 
     @Insert("INSERT INTO learning (username, category_id, content, reference_url, create_date) " +
             "VALUES(#{username}, #{categoryId}, #{content}, #{referenceUrl}, now())")
-    @Options(useGeneratedKeys = true, keyColumn = "id")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     fun register(learning: Learning)
 
     @Select("SELECT l.*, lc.name categoryName " +
