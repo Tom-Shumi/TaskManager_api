@@ -23,7 +23,7 @@ type Mutation {
     registerLearning(content: String, categoryId: Int, referenceUrl: String = null): LearningInfo
     registerLearningCategory(name: String): LearningCategory
     updateLearning(id: Int, content: String, categoryId: Int, referenceUrl: String = null): LearningInfo
-    updateLearningCategory(name: String): LearningCategory
+    updateLearningCategory(id: Int, name: String): LearningCategory
     deleteLearning(id: Int): Int
     deleteLearningCategory(id: Int): Int
 }

@@ -15,6 +15,17 @@ interface LearningMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     fun register(learning: Learning)
 
+    @Update("UPDATE learning " +
+            "SET category_id = #{categoryId}, " +
+            "content = #{content}, " +
+            "reference_url = #{referenceUrl} " +
+            "WHERE id = #{id} " +
+            "AND username = #{username}")
+    fun update(learning: Learning)
+
+    @Delete("DELETE FROM learning WHERE id = #{id} AND username = #{username}")
+    fun delete(id: Int, username: String): Int
+
     @Select("SELECT l.*, lc.name categoryName " +
             "FROM learning l " +
             "LEFT JOIN learning_category lc ON l.category_Id = lc.id " +
