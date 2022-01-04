@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.*
 @Mapper
 interface LearningCategoryMapper {
 
-    @Select("SELECT * FROM learning_category WHERE username = #{username} ORDER BY id DESC")
+    @Select("SELECT * FROM learning_category WHERE username = #{username} ORDER BY id")
     fun getByUsername(@Param("username") username: String): List<LearningCategory>
 
     @Insert("INSERT INTO learning_category (username, name) " +
