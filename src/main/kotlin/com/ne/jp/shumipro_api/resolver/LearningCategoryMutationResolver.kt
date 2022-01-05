@@ -20,4 +20,8 @@ class LearningCategoryMutationResolver(private val learningCategoryService: Lear
     fun deleteLearningCategory(id: Int): Int {
         return learningCategoryService.deleteLearningCategory(id, RequestUtil.getUsername())
     }
+
+    fun bulkRegisterLearningCategory(learningCategoryList: List<LearningCategory>): Int {
+        return learningCategoryService.bulkRegisterLearningCategory(learningCategoryList, RequestUtil.getUsername())
+    }
 }

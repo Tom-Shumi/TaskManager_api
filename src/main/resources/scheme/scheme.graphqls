@@ -14,6 +14,11 @@ type LearningCategory {
     name: String
 }
 
+input LearningCategoryInput {
+    id: ID
+    name: String
+}
+
 type Query {
     listLearningInfo(search:String = null, categoryId: Int = null, nextKey: Int = null): [LearningInfo]
     listLearningCategory: [LearningCategory]
@@ -22,6 +27,7 @@ type Query {
 type Mutation {
     registerLearning(content: String, categoryId: Int, referenceUrl: String = null): LearningInfo
     registerLearningCategory(name: String): LearningCategory
+    bulkRegisterLearningCategory(learningCategoryList: [LearningCategoryInput]): Int
     updateLearning(id: Int, content: String, categoryId: Int, referenceUrl: String = null): LearningInfo
     updateLearningCategory(id: Int, name: String): LearningCategory
     deleteLearning(id: Int): Int

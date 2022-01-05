@@ -14,6 +14,8 @@ interface LearningCategoryMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     fun register(learningCategory: LearningCategory)
 
+    fun bulkRegister(learningCategoryList: List<LearningCategory>)
+
     @Update("UPDATE learning_category " +
             "SET name = #{name} " +
             "WHERE id = #{id} " +
@@ -22,6 +24,9 @@ interface LearningCategoryMapper {
 
     @Delete("DELETE FROM learning_category WHERE id = #{id} AND username = #{username}")
     fun delete(id: Int, username: String): Int
+
+    @Delete("DELETE FROM learning_category WHERE username = #{username}")
+    fun deleteByUsername(username: String): Int
 
     @Select("SELECT * FROM learning_category WHERE id = #{id}")
     fun getById(@Param("id") id: Int): LearningCategory
