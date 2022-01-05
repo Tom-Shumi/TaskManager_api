@@ -29,15 +29,18 @@ class LearningCategoryService(private val learningCategoryMapper: LearningCatego
 
     @Transactional
     fun bulkRegisterLearningCategory(learningCategoryList: List<LearningCategory>, username: String): Int {
+        var registerCount = 0
+
         learningCategoryMapper.deleteByUsername(username)
 
-        // TODO カテゴリ一括登録
-        learningCategoryList.forEach { l -> l.username = username }
-
+        if (learningCategoryList.isNotEmpty()) {
+            learningCategoryList.forEach { l -> l.username = username }
+            registerCount = learningCategoryMapper.bulkRegister(learningCategoryList)
+        }
 
         // TODO カテゴリ一利用チェック
 
-        return 0
+        return registerCount
     }
 
     private fun execute(id: Int?, username: String, name: String, func: Consumer<LearningCategory>): LearningCategory {

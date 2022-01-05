@@ -14,7 +14,7 @@ interface LearningCategoryMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     fun register(learningCategory: LearningCategory)
 
-    fun bulkRegister(learningCategoryList: List<LearningCategory>)
+    fun bulkRegister(learningCategoryList: List<LearningCategory>): Int
 
     @Update("UPDATE learning_category " +
             "SET name = #{name} " +
