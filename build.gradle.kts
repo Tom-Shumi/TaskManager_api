@@ -35,6 +35,7 @@ dependencies {
 	implementation("org.springframework.session:spring-session-data-redis")
 	implementation("com.graphql-java-kickstart:graphql-spring-boot-starter:12.0.0")
 	implementation("com.graphql-java-kickstart:altair-spring-boot-starter:11.1.0")
+	implementation("com.graphql-java:graphql-spring-boot-starter:5.0.2")
 	implementation("org.elasticsearch:elasticsearch:7.10.2")
 	implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.10.2")
 	implementation ("io.lettuce:lettuce-core:6.1.1.RELEASE")

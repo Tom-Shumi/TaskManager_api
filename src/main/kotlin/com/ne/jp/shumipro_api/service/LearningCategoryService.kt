@@ -2,12 +2,15 @@ package com.ne.jp.shumipro_api.service
 
 import com.ne.jp.shumipro_api.entity.LearningCategory
 import com.ne.jp.shumipro_api.mapper.LearningCategoryMapper
+import com.ne.jp.shumipro_api.mapper.LearningMapper
+import graphql.GraphQLException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.function.Consumer
 
 @Service
-class LearningCategoryService(private val learningCategoryMapper: LearningCategoryMapper) {
+class LearningCategoryService(private val learningCategoryMapper: LearningCategoryMapper,
+                              private val learningMapper: LearningMapper) {
 
     fun listLearningCategory(username: String): List<LearningCategory> {
         return learningCategoryMapper.getByUsername(username)
@@ -38,8 +41,11 @@ class LearningCategoryService(private val learningCategoryMapper: LearningCatego
             registerCount = learningCategoryMapper.bulkRegister(learningCategoryList)
         }
 
-        // TODO カテゴリ一利用チェック
+        val notExistsCategoryCount = learningMapper.countNotExistsCategory()
 
+        if (notExistsCategoryCount != 0) {
+            throw GraphQLException("使用中のカテゴリを削除しないでください。")
+        }
         return registerCount
     }
 

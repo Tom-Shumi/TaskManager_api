@@ -31,4 +31,7 @@ interface LearningMapper {
             "LEFT JOIN learning_category lc ON l.category_Id = lc.id " +
             "WHERE l.id = #{id}")
     fun getById(@Param("id") id: Int): LearningInfoDto
+
+    @Select("SELECT COUNT(*) FROM learning l WHERE NOT EXISTS (SELECT 1 FROM learning_category lc WHERE l.category_id = lc.id)")
+    fun countNotExistsCategory(): Int
 }

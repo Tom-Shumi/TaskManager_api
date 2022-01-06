@@ -6,11 +6,10 @@
 
     <insert id="bulkRegister" parameterType="com.ne.jp.shumipro_api.entity.LearningCategory">
         INSERT INTO learning_category ( id, username, name )
-        VALUES (
-            <foreach collection="learningCategoryList" item="learningCategory" separator=",">
-                ( #{learningCategory.id}, #{learningCategory.username}, #{learningCategory.name} )
-            </foreach>
-        )
+        VALUES
+        <foreach collection="learningCategoryList" item="learningCategory" separator=",">
+            ( #{learningCategory.id}, #{learningCategory.username}, #{learningCategory.name} )
+        </foreach>
     </insert>
 
 </mapper>
