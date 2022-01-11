@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component
 class LearningQueryResolver(private val learningService: LearningService): GraphQLQueryResolver {
     
     fun listLearningInfo(search: String?, categoryId: Int?, nextKey: Int?): List<LearningInfoDto> {
-        return learningService.listLearningInfo(RequestUtil.getUsername(), search, categoryId, nextKey)
+        return learningService.listLearningInfo(RequestUtil.getUsername(),
+                                                if (search.equals("")) null else search,
+                                                if (categoryId == 0) null else categoryId,
+                                                nextKey)
     }
 }

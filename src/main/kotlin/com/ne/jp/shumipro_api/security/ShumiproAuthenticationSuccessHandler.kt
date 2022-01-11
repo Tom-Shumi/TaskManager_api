@@ -28,7 +28,7 @@ class ShumiproAuthenticationSuccessHandler: AuthenticationSuccessHandler {
         algorithm = Algorithm.HMAC512(secretKey)
     }
 
-    private val EXPIRATION_TIME = TimeUnit.MINUTES.toMillis(10L)
+    private val EXPIRATION_TIME = TimeUnit.MINUTES.toMillis(60L)
 
     override fun onAuthenticationSuccess(
         request: HttpServletRequest,
