@@ -28,8 +28,8 @@ class ZeroSecondThinkingService {
     lateinit var zeroSecondThinkingThemeMapper: ZeroSecondThinkingThemeMapper
     @Autowired
     lateinit var zeroSecondThinkingContentMapper: ZeroSecondThinkingContentMapper
-    @Autowired
-    lateinit var esZeroSecondThinkingService: EsZeroSecondThinkingService
+//    @Autowired
+//    lateinit var esZeroSecondThinkingService: EsZeroSecondThinkingService
     @Autowired
     lateinit var userMapper: UserMapper
 
@@ -49,24 +49,24 @@ class ZeroSecondThinkingService {
         return zeroSecondThinkingList
     }
 
-    fun getZeroSecondThinkingListFromEs(username: String, search: String, nextKey: Int?): List<ZeroSecondThinkingDto> {
-        val esZeroSecondThinkingListMap = esZeroSecondThinkingService.searchZeroSecondThinkingDocument(username, search)
-
-        val contentList = esZeroSecondThinkingListMap[Constants.ES_INDEX_NAME_CONTENT]
-        val themeIdListFromContent = if (contentList is List<EsZeroSecondThinkingDocumentDto>) contentList.map { c -> c.id }.toList() else listOf()
-        val themeList = esZeroSecondThinkingListMap[Constants.ES_INDEX_NAME_THEME]
-        val themeIdList = if (themeList is List<EsZeroSecondThinkingDocumentDto>) themeList.map { t -> t.id }.toList() else listOf()
-
-        val joinedThemeIdList = (themeIdListFromContent + themeIdList).distinct()
-        if (joinedThemeIdList.isEmpty()) {
-            return emptyList()
-        }
-
-        val zeroSecondThinkingList = zeroSecondThinkingThemeMapper.getByIdListAndNextKey(joinedThemeIdList, nextKey, limit)
-        fetchAndSetZeroSecondContentList(zeroSecondThinkingList)
-        
-        return zeroSecondThinkingList
-    }
+//    fun getZeroSecondThinkingListFromEs(username: String, search: String, nextKey: Int?): List<ZeroSecondThinkingDto> {
+//        val esZeroSecondThinkingListMap = esZeroSecondThinkingService.searchZeroSecondThinkingDocument(username, search)
+//
+//        val contentList = esZeroSecondThinkingListMap[Constants.ES_INDEX_NAME_CONTENT]
+//        val themeIdListFromContent = if (contentList is List<EsZeroSecondThinkingDocumentDto>) contentList.map { c -> c.id }.toList() else listOf()
+//        val themeList = esZeroSecondThinkingListMap[Constants.ES_INDEX_NAME_THEME]
+//        val themeIdList = if (themeList is List<EsZeroSecondThinkingDocumentDto>) themeList.map { t -> t.id }.toList() else listOf()
+//
+//        val joinedThemeIdList = (themeIdListFromContent + themeIdList).distinct()
+//        if (joinedThemeIdList.isEmpty()) {
+//            return emptyList()
+//        }
+//
+//        val zeroSecondThinkingList = zeroSecondThinkingThemeMapper.getByIdListAndNextKey(joinedThemeIdList, nextKey, limit)
+//        fetchAndSetZeroSecondContentList(zeroSecondThinkingList)
+//
+//        return zeroSecondThinkingList
+//    }
 
     private fun fetchAndSetZeroSecondContentList(dtoList: List<ZeroSecondThinkingDto>) {
         for (zeroSecondThinking in dtoList) {

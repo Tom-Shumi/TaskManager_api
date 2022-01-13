@@ -1,12 +1,9 @@
 package com.ne.jp.shumipro_api.controller
 
-import com.ne.jp.shumipro_api.dto.ZeroSecondThinkingDto
 import com.ne.jp.shumipro_api.entity.ShumiproLoginUser
-import com.ne.jp.shumipro_api.request.TaskCommentRequest
 import com.ne.jp.shumipro_api.request.ZeroSecondThinkingRequest
 import com.ne.jp.shumipro_api.request.ZeroSecondThinkingUpdateRequest
 import com.ne.jp.shumipro_api.response.ZeroSecondThinkingResponse
-import com.ne.jp.shumipro_api.service.EsZeroSecondThinkingService
 import com.ne.jp.shumipro_api.service.ZeroSecondThinkingService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus

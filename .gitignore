@@ -1,6 +1,9 @@
 HELP.md
 .gradle
-build/
+build/*
+!build/libs
+build/libs/*
+!build/libs/shumipro_api-0.0.1-SNAPSHOT.war
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
@@ -24,7 +27,6 @@ bin/
 *.iml
 *.ipr
 *.jar
-*.war
 *.log
 *.log.*
 out/
