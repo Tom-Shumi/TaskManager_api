@@ -1,5 +1,6 @@
 # TaskManager_api
-TaskManagerのバックエンド  
-Kotlin/Spring Boot  
+Task Manager（タスク管理 & 0秒思考ができるサイト）のバックエンド  
 
-詳細：https://github.com/Tom-Shumi/TaskManager
+# Environment
+- Kotlin
+- Spring Boot
